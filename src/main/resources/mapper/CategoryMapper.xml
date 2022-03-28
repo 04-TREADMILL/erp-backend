@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nju.edu.erp.dao.CategoryDao">
+
+    <insert id="createCategory" parameterType="CategoryPO" useGeneratedKeys="true" keyProperty="id">
+        insert into category (`name`, parent_id, is_leaf, item_count, item_index)
+        values (#{name}, #{parentId}, #{isLeaf}, #{itemCount}, #{itemIndex})
+    </insert>
+
+    <select id="findByCategoryId" resultMap="CategoryPO">
+        select * from category where id = #{categoryId}
+    </select>
+
+    <select id="findAll" resultMap="CategoryPO">
+        select * from category
+    </select>
+
+    <update id="updateById" parameterType="CategoryPO">
+        update category
+        <set>
+            <if test = "name != null">`name` = #{name}, </if>
+            <if test = "isLeaf != null">is_leaf = #{isLeaf}, </if>
+            <if test = "itemCount != null">item_count = #{itemCount}, </if>
+            <if test = "itemIndex != null">item_index = #{itemIndex}, </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        delete from category where id = #{id}
+    </delete>
+
+    <resultMap id="CategoryPO" type="com.nju.edu.erp.model.po.CategoryPO">
+        <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
+        <result column="parent_id" property="parentId"></result>
+        <result column="is_leaf" property="isLeaf"></result>
+        <result column="item_count" property="itemCount"></result>
+        <result column="item_index" property="itemIndex"></result>
+    </resultMap>
+
+</mapper>

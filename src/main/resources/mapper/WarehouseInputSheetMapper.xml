@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nju.edu.erp.dao.WarehouseInputSheetDao">
+    <insert id="save" parameterType="WarehouseInputSheetPO">
+        insert into warehouse_input_sheet (id, batch_id, operator, update_time)
+        values (#{id},#{batchId},#{operator},#{updateTime})
+    </insert>
+
+    <select id="getLatest" resultMap="WarehouseInputSheetPO">
+        select * from warehouse_input_sheet order by id desc limit 0,1 ;
+    </select>
+
+    <insert id="saveBatch" useGeneratedKeys="true" keyProperty="id">
+        insert into warehouse_input_sheet_content (wi_id, pid, quantity, purchase_price, production_date, remark) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.wiId},#{item.pid},#{item.quantity},#{item.purchasePrice},#{item.productionDate},#{item.remark})
+        </foreach>
+    </insert>
+
+    <resultMap id="WarehouseInputSheetPO" type="com.nju.edu.erp.model.po.WarehouseInputSheetPO">
+        <id column="id" property="id"></id>
+        <result column="batch_id" property="batchId"></result>
+        <result column="operator" property="operator"></result>
+        <result column="update_time" property="updateTime"></result>
+    </resultMap>
+</mapper>

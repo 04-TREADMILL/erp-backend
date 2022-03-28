@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nju.edu.erp.dao.WarehouseDao">
+
+    <insert id="saveBatch" useGeneratedKeys="true" keyProperty="id">
+        insert into warehouse (pid, quantity, purchase_price, batch_id, production_date) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.pid},#{item.quantity},#{item.purchasePrice},#{item.batchId},#{item.productionDate})
+        </foreach>
+    </insert>
+    <update id="deductQuantity" parameterType="WarehousePO">
+        update warehouse set quantity = (quantity - #{quantity})
+        where batch_id = #{batchId} and pid = #{pid};
+    </update>
+    <select id="findAllNotZeroByPidSortedByBatchId" resultType="com.nju.edu.erp.model.po.WarehousePO">
+        select * from warehouse where pid = #{pid} and quantity > 0 order by batch_id asc;
+    </select>
+
+    <resultMap id="WarehousePO" type="com.nju.edu.erp.model.po.WarehousePO">
+        <id column="id" property="id"></id>
+        <result column="pid" property="pid"></result>
+        <result column="quantity" property="quantity"></result>
+        <result column="purchase_price" property="purchasePrice"></result>
+        <result column="batch_id" property="batchId"></result>
+        <result column="production_date" property="productionDate"></result>
+    </resultMap>
+</mapper>

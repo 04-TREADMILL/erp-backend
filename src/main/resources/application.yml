@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:mysql://mysql-service.erp-backend-2179.svc.cluster.local:3306/seec_erp?allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&useSSL=false
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.nju.edu.erp.model.po
+  configuration:
+    map-underscore-to-camel-case: true
+
+jwt:
+  secret: 6e12d69c-af21-4cc2-b32d-3fa949b50106
+  expire: 86400000

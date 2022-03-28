@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nju.edu.erp.dao.UserDao">
+    <select id = "findByUsernameAndPassword" resultMap="User">
+        select * from user where `name` = #{username} and password = #{password}
+    </select>
+
+    <select id = "findByUsername" resultMap="User">
+        select * from user where `name` = #{username}
+    </select>
+
+
+    <insert id = "createUser" parameterType="User" useGeneratedKeys="true" keyProperty="id">
+        insert into user (password, `name`, `role`)
+        values (#{password}, #{name}, #{role})
+    </insert>
+
+
+    <resultMap id="User" type="com.nju.edu.erp.model.po.User">
+        <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
+        <result column="password" property="password"></result>
+        <result column="role" property="role"></result>
+    </resultMap>
+</mapper>
