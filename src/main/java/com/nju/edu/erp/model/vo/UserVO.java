@@ -1,11 +1,14 @@
 package com.nju.edu.erp.model.vo;
 
 
+import com.nju.edu.erp.enums.Role;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserVO {
@@ -18,7 +21,7 @@ public class UserVO {
     /**
      * 用户身份
      */
-    private String role;
+    private Role role;
 
     /**
      * 用户密码

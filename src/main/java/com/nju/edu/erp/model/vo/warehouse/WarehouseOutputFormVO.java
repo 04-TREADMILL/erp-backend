@@ -14,6 +14,7 @@ import java.util.List;
 public class WarehouseOutputFormVO { // 出库单
     private List<WarehouseOutputFormContentVO> list;
     private String operator;
+    private String saleSheetId;
 
     public String toString() {
         StringBuilder sb = new StringBuilder();

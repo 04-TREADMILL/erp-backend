@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nju.edu.erp.dao.SaleSheetDao">
+    <insert id="saveSheet">
+        insert into sale_sheet (id, supplier, operator, remark, `state`, create_time, salesman, raw_total_amount, discount, final_amount, voucher_amount)
+        values (#{id},#{supplier},#{operator},#{remark}, #{state}, #{createTime}, #{salesman}, #{rawTotalAmount}, #{discount}, #{finalAmount}, #{voucherAmount}) ;
+    </insert>
+
+    <insert id="saveBatchSheetContent" useGeneratedKeys="true" keyProperty="id">
+        insert into sale_sheet_content (sale_sheet_id, pid, quantity, unit_price, total_price, remark) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.saleSheetId},#{item.pid},#{item.quantity},#{item.unitPrice},#{item.totalPrice},#{item.remark})
+        </foreach>
+    </insert>
+
+    <update id="updateSheetState">
+        update sale_sheet
+        set state = #{state}
+        where id = #{sheetId}
+    </update>
+
+    <update id="updateSheetStateOnPrev">
+        update sale_sheet
+        set state = #{state}
+        where id = #{sheetId} and state = #{prev}
+    </update>
+
+    <select id="getLatestSheet" resultType="com.nju.edu.erp.model.po.SaleSheetPO">
+        select * from sale_sheet order by id desc limit 0,1 ;
+    </select>
+
+    <select id="findAllSheet" resultType="com.nju.edu.erp.model.po.SaleSheetPO">
+        select * from sale_sheet;
+    </select>
+
+    <select id="findContentBySheetId" resultType="com.nju.edu.erp.model.po.SaleSheetContentPO">
+        select * from sale_sheet_content where sale_sheet_id = #{sheetId};
+    </select>
+
+    <select id="findSheetById" resultType="com.nju.edu.erp.model.po.SaleSheetPO">
+        select * from sale_sheet where id = #{id};
+    </select>
+
+<!--获取某个销售人员某段时间内消费总金额最大的客户(不考虑退货情况,销售单不需要审批通过,如果这样的客户有多个，仅保留一个)-->
+    <select id="getMaxAmountCustomerOfSalesmanByTime" resultType="com.nju.edu.erp.model.po.CustomerPurchaseAmountPO">
+        select c.id as id,c.type as type,c.level as level,c.name as name,c.phone as phone,c.address as address,c.zipcode as zipcode,c.email as email,c.line_of_credit as line_of_credit,c.receivable as receivable,c.payable as payable,c.operator as operator,sum(s.final_amount) as total_final_amount
+        from sale_sheet s,customer c
+        where s.salesman=#{salesman} and s.create_time>=#{beginTime} and s.create_time&lt;=#{endTime} and s.supplier=c.id
+        group by s.supplier
+        order by total_final_amount
+        limit 1;
+    </select>
+
+    <resultMap id="CustomerPurchaseAmountPO" type="com.nju.edu.erp.model.po.CustomerPurchaseAmountPO">
+        <result column="total_final_amount" property="totalFinalAmount"></result>
+        <association property="customerPO" javaType="CustomerPO" >
+            <id column="id" property="id"></id>
+            <result column="type" property="type"></result>
+            <result column="level" property="level"></result>
+            <result column="name" property="name"></result>
+            <result column="phone" property="phone"></result>
+            <result column="address" property="address"></result>
+            <result column="zipcode" property="zipcode"></result>
+            <result column="email" property="email"></result>
+            <result column="line_of_credit" property="lineOfCredit"></result>
+            <result column="receivable" property="receivable"></result>
+            <result column="operator" property="operator"></result>
+        </association>
+    </resultMap>
+
+</mapper>

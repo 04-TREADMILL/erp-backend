@@ -1,10 +1,13 @@
 package com.nju.edu.erp.dao;
 
+import com.nju.edu.erp.enums.sheetState.WarehouseInputSheetState;
+import com.nju.edu.erp.model.po.WarehouseIODetailPO;
 import com.nju.edu.erp.model.po.WarehouseInputSheetContentPO;
 import com.nju.edu.erp.model.po.WarehouseInputSheetPO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -28,4 +31,42 @@ public interface WarehouseInputSheetDao {
      * @param warehouseInputListPOSheetContent 入库单上的具体内容
      */
     void saveBatch(List<WarehouseInputSheetContentPO> warehouseInputListPOSheetContent);
+
+    /**
+     * 查看处于各个状态的入库单
+     * @param state 入库单的具体状态
+     */
+    List<WarehouseInputSheetPO> getDraftSheets(WarehouseInputSheetState state);
+
+    /**
+     * 查看所有入库单
+     */
+    List<WarehouseInputSheetPO> getAllSheets();
+
+    /**
+     * 查看指定ID的入库单
+     * @param id
+     */
+    WarehouseInputSheetPO getSheet(String id);
+
+    /**
+     * 更新指定ID的入库单
+     * @param warehouseInputSheetPO
+     */
+    int updateById(WarehouseInputSheetPO warehouseInputSheetPO);
+
+    /**
+     * 查询指定ID的入库单内的具体商品数据
+     * @param warehouseInputSheetId
+     */
+    List<WarehouseInputSheetContentPO> getAllContentById(String warehouseInputSheetId);
+
+    /**
+     * 查询指定时间段内出/入库数量/金额/商品信息/分类信息
+     * @param beginTime
+     * @param endTime
+     */
+    List<WarehouseIODetailPO> getWarehouseIODetailByTime(Date beginTime,Date endTime);
+
+    Integer getWarehouseInputProductQuantityByTime(Date beginTime,Date endTime);
 }

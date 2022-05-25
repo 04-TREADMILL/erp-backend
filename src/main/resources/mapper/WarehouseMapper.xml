@@ -12,8 +12,22 @@
         update warehouse set quantity = (quantity - #{quantity})
         where batch_id = #{batchId} and pid = #{pid};
     </update>
+
+
+
     <select id="findAllNotZeroByPidSortedByBatchId" resultType="com.nju.edu.erp.model.po.WarehousePO">
         select * from warehouse where pid = #{pid} and quantity > 0 order by batch_id asc;
+    </select>
+
+    <select id="findOneByPidAndBatchId" resultType="com.nju.edu.erp.model.po.WarehousePO">
+        select * from warehouse where pid=#{pid} and batch_id=#{batchId}
+    </select>
+
+    <select id="findByPidOrderByPurchasePricePos" resultType="com.nju.edu.erp.model.po.WarehousePO">
+        select * from warehouse where pid = #{pid} and quantity > 0 order by purchase_price desc;
+    </select>
+    <select id="findAll" resultType="com.nju.edu.erp.model.po.WarehousePO">
+        select * from warehouse order by pid, batch_id;
     </select>
 
     <resultMap id="WarehousePO" type="com.nju.edu.erp.model.po.WarehousePO">

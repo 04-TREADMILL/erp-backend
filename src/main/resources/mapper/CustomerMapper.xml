@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nju.edu.erp.dao.CustomerDao">
+
+<!--    <insert id="createCategory" parameterType="CategoryPO" useGeneratedKeys="true" keyProperty="id">-->
+<!--        insert into category (`name`, parent_id, is_leaf, item_count, item_index)-->
+<!--        values (#{name}, #{parentId}, #{isLeaf}, #{itemCount}, #{itemIndex})-->
+<!--    </insert>-->
+
+<!--    <select id="findByCategoryId" resultMap="CategoryPO">-->
+<!--        select * from category where id = #{categoryId}-->
+<!--    </select>-->
+
+<!--    <select id="findAll" resultMap="CategoryPO">-->
+<!--        select * from category-->
+<!--    </select>-->
+
+<!--    <update id="updateById" parameterType="CategoryPO">-->
+<!--        update category-->
+<!--        <set>-->
+<!--            <if test = "name != null">`name` = #{name}, </if>-->
+<!--            <if test = "isLeaf != null">is_leaf = #{isLeaf}, </if>-->
+<!--            <if test = "itemCount != null">item_count = #{itemCount}, </if>-->
+<!--            <if test = "itemIndex != null">item_index = #{itemIndex}, </if>-->
+<!--        </set>-->
+<!--        where id = #{id}-->
+<!--    </update>-->
+
+<!--    <delete id="deleteById">-->
+<!--        delete from category where id = #{id}-->
+<!--    </delete>-->
+    <update id="updateOne" parameterType="CustomerPO">
+                update customer
+                <set>
+                    <if test = "type != null">`type` = #{type}, </if>
+                    <if test = "level != null">`level` = #{level}, </if>
+                    <if test = "phone != null">`phone` = #{phone}, </if>
+                    <if test = "address != null">`address` = #{address}, </if>
+                    <if test = "zipcode != null">`zipcode` = #{zipcode}, </if>
+                    <if test = "lineOfCredit != null">`line_of_credit` = #{lineOfCredit}, </if>
+                    <if test = "receivable != null">`receivable` = #{receivable}, </if>
+                    <if test = "payable != null">`payable` = #{payable}, </if>
+                    <if test = "operator != null">`operator` = #{operator}, </if>
+                </set>
+                where id = #{id}
+    </update>
+
+    <select id="findOneById" resultType="com.nju.edu.erp.model.po.CustomerPO">
+        select * from customer where id=#{supplier}
+    </select>
+
+    <select id="findAllByType" resultType="com.nju.edu.erp.model.po.CustomerPO">
+        select * from customer where `type` = #{type}
+    </select>
+
+    <resultMap id="CustomerPO" type="com.nju.edu.erp.model.po.CustomerPO">
+        <id column="id" property="id"></id>
+        <result column="type" property="type"></result>
+        <result column="level" property="level"></result>
+        <result column="name" property="name"></result>
+        <result column="phone" property="phone"></result>
+        <result column="address" property="address"></result>
+        <result column="zipcode" property="zipcode"></result>
+        <result column="email" property="email"></result>
+        <result column="line_of_credit" property="lineOfCredit"></result>
+        <result column="receivable" property="receivable"></result>
+        <result column="payable" property="payable"></result>
+        <result column="operator" property="operator"></result>
+    </resultMap>
+
+</mapper>

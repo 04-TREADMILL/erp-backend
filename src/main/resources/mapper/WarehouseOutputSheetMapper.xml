@@ -2,24 +2,62 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.nju.edu.erp.dao.WarehouseOutputSheetDao">
     <insert id="save" parameterType="WarehouseOutputSheetPO">
-        insert into warehouse_output_sheet (id, operator, update_time)
-        values (#{id},#{operator},#{updateTime})
+        insert into warehouse_output_sheet (id, operator, create_time, `state`, sale_sheet_id)
+        values (#{id},#{operator},#{createTime},#{state},#{saleSheetId})
     </insert>
+
+    <delete id="deleteContent">
+        delete from warehouse_output_sheet_content where wo_id = #{sheetId} ;
+    </delete>
 
     <select id="getLatest" resultMap="WarehouseOutputSheetPO">
         select * from warehouse_output_sheet order by id desc limit 0,1 ;
     </select>
 
     <insert id="saveBatch" useGeneratedKeys="true" keyProperty="id">
-        insert into warehouse_output_sheet_content (wo_id, pid, quantity, purchase_price, remark, batch_id) values
+        insert into warehouse_output_sheet_content (wo_id, pid, quantity, sale_price, remark, batch_id) values
         <foreach collection="list" item="item" index="index" separator=",">
-            (#{item.woId},#{item.pid},#{item.quantity},#{item.purchasePrice},#{item.remark},#{item.batchId})
+            (#{item.woId},#{item.pid},#{item.quantity},#{item.salePrice},#{item.remark},#{item.batchId})
         </foreach>
     </insert>
+
+    <update id="updateById">
+        update warehouse_output_sheet set operator = #{operator},
+        sale_sheet_id = #{saleSheetId}, `state` = #{state} where id = #{id};
+    </update>
+
+
+
+
+    <!--待补充语句：库存查看:一个时间段内的出库数量合计-->
+    <!--
+    注意：
+    2.出库单状态必须为"审批完成",才算是完成一次出库操作
+    -->
+    <select id="getWarehouseOutputProductQuantityByTime" resultType="java.lang.Integer">
+
+    </select>
+
+
+    <select id="getAllSheets" resultType="com.nju.edu.erp.model.po.WarehouseOutputSheetPO">
+        select * from warehouse_output_sheet;
+    </select>
+
+    <select id="getDraftSheets" resultType="com.nju.edu.erp.model.po.WarehouseOutputSheetPO">
+        select * from warehouse_output_sheet where `state` = #{state};
+    </select>
+
+    <select id="getSheet" resultType="com.nju.edu.erp.model.po.WarehouseOutputSheetPO">
+        select * from warehouse_output_sheet where id = #{sheetId};
+    </select>
+
+    <select id="getAllContentById" resultType="com.nju.edu.erp.model.po.WarehouseOutputSheetContentPO">
+        select * from warehouse_output_sheet_content where wo_id = #{sheetId};
+    </select>
 
     <resultMap id="WarehouseOutputSheetPO" type="com.nju.edu.erp.model.po.WarehouseOutputSheetPO">
         <id column="id" property="id"></id>
         <result column="operator" property="operator"></result>
-        <result column="update_time" property="updateTime"></result>
+        <result column="create_time" property="createTime"></result>
     </resultMap>
 </mapper>

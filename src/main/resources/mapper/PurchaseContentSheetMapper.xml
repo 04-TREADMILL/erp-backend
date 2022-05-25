@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nju.edu.erp.dao.PurchaseReturnsSheetDao">
+    <insert id="save" parameterType="PurchaseReturnsSheetPO">
+        insert into purchase_returns_sheet (id, purchase_sheet_id, operator, remark, total_amount, state, create_time)
+        values (#{id},#{purchaseSheetId},#{operator},#{remark},#{totalAmount},#{state}, #{createTime})
+    </insert>
+    <update id="updateState">
+        update purchase_returns_sheet
+        set state = #{state}
+        where id = #{purchaseReturnsSheetId}
+    </update>
+    <update id="updateStateV2">
+        update purchase_returns_sheet
+        set state = #{state}
+        where id = #{purchaseReturnsSheetId} and state = #{prevState}
+    </update>
+
+    <select id="getLatest" resultMap="PurchaseReturnsSheetPO">
+        select * from purchase_returns_sheet order by id desc limit 0,1 ;
+    </select>
+    <select id="findAll" resultType="com.nju.edu.erp.model.po.PurchaseReturnsSheetPO">
+        select * from purchase_returns_sheet;
+    </select>
+    <select id="findAllByState" resultType="com.nju.edu.erp.model.po.PurchaseReturnsSheetPO">
+        select * from purchase_returns_sheet where state = #{state}
+    </select>
+    <select id="findOneById" resultType="com.nju.edu.erp.model.po.PurchaseReturnsSheetPO">
+        select * from purchase_returns_sheet where id=#{purchaseReturnsSheetId}
+    </select>
+    <select id="findContentByPurchaseReturnsSheetId" resultType="com.nju.edu.erp.model.po.PurchaseReturnsSheetContentPO">
+        select * from purchase_returns_sheet_content where purchase_returns_sheet_id = #{purchase_returns_sheet_id}
+    </select>
+    <select id="findBatchId" resultType="java.lang.Integer">
+        select wis.batch_id from purchase_returns_sheet prs, warehouse_input_sheet wis
+        where prs.purchase_sheet_id = wis.purchase_sheet_id and prs.id = #{purchaseReturnsSheetId}
+    </select>
+
+    <insert id="saveBatch" useGeneratedKeys="true" keyProperty="id">
+        insert into purchase_returns_sheet_content (purchase_returns_sheet_id, pid, quantity, unit_price, total_price, remark) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.purchaseReturnsSheetId},#{item.pid},#{item.quantity},#{item.unitPrice},#{item.totalPrice},#{item.remark})
+        </foreach>
+    </insert>
+
+    <resultMap id="PurchaseReturnsSheetPO" type="com.nju.edu.erp.model.po.PurchaseReturnsSheetPO">
+        <id column="id" property="id"></id>
+        <result column="purchase_sheet_id" property="purchaseSheetId"></result>
+        <result column="operator" property="operator"></result>
+        <result column="remark" property="remark"></result>
+        <result column="total_amount" property="totalAmount"></result>
+        <result column="state" property="state"></result>
+        <result column="create_time" property="createTime"></result>
+    </resultMap>
+</mapper>

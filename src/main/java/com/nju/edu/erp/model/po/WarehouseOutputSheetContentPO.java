@@ -36,7 +36,7 @@ public class WarehouseOutputSheetContentPO {
     /**
      * 单价
      */
-    private BigDecimal purchasePrice;
+    private BigDecimal salePrice;
     /**
      * 备注
      */

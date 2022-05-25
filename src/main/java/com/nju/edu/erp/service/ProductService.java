@@ -31,4 +31,12 @@ public interface ProductService {
      * @param id
      */
     void deleteById(String id);
+
+
+    /**
+     * 通过pid获取商品详情
+     * @param pid 商品id
+     * @return 商品详情
+     */
+    ProductInfoVO getOneProductByPid(String pid);
 }

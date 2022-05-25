@@ -5,7 +5,6 @@ import com.nju.edu.erp.dao.ProductDao;
 import com.nju.edu.erp.exception.MyServiceException;
 import com.nju.edu.erp.model.po.CategoryPO;
 import com.nju.edu.erp.model.po.ProductPO;
-import com.nju.edu.erp.model.vo.CategoryVO;
 import com.nju.edu.erp.model.vo.CreateProductVO;
 import com.nju.edu.erp.model.vo.ProductInfoVO;
 import com.nju.edu.erp.service.ProductService;
@@ -106,6 +105,20 @@ public class ProductServiceImpl implements ProductService {
         if (ans == 0) {
             throw new MyServiceException("B0005", "修改分类失败！");
         }
+    }
+
+    /**
+     * 通过pid获取商品详情
+     *
+     * @param pid 商品id
+     * @return 商品详情
+     */
+    @Override
+    public ProductInfoVO getOneProductByPid(String pid) {
+        ProductPO productPO = productDao.findById(pid);
+        ProductInfoVO productInfoVO = new ProductInfoVO();
+        BeanUtils.copyProperties(productPO, productInfoVO);
+        return productInfoVO;
     }
 
 

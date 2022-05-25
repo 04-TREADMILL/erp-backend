@@ -1,39 +1,100 @@
 package com.nju.edu.erp.service;
 
-import com.nju.edu.erp.model.vo.warehouse.*;
+
+
+
+import com.nju.edu.erp.model.po.WarehouseIODetailPO;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @SpringBootTest
-class WarehouseServiceTest {
+public class WarehouseServiceTest {
 
     @Autowired
     WarehouseService warehouseService;
 
     @Test
-    void productOutOfWarehouse() {
-        List<WarehouseOneProductInfoVO> a = warehouseService.getWareProductInfo(GetWareProductInfoParamsVO.builder().pid("0000000000500000").quantity(800).remark("lallalala").build());
-        a.addAll(warehouseService.getWareProductInfo(GetWareProductInfoParamsVO.builder().pid("0000000000500001").quantity(1700).remark("lulalulalu").build()));
-        a.addAll(warehouseService.getWareProductInfo(GetWareProductInfoParamsVO.builder().pid("0000000000500002").quantity(100).remark("lulalulalei").build()));
-        a.addAll(warehouseService.getWareProductInfo(GetWareProductInfoParamsVO.builder().pid("0000000000400000").quantity(1100).remark("lulalulalei").build()));
-
-
-        List<WarehouseOutputFormContentVO> warehouseOutputFormContentVOS = a.stream().map(x -> WarehouseOutputFormContentVO.builder().pid(x.getProductId()).batchId(x.getBatchId()).purchasePrice(x.getPurchasePrice()).quantity(x.getSelectedQuantity()).remark(x.getRemark()).build()).collect(Collectors.toList());
-        WarehouseOutputFormVO warehouseOutputFormVO = WarehouseOutputFormVO.builder().list(warehouseOutputFormContentVOS).operator("zyy").build();
-//        warehouseService.productOutOfWarehouse(warehouseOutputFormVO);
+    @Transactional
+    @Rollback
+    public void getWarehouseIODetailByTime_TimeError() throws ParseException { //测试库存查看，当开始时间大于结束时间时，库存查看的结果应为null
+        List<WarehouseIODetailPO> warehouseIODetailPOList=warehouseService.getWarehouseIODetailByTime("2022-05-25 00:00:00","2022-05-24 00:00:00");
+        Assertions.assertNull(warehouseIODetailPOList);
     }
 
     @Test
-    void getWareProductInfo() {
-        List<WarehouseOneProductInfoVO> a = warehouseService.getWareProductInfo(GetWareProductInfoParamsVO.builder().pid("0000000000500000").quantity(30).remark("lallalala").build());
-        a = warehouseService.getWareProductInfo(GetWareProductInfoParamsVO.builder().pid("0000000000500000").quantity(270).remark("lallalala").build());
-        a = warehouseService.getWareProductInfo(GetWareProductInfoParamsVO.builder().pid("0000000000500000").quantity(800).remark("lallalala").build());
-        a = warehouseService.getWareProductInfo(GetWareProductInfoParamsVO.builder().pid("0000000000500000").quantity(10000).remark("lallalala").build());
-        System.out.println(a);
+    @Transactional
+    @Rollback
+    public void getWarehouseIODetailByTime_EmptyResult() throws ParseException { //测试库存查看，指定时间段内没有出入库记录，库存查看的结果应为空数组[]
+        List<WarehouseIODetailPO> warehouseIODetailPOList=warehouseService.getWarehouseIODetailByTime("2022-05-25 00:00:00","2022-05-25 23:59:59");
+        Assertions.assertNotNull(warehouseIODetailPOList);
+        Assertions.assertEquals(0,warehouseIODetailPOList.size());
+
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void getWarehouseIODetailByTime() throws ParseException { //测试库存查看,有记录的情况
+        List<WarehouseIODetailPO> warehouseIODetailPOList=warehouseService.getWarehouseIODetailByTime("2022-05-23 23:17:40","2022-05-24 00:33:12");
+        Assertions.assertNotNull(warehouseIODetailPOList);
+        Assertions.assertEquals(10,warehouseIODetailPOList.size());
+
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void getWarehouseInputProductQuantityByTime_TimeError(){ //测试查看一段时间内入库商品的数量,当开始时间大于结束时间时，数量应为0
+        int quantity=warehouseService.getWarehouseInputProductQuantityByTime("2022-05-25 00:00:00","2022-05-24 00:00:00");
+        Assertions.assertEquals(0,quantity);
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void getWarehouseInputProductQuantityByTime_EmptyResult(){ //测试查看一段时间内入库商品的数量,当指定时间段没有入库商品时，数量应为0
+        int quantity=warehouseService.getWarehouseInputProductQuantityByTime("2022-05-25 00:00:00","2022-05-25 23:59:59");
+        Assertions.assertEquals(0,quantity);
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void getWarehouseInputProductQuantityByTime(){ //测试查看一段时间内入库商品的数量,这段时间内有入库商品的情况
+        int quantity=warehouseService.getWarehouseInputProductQuantityByTime("2022-05-23 23:17:40","2022-05-24 00:33:12");
+        Assertions.assertEquals(4000,quantity);
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void getWarehouseOutProductQuantityByTime_TimeError(){ //测试查看一段时间内出库商品的数量,当开始时间大于结束时间时，数量应为0
+        int quantity=warehouseService.getWarehouseOutProductQuantityByTime("2022-05-25 00:00:00","2022-05-24 00:00:00");
+        Assertions.assertEquals(0,quantity);
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void getWarehouseOutProductQuantityByTime_EmptyResult(){ //测试查看一段时间内出库商品的数量,当指定时间段没有入库商品时，数量应为0
+        int quantity=warehouseService.getWarehouseOutProductQuantityByTime("2022-05-25 00:00:00","2022-05-25 23:59:59");
+        Assertions.assertEquals(0,quantity);
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void getWarehouseOutProductQuantityByTime(){  //测试查看一段时间内出库商品的数量,这段时间内有出库商品的情况
+        int quantity=warehouseService.getWarehouseOutProductQuantityByTime("2022-05-23 23:17:40","2022-05-24 00:33:12");
+        Assertions.assertEquals(2000,quantity);
     }
 
 }

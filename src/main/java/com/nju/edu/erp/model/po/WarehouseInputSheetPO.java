@@ -1,5 +1,6 @@
 package com.nju.edu.erp.model.po;
 
+import com.nju.edu.erp.enums.sheetState.WarehouseInputSheetState;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,5 +28,13 @@ public class WarehouseInputSheetPO {
     /**
      * 操作时间
      */
-    private Date updateTime;
+    private Date createTime;
+    /**
+     * 关联的进货单据
+     */
+    private String purchaseSheetId;
+    /**
+     * 单据状态
+     */
+    private WarehouseInputSheetState state;
 }

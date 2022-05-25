@@ -14,7 +14,7 @@ import java.util.Date;
 @Builder
 public class WarehouseOutputFormContentVO { // 出库单内部结构
     private String pid;
-    private BigDecimal purchasePrice;
+    private BigDecimal salePrice;
     private Integer quantity;
     private Integer batchId;
     private String remark;

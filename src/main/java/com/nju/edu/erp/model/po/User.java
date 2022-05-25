@@ -1,5 +1,6 @@
 package com.nju.edu.erp.model.po;
 
+import com.nju.edu.erp.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,6 @@ public class User {
     /**
      * 用户身份
      */
-    private String role;
+    private Role role;
 
 }

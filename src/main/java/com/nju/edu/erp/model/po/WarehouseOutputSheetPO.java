@@ -1,5 +1,6 @@
 package com.nju.edu.erp.model.po;
 
+import com.nju.edu.erp.enums.sheetState.WarehouseOutputSheetState;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +14,7 @@ import java.util.Date;
 @Builder
 public class WarehouseOutputSheetPO {
     /**
-     * CKD + 日期 + index = 入库单编号
+     * CKD + 日期 + index = 出库单编号
      */
     private String id;
     /**
@@ -23,5 +24,13 @@ public class WarehouseOutputSheetPO {
     /**
      * 操作时间
      */
-    private Date updateTime;
+    private Date createTime;
+    /**
+     * 关联的销售单据
+     */
+    private String saleSheetId;
+    /**
+     * 单据状态
+     */
+    private WarehouseOutputSheetState state;
 }

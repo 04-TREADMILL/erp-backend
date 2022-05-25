@@ -19,6 +19,7 @@ public class CORSConfig {
             new String[] {
                     "localhost:8000",
                     "127.0.0.1:8000",
+                    "127.0.0.1:8080",
                     "127.0.0.1",
             };
 
