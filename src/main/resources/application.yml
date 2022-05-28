@@ -1,3 +1,18 @@
 spring:
-  profiles:
-    active: dev
+  datasource:
+    url: jdbc:mariadb://localhost:3306/seec_erp
+    username: vgalaxy
+    password: root
+    driver-class-name: org.mariadb.jdbc.Driver
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.nju.edu.erp.model.po
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  typeHandlersPackage: com.nju.edu.erp.enums.handlers
+
+jwt:
+  secret: 6e12d69c-af21-4cc2-b32d-3fa949b50106
+  expire: 86400000
