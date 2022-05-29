@@ -50,6 +50,8 @@ public interface SaleSheetDao {
      */
     SaleSheetPO findSheetById(String id);
 
+    List<SaleSheetPO> findSheetByState(SaleSheetState state);
+
     /**
      * 查找指定销售单下具体的商品内容
      *

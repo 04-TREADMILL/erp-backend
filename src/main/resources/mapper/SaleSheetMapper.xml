@@ -43,6 +43,10 @@
         select * from sale_sheet where id = #{id};
     </select>
 
+    <select id="findSheetByState" resultType="com.nju.edu.erp.model.po.SaleSheetPO">
+        select * from sale_sheet where state = #{state}
+    </select>
+
     <!--获取某个销售人员某段时间内消费总金额最大的客户(不考虑退货情况,销售单不需要审批通过,如果这样的客户有多个，仅保留一个)-->
     <select id="getMaxAmountCustomerOfSalesmanByTime" resultType="com.nju.edu.erp.model.po.CustomerPurchaseAmountPO">
         select c.id as id,c.type as type,c.level as level,c.name as name,c.phone as phone,c.address as address,c.zipcode
