@@ -21,7 +21,7 @@ public class CategoryController {
     @GetMapping("/create")
     @Authorized(roles = {Role.ADMIN, Role.GM, Role.INVENTORY_MANAGER})
     public Response createCategory(@RequestParam(value = "parentId") int parentId,
-                               @RequestParam(value = "name") String name) {
+                                   @RequestParam(value = "name") String name) {
         return Response.buildSuccess(categoryService.createCategory(parentId, name));
     }
 

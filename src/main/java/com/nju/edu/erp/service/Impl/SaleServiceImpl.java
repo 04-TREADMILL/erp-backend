@@ -97,22 +97,23 @@ public class SaleServiceImpl implements SaleService {
 
     /**
      * 获取某个销售人员某段时间内消费总金额最大的客户(不考虑退货情况,销售单不需要审批通过,如果这样的客户有多个，仅保留一个)
-     * @param salesman 销售人员的名字
+     *
+     * @param salesman     销售人员的名字
      * @param beginDateStr 开始时间字符串
-     * @param endDateStr 结束时间字符串
+     * @param endDateStr   结束时间字符串
      * @return
      */
-    public CustomerPurchaseAmountPO getMaxAmountCustomerOfSalesmanByTime(String salesman,String beginDateStr,String endDateStr){
-        DateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        try{
-            Date beginTime =dateFormat.parse(beginDateStr);
-            Date endTime=dateFormat.parse(endDateStr);
-            if(beginTime.compareTo(endTime)>0){
+    public CustomerPurchaseAmountPO getMaxAmountCustomerOfSalesmanByTime(String salesman, String beginDateStr, String endDateStr) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Date beginTime = dateFormat.parse(beginDateStr);
+            Date endTime = dateFormat.parse(endDateStr);
+            if (beginTime.compareTo(endTime) > 0) {
                 return null;
-            }else{
-                return saleSheetDao.getMaxAmountCustomerOfSalesmanByTime(salesman,beginTime,endTime);
+            } else {
+                return saleSheetDao.getMaxAmountCustomerOfSalesmanByTime(salesman, beginTime, endTime);
             }
-        }catch (ParseException e) {
+        } catch (ParseException e) {
             e.printStackTrace();
         }
         return null;
@@ -120,18 +121,19 @@ public class SaleServiceImpl implements SaleService {
 
     /**
      * 根据销售单Id搜索销售单信息
+     *
      * @param saleSheetId 销售单Id
      * @return 销售单全部信息
      */
     @Override
     public SaleSheetVO getSaleSheetById(String saleSheetId) {
         SaleSheetPO saleSheetPO = saleSheetDao.findSheetById(saleSheetId);
-        if(saleSheetPO == null) return null;
+        if (saleSheetPO == null) return null;
         List<SaleSheetContentPO> contentPO = saleSheetDao.findContentBySheetId(saleSheetId);
         SaleSheetVO sVO = new SaleSheetVO();
         BeanUtils.copyProperties(saleSheetPO, sVO);
         List<SaleSheetContentVO> saleSheetContentVOList = new ArrayList<>();
-        for (SaleSheetContentPO content:
+        for (SaleSheetContentPO content :
                 contentPO) {
             SaleSheetContentVO sContentVO = new SaleSheetContentVO();
             BeanUtils.copyProperties(content, sContentVO);

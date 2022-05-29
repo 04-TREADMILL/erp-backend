@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Map<String, String> login(UserVO userVO) {
         User user = userDao.findByUsernameAndPassword(userVO.getName(), userVO.getPassword());
-        if (null == user ) {
+        if (null == user) {
             throw new MyServiceException("A0000", "用户名或密码错误");
         }
         Map<String, String> authToken = new HashMap<>();

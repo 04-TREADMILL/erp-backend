@@ -9,6 +9,7 @@ public interface ProductService {
 
     /**
      * 新增一个商品
+     *
      * @param inputVO
      * @return productInfoVO
      */
@@ -16,6 +17,7 @@ public interface ProductService {
 
     /**
      * 修改商品信息
+     *
      * @param productInfoVO
      * @return productInoVO
      */
@@ -28,6 +30,7 @@ public interface ProductService {
 
     /**
      * 删除某商品
+     *
      * @param id
      */
     void deleteById(String id);
@@ -35,6 +38,7 @@ public interface ProductService {
 
     /**
      * 通过pid获取商品详情
+     *
      * @param pid 商品id
      * @return 商品详情
      */

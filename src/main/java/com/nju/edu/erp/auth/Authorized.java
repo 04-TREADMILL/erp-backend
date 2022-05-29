@@ -10,7 +10,8 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface Authorized {
-    Role[]  roles() default {
-        Role.ADMIN, Role.SALE_STAFF, Role.INVENTORY_MANAGER, Role.FINANCIAL_STAFF, Role.HR, Role.GM};
+    Role[] roles() default {
+            Role.ADMIN, Role.SALE_STAFF, Role.INVENTORY_MANAGER, Role.FINANCIAL_STAFF, Role.HR, Role.GM};
+
     String message() default "";
 }

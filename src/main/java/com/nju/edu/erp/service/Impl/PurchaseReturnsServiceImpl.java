@@ -43,14 +43,14 @@ public class PurchaseReturnsServiceImpl implements PurchaseReturnsService {
     WarehouseDao warehouseDao;
 
     @Autowired
-    public PurchaseReturnsServiceImpl(PurchaseReturnsSheetDao purchaseReturnsSheetDao, ProductService productService, CustomerService customerService, WarehouseService warehouseService, ProductDao productDao,PurchaseSheetDao purchaseSheetDao,WarehouseDao warehouseDao) {
+    public PurchaseReturnsServiceImpl(PurchaseReturnsSheetDao purchaseReturnsSheetDao, ProductService productService, CustomerService customerService, WarehouseService warehouseService, ProductDao productDao, PurchaseSheetDao purchaseSheetDao, WarehouseDao warehouseDao) {
         this.purchaseReturnsSheetDao = purchaseReturnsSheetDao;
         this.productService = productService;
         this.customerService = customerService;
         this.warehouseService = warehouseService;
         this.productDao = productDao;
         this.purchaseSheetDao = purchaseSheetDao;
-        this.warehouseDao =  warehouseDao;
+        this.warehouseDao = warehouseDao;
     }
 
     /**
@@ -73,13 +73,13 @@ public class PurchaseReturnsServiceImpl implements PurchaseReturnsService {
         BigDecimal totalAmount = BigDecimal.ZERO;
         List<PurchaseSheetContentPO> purchaseSheetContent = purchaseSheetDao.findContentByPurchaseSheetId(purchaseReturnsSheetPO.getPurchaseSheetId());
         Map<String, PurchaseSheetContentPO> map = new HashMap<>();
-        for(PurchaseSheetContentPO item : purchaseSheetContent) {
+        for (PurchaseSheetContentPO item : purchaseSheetContent) {
             map.put(item.getPid(), item);
         }
         List<PurchaseReturnsSheetContentPO> pContentPOList = new ArrayList<>();
-        for(PurchaseReturnsSheetContentVO content : purchaseReturnsSheetVO.getPurchaseReturnsSheetContent()) {
+        for (PurchaseReturnsSheetContentVO content : purchaseReturnsSheetVO.getPurchaseReturnsSheetContent()) {
             PurchaseReturnsSheetContentPO pContentPO = new PurchaseReturnsSheetContentPO();
-            BeanUtils.copyProperties(content,pContentPO);
+            BeanUtils.copyProperties(content, pContentPO);
             pContentPO.setPurchaseReturnsSheetId(id);
             PurchaseSheetContentPO item = map.get(pContentPO.getPid());
             pContentPO.setUnitPrice(item.getUnitPrice());
@@ -104,12 +104,12 @@ public class PurchaseReturnsServiceImpl implements PurchaseReturnsService {
     public List<PurchaseReturnsSheetVO> getPurchaseReturnsSheetByState(PurchaseReturnsSheetState state) {
         List<PurchaseReturnsSheetVO> res = new ArrayList<>();
         List<PurchaseReturnsSheetPO> all;
-        if(state == null) {
+        if (state == null) {
             all = purchaseReturnsSheetDao.findAll();
         } else {
             all = purchaseReturnsSheetDao.findAllByState(state);
         }
-        for(PurchaseReturnsSheetPO po: all) {
+        for (PurchaseReturnsSheetPO po : all) {
             PurchaseReturnsSheetVO vo = new PurchaseReturnsSheetVO();
             BeanUtils.copyProperties(po, vo);
             List<PurchaseReturnsSheetContentPO> alll = purchaseReturnsSheetDao.findContentByPurchaseReturnsSheetId(po.getId());
@@ -130,28 +130,29 @@ public class PurchaseReturnsServiceImpl implements PurchaseReturnsService {
      * 在controller层进行权限控制
      *
      * @param purchaseReturnsSheetId 进货退货单id
-     * @param state           进货退货单要达到的状态
+     * @param state                  进货退货单要达到的状态
      */
     @Override
     @Transactional
     public void approval(String purchaseReturnsSheetId, PurchaseReturnsSheetState state) { // TODO
         PurchaseReturnsSheetPO purchaseReturnsSheet = purchaseReturnsSheetDao.findOneById(purchaseReturnsSheetId);
-        if(state.equals(PurchaseReturnsSheetState.FAILURE)) {
-            if(purchaseReturnsSheet.getState() == PurchaseReturnsSheetState.SUCCESS) throw new RuntimeException("状态更新失败");
+        if (state.equals(PurchaseReturnsSheetState.FAILURE)) {
+            if (purchaseReturnsSheet.getState() == PurchaseReturnsSheetState.SUCCESS)
+                throw new RuntimeException("状态更新失败");
             int effectLines = purchaseReturnsSheetDao.updateState(purchaseReturnsSheetId, state);
-            if(effectLines == 0) throw new RuntimeException("状态更新失败");
+            if (effectLines == 0) throw new RuntimeException("状态更新失败");
         } else {
             PurchaseReturnsSheetState prevState;
-            if(state.equals(PurchaseReturnsSheetState.SUCCESS)) {
+            if (state.equals(PurchaseReturnsSheetState.SUCCESS)) {
                 prevState = PurchaseReturnsSheetState.PENDING_LEVEL_2;
-            } else if(state.equals(PurchaseReturnsSheetState.PENDING_LEVEL_2)) {
+            } else if (state.equals(PurchaseReturnsSheetState.PENDING_LEVEL_2)) {
                 prevState = PurchaseReturnsSheetState.PENDING_LEVEL_1;
             } else {
                 throw new RuntimeException("状态更新失败");
             }
             int effectLines = purchaseReturnsSheetDao.updateStateV2(purchaseReturnsSheetId, prevState, state);
-            if(effectLines == 0) throw new RuntimeException("状态更新失败");
-            if(state.equals(PurchaseReturnsSheetState.SUCCESS)) {
+            if (effectLines == 0) throw new RuntimeException("状态更新失败");
+            if (state.equals(PurchaseReturnsSheetState.SUCCESS)) {
                 // TODO 审批完成, 修改一系列状态
                 // 进货退货单id， 关联的进货单id 【   进货退货单id->进货单id->入库单id->批次id】
                 Integer batchId = purchaseReturnsSheetDao.findBatchId(purchaseReturnsSheetId);
@@ -160,19 +161,19 @@ public class PurchaseReturnsServiceImpl implements PurchaseReturnsService {
                 //- 【 pid -> 定位到单位进价->Σ单位进价*quantity=要收回的钱->客户payable减去要收回的钱】
                 List<PurchaseReturnsSheetContentPO> contents = purchaseReturnsSheetDao.findContentByPurchaseReturnsSheetId(purchaseReturnsSheetId);
                 BigDecimal payableToDeduct = BigDecimal.ZERO;
-                for (PurchaseReturnsSheetContentPO content:
+                for (PurchaseReturnsSheetContentPO content :
                         contents) {
                     String pid = content.getPid();
                     Integer quantity = content.getQuantity();
                     WarehousePO warehousePO = warehouseDao.findOneByPidAndBatchId(pid, batchId);
-                    if(warehousePO == null) throw new RuntimeException("单据发生错误！请联系管理员！");
-                    if(warehousePO.getQuantity() >= quantity) {
+                    if (warehousePO == null) throw new RuntimeException("单据发生错误！请联系管理员！");
+                    if (warehousePO.getQuantity() >= quantity) {
                         warehousePO.setQuantity(quantity);
                         warehouseDao.deductQuantity(warehousePO);
                         ProductInfoVO productInfoVO = productService.getOneProductByPid(pid);
-                        productInfoVO.setQuantity(productInfoVO.getQuantity()-quantity);
+                        productInfoVO.setQuantity(productInfoVO.getQuantity() - quantity);
                         productService.updateProduct(productInfoVO);
-                        payableToDeduct = payableToDeduct.add(content.getUnitPrice().multiply(BigDecimal.valueOf(quantity))) ;
+                        payableToDeduct = payableToDeduct.add(content.getUnitPrice().multiply(BigDecimal.valueOf(quantity)));
                     } else {
                         purchaseReturnsSheetDao.updateState(purchaseReturnsSheetId, PurchaseReturnsSheetState.FAILURE);
                         throw new RuntimeException("商品数量不足！审批失败！");

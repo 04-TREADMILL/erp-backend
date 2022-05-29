@@ -59,7 +59,7 @@ public class AuthAspect {
                     }
                 }
             }
-        }catch (MyServiceException e) {
+        } catch (MyServiceException e) {
             throw new MyServiceException("A0004", "认证失败");
         }
     }

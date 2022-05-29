@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path = "/api/test")
 public class TestEnumController {
     @PostMapping(value = "/")
-    public Response test1(@RequestBody PurchaseSheetVO purchaseSheetVO)  {
+    public Response test1(@RequestBody PurchaseSheetVO purchaseSheetVO) {
         System.out.println(purchaseSheetVO);
         return Response.buildSuccess(purchaseSheetVO);
     }
 
     @GetMapping(value = "/")
-    public Response test2(@RequestParam(value = "state", required = false) PurchaseSheetState state)  {
+    public Response test2(@RequestParam(value = "state", required = false) PurchaseSheetState state) {
         System.out.println(Response.buildSuccess(state));
         return Response.buildSuccess(state);
     }

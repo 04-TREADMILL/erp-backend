@@ -18,6 +18,7 @@ public interface WarehouseDao {
 
     /**
      * 按照商品id获取现存商品（存量>0）并按价格排序
+     *
      * @param pid
      * @return
      */
@@ -28,6 +29,7 @@ public interface WarehouseDao {
 
     /**
      * 查看所有库存（库存盘点）
+     *
      * @return 所有库存
      */
     List<WarehousePO> findAll();

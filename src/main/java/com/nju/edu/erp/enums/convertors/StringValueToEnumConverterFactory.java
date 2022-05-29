@@ -11,7 +11,7 @@ import java.util.Map;
  * controller进来的参数中 , String -> 枚举.   转化器工厂类
  */
 public class StringValueToEnumConverterFactory implements ConverterFactory<String, BaseEnum> {
-    private static final Map<Class, Converter> CONVERTERS =  new HashMap<>();
+    private static final Map<Class, Converter> CONVERTERS = new HashMap<>();
 
     /**
      * 获取一个从 String 转化为 T 的转换器，T 是一个泛型，有多个实现

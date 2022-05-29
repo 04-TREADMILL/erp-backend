@@ -14,12 +14,14 @@ import java.util.List;
 public interface WarehouseOutputSheetDao {
     /**
      * 获取最近一条出库单
+     *
      * @return 最近一条出库单
      */
     WarehouseOutputSheetPO getLatest();
 
     /**
      * 存入一条出库单记录
+     *
      * @param toSave 一条出库单记录
      * @return
      */
@@ -27,18 +29,21 @@ public interface WarehouseOutputSheetDao {
 
     /**
      * 把出库单上的具体内容存入数据库
+     *
      * @param warehouseOutputListPOSheetContent 出库单上的具体内容
      */
     void saveBatch(List<WarehouseOutputSheetContentPO> warehouseOutputListPOSheetContent);
 
     /**
      * 获取所有出库单记录
+     *
      * @return
      */
     List<WarehouseOutputSheetPO> getAllSheets();
 
     /**
      * 获取指定状态的出库单记录
+     *
      * @param state
      * @return
      */
@@ -46,6 +51,7 @@ public interface WarehouseOutputSheetDao {
 
     /**
      * 根据id获取单据
+     *
      * @param sheetId
      * @return
      */
@@ -53,12 +59,14 @@ public interface WarehouseOutputSheetDao {
 
     /**
      * 更新PO
+     *
      * @param warehouseOutputSheetPO
      */
     void updateById(WarehouseOutputSheetPO warehouseOutputSheetPO);
 
     /**
      * 获取出库单具体内容
+     *
      * @param sheetId
      * @return
      */
@@ -67,9 +75,10 @@ public interface WarehouseOutputSheetDao {
 
     /**
      * 删除无批次的初始内容
+     *
      * @param sheetId
      */
     void deleteContent(String sheetId);
 
-    Integer getWarehouseOutputProductQuantityByTime(Date beginTime,Date endTime);
+    Integer getWarehouseOutputProductQuantityByTime(Date beginTime, Date endTime);
 }

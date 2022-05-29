@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 
 @Data
@@ -13,12 +14,12 @@ import java.math.BigDecimal;
 public class CustomerPO { // 客户PO
     /**
      * 编号
-     * */
+     */
     private Integer id;
     /**
      * 分类(供应商\销售商)
      */
-	private String type;
+    private String type;
     /**
      * 级别（五级，一级普通用户，五级VIP客户）
      */

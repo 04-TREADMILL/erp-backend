@@ -1,6 +1,6 @@
 package com.nju.edu.erp.enums;
 
-public enum CustomerType implements BaseEnum<CustomerType, String>{
+public enum CustomerType implements BaseEnum<CustomerType, String> {
 
     SUPPLIER("供应商"),
     SELLER("销售商");

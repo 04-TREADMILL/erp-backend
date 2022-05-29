@@ -81,7 +81,7 @@ public class ProductServiceImpl implements ProductService {
         List<ProductInfoVO> responseVO = queryAns.stream().map(productPO -> {
             ProductInfoVO productInfoVO = new ProductInfoVO();
             BeanUtils.copyProperties(productPO, productInfoVO);
-            return  productInfoVO;
+            return productInfoVO;
         }).collect(Collectors.toList());
         return responseVO;
     }

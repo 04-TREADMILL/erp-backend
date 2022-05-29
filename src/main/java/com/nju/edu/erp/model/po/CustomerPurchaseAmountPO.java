@@ -16,7 +16,7 @@ public class CustomerPurchaseAmountPO {
     /**
      * 客户
      */
-    private  CustomerPO customerPO;
+    private CustomerPO customerPO;
 
     /**
      * 用户在某时间段内通过某销售人员购买的商品的总金额(不考虑退货情况,销售单不需要审批通过)

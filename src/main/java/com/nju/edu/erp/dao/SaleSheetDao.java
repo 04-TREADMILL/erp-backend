@@ -17,12 +17,14 @@ public interface SaleSheetDao {
 
     /**
      * 获取最近一条销售单
+     *
      * @return
      */
     SaleSheetPO getLatestSheet();
 
     /**
      * 存入一条销售单记录
+     *
      * @param toSave 一条销售单记录
      * @return 影响的行数
      */
@@ -30,6 +32,7 @@ public interface SaleSheetDao {
 
     /**
      * 把销售单上的具体内容存入数据库
+     *
      * @param saleSheetContent 入销售单上的具体内容
      */
     int saveBatchSheetContent(List<SaleSheetContentPO> saleSheetContent);
@@ -41,6 +44,7 @@ public interface SaleSheetDao {
 
     /**
      * 查找指定id的销售单
+     *
      * @param id
      * @return
      */
@@ -48,12 +52,14 @@ public interface SaleSheetDao {
 
     /**
      * 查找指定销售单下具体的商品内容
+     *
      * @param sheetId
      */
     List<SaleSheetContentPO> findContentBySheetId(String sheetId);
 
     /**
      * 更新指定销售单的状态
+     *
      * @param sheetId
      * @param state
      * @return
@@ -62,6 +68,7 @@ public interface SaleSheetDao {
 
     /**
      * 根据当前状态更新销售单状态
+     *
      * @param sheetId
      * @param prev
      * @param state
@@ -72,10 +79,11 @@ public interface SaleSheetDao {
 
     /**
      * 获取某个销售人员某段时间内消费总金额最大的客户(不考虑退货情况,销售单不需要审批通过,如果这样的客户有多个，仅保留一个)
-     * @param salesman 销售人员的名字
+     *
+     * @param salesman  销售人员的名字
      * @param beginTime 开始时间
-     * @param endTime 结束时间
+     * @param endTime   结束时间
      * @return
      */
-    CustomerPurchaseAmountPO getMaxAmountCustomerOfSalesmanByTime(String salesman, Date beginTime,Date endTime);
+    CustomerPurchaseAmountPO getMaxAmountCustomerOfSalesmanByTime(String salesman, Date beginTime, Date endTime);
 }

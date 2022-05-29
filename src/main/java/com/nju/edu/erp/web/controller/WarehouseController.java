@@ -51,7 +51,7 @@ public class WarehouseController {
 
     @PostMapping("/product/count")
     @Authorized(roles = {Role.ADMIN, Role.GM, Role.INVENTORY_MANAGER})
-    public Response warehouseOutput(@RequestBody GetWareProductInfoParamsVO getWareProductInfoParamsVO){
+    public Response warehouseOutput(@RequestBody GetWareProductInfoParamsVO getWareProductInfoParamsVO) {
         return Response.buildSuccess(warehouseService.getWareProductInfo(getWareProductInfoParamsVO));
     }
 
@@ -76,8 +76,7 @@ public class WarehouseController {
                                                @RequestParam(value = "state") WarehouseInputSheetState state) {
         if (state.equals(WarehouseInputSheetState.FAILURE) || state.equals(WarehouseInputSheetState.SUCCESS)) {
             warehouseService.approvalInputSheet(user, sheetId, state);
-        }
-        else {
+        } else {
             throw new MyServiceException("C00001", "越权访问！");
         }
         return Response.buildSuccess();
@@ -119,51 +118,52 @@ public class WarehouseController {
                                                 @RequestParam(value = "state") WarehouseOutputSheetState state) {
         if (state.equals(WarehouseOutputSheetState.FAILURE) || state.equals(WarehouseOutputSheetState.SUCCESS)) {
             warehouseService.approvalOutputSheet(user, sheetId, state);
-        }
-        else {
+        } else {
             throw new MyServiceException("C00001", "越权访问！");
         }
         return Response.buildSuccess();
     }
 
 
-
     /**
-     *库存查看：查询指定时间段内出/入库数量/金额/商品信息/分类信息
+     * 库存查看：查询指定时间段内出/入库数量/金额/商品信息/分类信息
+     *
      * @param beginDateStr 格式：“yyyy-MM-dd HH:mm:ss”，如“2022-05-12 11:38:30”
      * @param endDateStr   格式：“yyyy-MM-dd HH:mm:ss”，如“2022-05-12 11:38:30”
      * @return
      */
     @GetMapping("/sheetContent/time")
-    @Authorized(roles = {Role.ADMIN,Role.INVENTORY_MANAGER})
-    public Response getWarehouseIODetailByTime(@RequestParam String beginDateStr,@RequestParam String endDateStr) throws ParseException {
-        List<WarehouseIODetailPO> ans=warehouseService.getWarehouseIODetailByTime(beginDateStr,endDateStr);
+    @Authorized(roles = {Role.ADMIN, Role.INVENTORY_MANAGER})
+    public Response getWarehouseIODetailByTime(@RequestParam String beginDateStr, @RequestParam String endDateStr) throws ParseException {
+        List<WarehouseIODetailPO> ans = warehouseService.getWarehouseIODetailByTime(beginDateStr, endDateStr);
         return Response.buildSuccess(ans);
     }
 
     /**
-     *库存查看：一个时间段内的入库数量合计
+     * 库存查看：一个时间段内的入库数量合计
+     *
      * @param beginDateStr 格式：“yyyy-MM-dd HH:mm:ss”，如“2022-05-12 11:38:30”
      * @param endDateStr   格式：“yyyy-MM-dd HH:mm:ss”，如“2022-05-12 11:38:30”
      * @return
      */
     @GetMapping("/inputSheet/time/quantity")
-    @Authorized(roles = {Role.ADMIN,Role.INVENTORY_MANAGER})
-    public Response getWarehouseInputProductQuantityByTime(@RequestParam String beginDateStr,@RequestParam String endDateStr) throws ParseException{
-        int quantity= warehouseService.getWarehouseInputProductQuantityByTime(beginDateStr,endDateStr);
+    @Authorized(roles = {Role.ADMIN, Role.INVENTORY_MANAGER})
+    public Response getWarehouseInputProductQuantityByTime(@RequestParam String beginDateStr, @RequestParam String endDateStr) throws ParseException {
+        int quantity = warehouseService.getWarehouseInputProductQuantityByTime(beginDateStr, endDateStr);
         return Response.buildSuccess(quantity);
     }
 
     /**
-     *库存查看：一个时间段内的出库数量合计
+     * 库存查看：一个时间段内的出库数量合计
+     *
      * @param beginDateStr 格式：“yyyy-MM-dd HH:mm:ss”，如“2022-05-12 11:38:30”
      * @param endDateStr   格式：“yyyy-MM-dd HH:mm:ss”，如“2022-05-12 11:38:30”
      * @return
      */
     @GetMapping("/outputSheet/time/quantity")
-    @Authorized(roles = {Role.ADMIN,Role.INVENTORY_MANAGER})
-    public Response getWarehouseOutputProductQuantityByTime(@RequestParam String beginDateStr,@RequestParam String endDateStr) throws ParseException{
-        int quantity= warehouseService.getWarehouseOutProductQuantityByTime(beginDateStr,endDateStr);
+    @Authorized(roles = {Role.ADMIN, Role.INVENTORY_MANAGER})
+    public Response getWarehouseOutputProductQuantityByTime(@RequestParam String beginDateStr, @RequestParam String endDateStr) throws ParseException {
+        int quantity = warehouseService.getWarehouseOutProductQuantityByTime(beginDateStr, endDateStr);
         return Response.buildSuccess(quantity);
     }
 
@@ -172,10 +172,9 @@ public class WarehouseController {
      * 盘点的是当天的库存快照，包括当天的各种商品的
      * 名称，型号，库存数量，库存均价，批次，批号，出厂日期，并且显示行号。
      * 要求可以导出Excel
-     *
      */
     @GetMapping("/warehouse/counting")
-    @Authorized(roles = {Role.ADMIN,Role.INVENTORY_MANAGER})
+    @Authorized(roles = {Role.ADMIN, Role.INVENTORY_MANAGER})
     public Response getWarehouseCounting() {
         return Response.buildSuccess(warehouseService.warehouseCounting());
     }

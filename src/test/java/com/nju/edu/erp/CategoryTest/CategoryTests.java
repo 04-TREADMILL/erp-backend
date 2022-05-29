@@ -64,7 +64,7 @@ public class CategoryTests {
         List<CategoryVO> categoryVOList = new ArrayList<>();
         categoryVOList.add(categoryVO1);
         categoryVOList.add(categoryVO2);
-        Assert.assertEquals(categoryVOList,categoryService1.queryAllCategory());
+        Assert.assertEquals(categoryVOList, categoryService1.queryAllCategory());
     }
 
 

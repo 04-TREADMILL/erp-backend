@@ -40,22 +40,22 @@ public class ProductPO {
     private Integer quantity;
 
     /**
-     *  进价
+     * 进价
      */
     private BigDecimal purchasePrice;
 
     /**
-     *  零售价
+     * 零售价
      */
     private BigDecimal retailPrice;
 
     /**
-     *  最近进价
+     * 最近进价
      */
     private BigDecimal recentPp;
 
     /**
-     *  最近零售价
+     * 最近零售价
      */
     private BigDecimal recentRp;
 }

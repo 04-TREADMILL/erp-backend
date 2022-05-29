@@ -28,7 +28,8 @@
     <select id="findOneById" resultType="com.nju.edu.erp.model.po.PurchaseReturnsSheetPO">
         select * from purchase_returns_sheet where id=#{purchaseReturnsSheetId}
     </select>
-    <select id="findContentByPurchaseReturnsSheetId" resultType="com.nju.edu.erp.model.po.PurchaseReturnsSheetContentPO">
+    <select id="findContentByPurchaseReturnsSheetId"
+            resultType="com.nju.edu.erp.model.po.PurchaseReturnsSheetContentPO">
         select * from purchase_returns_sheet_content where purchase_returns_sheet_id = #{purchase_returns_sheet_id}
     </select>
     <select id="findBatchId" resultType="java.lang.Integer">
@@ -37,7 +38,8 @@
     </select>
 
     <insert id="saveBatch" useGeneratedKeys="true" keyProperty="id">
-        insert into purchase_returns_sheet_content (purchase_returns_sheet_id, pid, quantity, unit_price, total_price, remark) values
+        insert into purchase_returns_sheet_content (purchase_returns_sheet_id, pid, quantity, unit_price, total_price,
+        remark) values
         <foreach collection="list" item="item" index="index" separator=",">
             (#{item.purchaseReturnsSheetId},#{item.pid},#{item.quantity},#{item.unitPrice},#{item.totalPrice},#{item.remark})
         </foreach>

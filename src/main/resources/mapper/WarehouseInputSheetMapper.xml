@@ -12,7 +12,6 @@
     </update>
 
 
-
     <select id="getLatest" resultMap="WarehouseInputSheetPO">
         select * from warehouse_input_sheet order by id desc limit 0,1 ;
     </select>
@@ -24,11 +23,11 @@
         </foreach>
     </insert>
 
-    <select id = "getDraftSheets" resultMap = "WarehouseInputSheetPO">
+    <select id="getDraftSheets" resultMap="WarehouseInputSheetPO">
         select * from warehouse_input_sheet where `state` = #{state};
     </select>
 
-    <select id = "getAllSheets" resultMap="WarehouseInputSheetPO">
+    <select id="getAllSheets" resultMap="WarehouseInputSheetPO">
         select * from warehouse_input_sheet;
     </select>
 
@@ -41,31 +40,25 @@
     </select>
 
 
-
-
-<!--待补充语句：库存查看：查询指定时间段内出/入库数量/金额/商品信息/分类信息-->
-<!--
-注意：
-1.结果集与WarehouseIODetailPO对应，格式为：type(有"warehouse_input"和"warehouse_output"两个值),sheet_id,product_name,category_name,quantity,unit_price,total_price,create_time
-2.出入库单状态必须为"审批完成",才算是完成一次出库或者入库操作
--->
+    <!--待补充语句：库存查看：查询指定时间段内出/入库数量/金额/商品信息/分类信息-->
+    <!--
+    注意：
+    1.结果集与WarehouseIODetailPO对应，格式为：type(有"warehouse_input"和"warehouse_output"两个值),sheet_id,product_name,category_name,quantity,unit_price,total_price,create_time
+    2.出入库单状态必须为"审批完成",才算是完成一次出库或者入库操作
+    -->
     <select id="getWarehouseIODetailByTime" resultType="com.nju.edu.erp.model.po.WarehouseIODetailPO">
 
     </select>
 
 
-
-
-
-<!--待补充语句：库存查看:一个时间段内的入库数量合计-->
-<!--
-注意：
-2.入库单状态必须为"审批完成",才算是完成一次入库操作
--->
+    <!--待补充语句：库存查看:一个时间段内的入库数量合计-->
+    <!--
+    注意：
+    2.入库单状态必须为"审批完成",才算是完成一次入库操作
+    -->
     <select id="getWarehouseInputProductQuantityByTime" resultType="java.lang.Integer">
 
     </select>
-
 
 
     <resultMap id="WarehouseInputSheetPO" type="com.nju.edu.erp.model.po.WarehouseInputSheetPO">

@@ -17,7 +17,6 @@ import java.util.Objects;
  * <p>
  * 解决 Mybatis 中枚举的问题，
  * 获取 ResultSet 的值都是获取字符串的，然后比较字符串，以便通用。
- *
  */
 public abstract class BaseEnumTypeHandler<E extends Enum<E> & BaseEnum> extends BaseTypeHandler<E> {
     /**

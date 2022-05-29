@@ -44,6 +44,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     /**
      * 创建入库单
+     *
      * @param warehouseInputFormVO 入库单
      */
     @Override
@@ -55,8 +56,8 @@ public class WarehouseServiceImpl implements WarehouseService {
          * 2. 根据上一次入库单来创建新入库单(单号/批次号/...)
          * 3. 更新"商品表", 插入"入库单表", 插入"入库单物品列表"表, 插入"库存表" -> 部分步骤放在了审批后..
          */
-        WarehouseInputSheetPO warehouseInputSheetPO =  warehouseInputSheetDao.getLatest();
-        if(warehouseInputSheetPO == null) warehouseInputSheetPO = WarehouseInputSheetPO.builder().batchId(-1).build();
+        WarehouseInputSheetPO warehouseInputSheetPO = warehouseInputSheetDao.getLatest();
+        if (warehouseInputSheetPO == null) warehouseInputSheetPO = WarehouseInputSheetPO.builder().batchId(-1).build();
         WarehouseInputSheetPO toSave = new WarehouseInputSheetPO();
         toSave.setId(generateWarehouseInputId(warehouseInputSheetPO.getId(), warehouseInputSheetPO.getBatchId()));
         toSave.setBatchId(generateBatchId(warehouseInputSheetPO.getBatchId()));
@@ -74,7 +75,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 //            productDao.updateById(productPO);
 
             BigDecimal purchasePrice = item.getPurchasePrice();
-            if(purchasePrice == null) {
+            if (purchasePrice == null) {
                 purchasePrice = productPO.getPurchasePrice();
             }
             WarehouseInputSheetContentPO warehouseInputSheetContentPO = WarehouseInputSheetContentPO.builder()
@@ -92,7 +93,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 //                    .batchId(toSave.getBatchId())
 //                    .productionDate(item.getProductionDate()).build();
 //            warehousePOList.add(warehousePO);
-        } );
+        });
 
         warehouseInputSheetDao.save(toSave);
         warehouseInputSheetDao.saveBatch(warehouseInputListPOSheetContent);
@@ -127,7 +128,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 //            productPO.setQuantity(productPO.getQuantity()-item.getQuantity());
 //            productDao.updateById(productPO);
             BigDecimal salePrice = item.getSalePrice();
-            if(salePrice == null) {
+            if (salePrice == null) {
                 salePrice = productPO.getRetailPrice();
             }
 
@@ -145,7 +146,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 //                    .quantity(item.getQuantity())
 //                    .build();
 //            warehouseDao.deductQuantity(warehousePO);
-        } );
+        });
 
         warehouseOutputSheetDao.save(toSave);
         warehouseOutputSheetDao.saveBatch(warehouseOutputListPOSheetContent);
@@ -153,6 +154,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     /**
      * 获取出库单新单号
+     *
      * @param id 上一次的出库单单号
      * @return 新的出库单单号
      */
@@ -241,8 +243,7 @@ public class WarehouseServiceImpl implements WarehouseService {
     public List<WarehouseInputSheetPO> getWareHouseInputSheetByState(WarehouseInputSheetState state) {
         if (state == null) {
             return warehouseInputSheetDao.getAllSheets();
-        }
-        else {
+        } else {
             return warehouseInputSheetDao.getDraftSheets(state);
         }
     }
@@ -251,17 +252,17 @@ public class WarehouseServiceImpl implements WarehouseService {
     public List<WarehouseOutputSheetPO> getWareHouseOutSheetByState(WarehouseOutputSheetState state) {
         if (state == null) {
             return warehouseOutputSheetDao.getAllSheets();
-        }
-        else {
+        } else {
             return warehouseOutputSheetDao.getDraftSheets(state);
         }
     }
 
     /**
      * 确认出库单
+     *
      * @param user
      * @param sheetId 入库单id
-     * @param state 入库单修改后的状态(state == "审批失败"/"审批完成")
+     * @param state   入库单修改后的状态(state == "审批失败"/"审批完成")
      */
     @Override
     @Transactional
@@ -296,8 +297,7 @@ public class WarehouseServiceImpl implements WarehouseService {
                     warehouseOutputSheetContentPO.setBatchId(availableWarehouse.getBatchId());
                     ans.add(warehouseOutputSheetContentPO);
                     break;
-                }
-                else {
+                } else {
                     remainAmount = remainAmount - availableWarehouse.getQuantity();
                     warehouseDao.deductQuantity(availableWarehouse);
                     warehouseOutputSheetContentPO.setBatchId(availableWarehouse.getBatchId());
@@ -321,6 +321,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     /**
      * 获取新批次
+     *
      * @param batchId 批次
      * @return 新批次
      */
@@ -330,17 +331,18 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     /**
      * 获取新入库单单号
+     *
      * @param id 入库单单号
      * @return 新入库单单号
      */
     private String generateWarehouseInputId(String id, Integer batchId) { // "RKD-20220216-00000"
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
         String today = dateFormat.format(new Date());
-        if(batchId == -1) {
+        if (batchId == -1) {
             return "RKD-" + today + "-" + String.format("%05d", 0);
         }
         String lastDate = id.split("-")[1];
-        if(lastDate.equals(today)) {
+        if (lastDate.equals(today)) {
             return "RKD-" + today + "-" + String.format("%05d", batchId + 1);
         } else {
             return "RKD-" + today + "-" + String.format("%05d", 0);
@@ -349,12 +351,13 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     /**
      * 库存查看：设定一个时间段，查看此时间段内的出/入库数量/金额/商品信息/分类信息
+     *
      * @param beginDateStr 开始时间字符串 格式为："yyyy-MM-dd HH:mm:ss"
-     * @param endDateStr 结束时间字符串  格式为："yyyy-MM-dd HH:mm:ss"
+     * @param endDateStr   结束时间字符串  格式为："yyyy-MM-dd HH:mm:ss"
      * @return
      */
     @Override
-    public List<WarehouseIODetailPO> getWarehouseIODetailByTime(String beginDateStr,String endDateStr) {
+    public List<WarehouseIODetailPO> getWarehouseIODetailByTime(String beginDateStr, String endDateStr) {
         // TODO
         /**
          * 1.注意日期的格式转换和转换异常
@@ -367,11 +370,12 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     /**
      * 库存查看：一个时间段内的入库数量合计
+     *
      * @param beginDateStr 开始时间字符串 格式为："yyyy-MM-dd HH:mm:ss"
-     * @param endDateStr 结束时间字符串 格式为："yyyy-MM-dd HH:mm:ss"
+     * @param endDateStr   结束时间字符串 格式为："yyyy-MM-dd HH:mm:ss"
      * @return
      */
-    public int getWarehouseInputProductQuantityByTime(String beginDateStr,String endDateStr){
+    public int getWarehouseInputProductQuantityByTime(String beginDateStr, String endDateStr) {
         // TODO
         /**
          * 1.注意日期的格式转换和转换异常
@@ -383,11 +387,12 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     /**
      * 库存查看：一个时间段内的出库数量合计
+     *
      * @param beginDateStr 开始时间字符串 格式为："yyyy-MM-dd HH:mm:ss"
-     * @param endDateStr 结束时间字符串 格式为："yyyy-MM-dd HH:mm:ss"
+     * @param endDateStr   结束时间字符串 格式为："yyyy-MM-dd HH:mm:ss"
      * @return
      */
-    public int getWarehouseOutProductQuantityByTime(String beginDateStr,String endDateStr){
+    public int getWarehouseOutProductQuantityByTime(String beginDateStr, String endDateStr) {
         // TODO
         /**
          * 1.注意日期的格式转换和转换异常
@@ -408,7 +413,7 @@ public class WarehouseServiceImpl implements WarehouseService {
     public List<WarehouseCountingVO> warehouseCounting() {
         List<WarehousePO> all = warehouseDao.findAll();
         List<WarehouseCountingVO> res = new ArrayList<>();
-        for(WarehousePO warehousePO : all) {
+        for (WarehousePO warehousePO : all) {
             WarehouseCountingVO vo = new WarehouseCountingVO();
             BeanUtils.copyProperties(warehousePO, vo);
             String pid = warehousePO.getPid();

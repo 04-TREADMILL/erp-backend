@@ -19,7 +19,7 @@ public class WarehouseOutputFormVO { // 出库单
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
-        for(WarehouseOutputFormContentVO item: list) {
+        for (WarehouseOutputFormContentVO item : list) {
             sb.append(item.toString());
             sb.append(" | ");
         }

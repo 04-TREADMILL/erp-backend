@@ -4,8 +4,8 @@
     <update id="updateById" parameterType="ProductPO">
         update product
         <set>
-            <if test="name != null">`name` = #{name}, </if>
-            <if test="type != null">`type` = #{type}, </if>
+            <if test="name != null">`name` = #{name},</if>
+            <if test="type != null">`type` = #{type},</if>
             <if test="quantity != null">quantity = #{quantity},</if>
             <if test="purchasePrice != null">purchase_price = #{purchasePrice},</if>
             <if test="retailPrice != null">retail_price = #{retailPrice},</if>
@@ -15,12 +15,12 @@
         where id = #{id}
     </update>
 
-    <insert id = "createProduct" parameterType="ProductPO">
+    <insert id="createProduct" parameterType="ProductPO">
         insert into product (id, `name`, category_id, `type`, quantity, purchase_price, retail_price)
         values (#{id}, #{name}, #{categoryId}, #{type}, 0, #{purchasePrice}, #{retailPrice})
     </insert>
 
-    <select id = "findById" resultMap="ProductPO">
+    <select id="findById" resultMap="ProductPO">
         select * from product where id = #{id}
     </select>
 

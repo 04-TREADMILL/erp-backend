@@ -7,7 +7,6 @@ import org.apache.ibatis.type.MappedTypes;
 
 /**
  * 枚举转换的公共模块
- *
  */
 @MappedTypes(value = {PurchaseSheetState.class, WarehouseInputSheetState.class, WarehouseOutputSheetState.class, CustomerType.class, SaleSheetState.class, PurchaseReturnsSheetState.class})
 public class SysEnumTypeHandler<E extends Enum<E> & BaseEnum> extends BaseEnumTypeHandler<E> {

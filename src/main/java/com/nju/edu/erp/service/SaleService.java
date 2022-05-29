@@ -15,6 +15,7 @@ public interface SaleService {
 
     /**
      * 指定销售单
+     *
      * @param userVO
      * @param saleSheetVO
      */
@@ -22,6 +23,7 @@ public interface SaleService {
 
     /**
      * 根据单据状态获取销售单
+     *
      * @param state
      * @return
      */
@@ -29,6 +31,7 @@ public interface SaleService {
 
     /**
      * 审批单据
+     *
      * @param saleSheetId
      * @param state
      */
@@ -36,15 +39,17 @@ public interface SaleService {
 
     /**
      * 获取某个销售人员某段时间内消费总金额最大的客户(不考虑退货情况,销售单不需要审批通过,如果这样的客户有多个，仅保留一个)
-     * @param salesman 销售人员的名字
+     *
+     * @param salesman     销售人员的名字
      * @param beginDateStr 开始时间字符串
-     * @param endDateStr 结束时间字符串
+     * @param endDateStr   结束时间字符串
      * @return
      */
-    CustomerPurchaseAmountPO getMaxAmountCustomerOfSalesmanByTime(String salesman,String beginDateStr,String endDateStr);
+    CustomerPurchaseAmountPO getMaxAmountCustomerOfSalesmanByTime(String salesman, String beginDateStr, String endDateStr);
 
     /**
      * 根据销售单Id搜索销售单信息
+     *
      * @param saleSheetId 销售单Id
      * @return 销售单全部信息
      */

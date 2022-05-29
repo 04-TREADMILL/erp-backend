@@ -56,7 +56,7 @@ public class CategoryServiceImpl implements CategoryService {
         List<CategoryVO> responseVO = queryAns.stream().map(categoryPO -> {
             CategoryVO categoryVO = new CategoryVO();
             BeanUtils.copyProperties(categoryPO, categoryVO);
-            return  categoryVO;
+            return categoryVO;
         }).collect(Collectors.toList());
         return responseVO;
     }
@@ -67,7 +67,7 @@ public class CategoryServiceImpl implements CategoryService {
         categoryPO.setName(name);
         int ans = categoryDao.updateById(categoryPO);
         if (ans == 0) {
-            throw new MyServiceException("A0003","修改失败！");
+            throw new MyServiceException("A0003", "修改失败！");
         }
         CategoryPO queryAns = categoryDao.findByCategoryId(id);
         CategoryVO responseVO = new CategoryVO();
