@@ -33,7 +33,10 @@
     2.出库单状态必须为"审批完成",才算是完成一次出库操作
     -->
     <select id="getWarehouseOutputProductQuantityByTime" resultType="java.lang.Integer">
-
+        select sum(warehouse_output_sheet_content.quantity) from warehouse_output_sheet, warehouse_output_sheet_content
+        where state = '审批完成' and
+        warehouse_output_sheet.id = warehouse_output_sheet_content.wo_id and
+        create_time &lt;= #{endTime} and create_time &gt;= #{beginTime};
     </select>
 
 

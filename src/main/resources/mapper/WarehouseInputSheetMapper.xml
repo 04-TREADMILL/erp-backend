@@ -43,7 +43,7 @@
     <!--待补充语句：库存查看：查询指定时间段内出/入库数量/金额/商品信息/分类信息-->
     <!--
     注意：
-    1.结果集与WarehouseIODetailPO对应，格式为：type(有"warehouse_input"和"warehouse_output"两个值),sheet_id,product_name,category_name,quantity,unit_price,total_price,create_time
+    1.结果集与WarehouseIODetailPO对应，格式为：type(有"warehouse_input"和"warehouse_input"两个值),sheet_id,product_name,category_name,quantity,unit_price,total_price,create_time
     2.出入库单状态必须为"审批完成",才算是完成一次出库或者入库操作
     -->
     <select id="getWarehouseIODetailByTime" resultType="com.nju.edu.erp.model.po.WarehouseIODetailPO">
@@ -57,7 +57,10 @@
     2.入库单状态必须为"审批完成",才算是完成一次入库操作
     -->
     <select id="getWarehouseInputProductQuantityByTime" resultType="java.lang.Integer">
-
+        select sum(warehouse_input_sheet_content.quantity) from warehouse_input_sheet, warehouse_input_sheet_content
+        where state = '审批完成' and
+        warehouse_input_sheet.id = warehouse_input_sheet_content.wi_id and
+        create_time &lt;= #{endTime} and create_time &gt;= #{beginTime};
     </select>
 
 
