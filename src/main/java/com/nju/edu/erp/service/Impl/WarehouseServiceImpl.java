@@ -365,7 +365,21 @@ public class WarehouseServiceImpl implements WarehouseService {
          * 3.Dao层和service层接口已实现
          *
          */
-        return null;
+        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        Date beginDate, endDate;
+
+        try {
+            beginDate = ft.parse(beginDateStr);
+            endDate = ft.parse(endDateStr);
+        } catch (ParseException e) {
+            return null;
+        }
+
+        if (beginDate.after(endDate)) {
+            return null;
+        }
+
+        return warehouseInputSheetDao.getWarehouseIODetailByTime(beginDate, endDate);
     }
 
     /**
@@ -388,7 +402,7 @@ public class WarehouseServiceImpl implements WarehouseService {
         try {
             beginDate = ft.parse(beginDateStr);
             endDate = ft.parse(endDateStr);
-        } catch ( ParseException e) {
+        } catch (ParseException e) {
             return 0;
         }
 

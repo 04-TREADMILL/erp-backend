@@ -48,7 +48,7 @@ public class WarehouseIODetailPO {
     /**
      * 商品总价
      */
-    private BigDecimal total_price;
+    private BigDecimal totalPrice;
 
     /**
      * 出库单/入库单创建时间

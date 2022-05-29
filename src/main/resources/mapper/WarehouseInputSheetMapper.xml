@@ -43,11 +43,45 @@
     <!--待补充语句：库存查看：查询指定时间段内出/入库数量/金额/商品信息/分类信息-->
     <!--
     注意：
-    1.结果集与WarehouseIODetailPO对应，格式为：type(有"warehouse_input"和"warehouse_input"两个值),sheet_id,product_name,category_name,quantity,unit_price,total_price,create_time
+    1.结果集与WarehouseIODetailPO对应，格式为：type(有"warehouse_input"和"warehouse_output"两个值),sheet_id,product_name,category_name,quantity,unit_price,total_price,create_time
     2.出入库单状态必须为"审批完成",才算是完成一次出库或者入库操作
     -->
     <select id="getWarehouseIODetailByTime" resultType="com.nju.edu.erp.model.po.WarehouseIODetailPO">
+        select 'warehouse_input' type,
+        warehouse_input_sheet.id sheet_id,
+        product.name product_name,
+        category.name category_name,
+        warehouse_input_sheet_content.quantity,
+        warehouse_input_sheet_content.purchase_price unit_price,
+        warehouse_input_sheet_content.purchase_price * warehouse_input_sheet_content.quantity total_price,
+        warehouse_input_sheet.create_time,
+        '0' batch_id
+        from warehouse_input_sheet, warehouse_input_sheet_content, product, category
+        where
+        state = '审批完成' and
+        warehouse_input_sheet.id = warehouse_input_sheet_content.wi_id and
+        warehouse_input_sheet_content.pid = product.id and
+        product.category_id = category.id and
+        warehouse_input_sheet.create_time &lt;= #{endTime} and warehouse_input_sheet.create_time &gt;= #{beginTime}
 
+        union
+
+        select 'warehouse_output' type,
+        warehouse_output_sheet.id sheet_id,
+        product.name product_name,
+        category.name category_name,
+        warehouse_output_sheet_content.quantity,
+        warehouse_output_sheet_content.sale_price unit_price,
+        warehouse_output_sheet_content.sale_price * warehouse_output_sheet_content.quantity total_price,
+        warehouse_output_sheet.create_time,
+        warehouse_output_sheet_content.batch_id
+        from warehouse_output_sheet, warehouse_output_sheet_content, product, category
+        where
+        state = '审批完成' and
+        warehouse_output_sheet.id = warehouse_output_sheet_content.wo_id and
+        warehouse_output_sheet_content.pid = product.id and
+        product.category_id = category.id and
+        warehouse_output_sheet.create_time &lt;= #{endTime} and warehouse_output_sheet.create_time &gt;= #{beginTime};
     </select>
 
 
