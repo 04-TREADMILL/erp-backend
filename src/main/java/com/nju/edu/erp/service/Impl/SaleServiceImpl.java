@@ -100,7 +100,12 @@ public class SaleServiceImpl implements SaleService {
         // 根据单据状态获取销售单（注意：VO包含SaleSheetContent）
         // 依赖的dao层部分方法未提供，需要自己实现
         List<SaleSheetVO> saleSheetVOS = new ArrayList<>();
-        List<SaleSheetPO> saleSheetPOS = saleSheetDao.findSheetByState(state);
+        List<SaleSheetPO> saleSheetPOS;
+        if (state == null) {
+            saleSheetPOS = saleSheetDao.findAllSheet();
+        } else {
+            saleSheetPOS = saleSheetDao.findSheetByState(state);
+        }
         for (SaleSheetPO saleSheetPO : saleSheetPOS) {
             SaleSheetVO saleSheetVO = new SaleSheetVO();
             BeanUtils.copyProperties(saleSheetPO, saleSheetVO);
