@@ -46,12 +46,12 @@
     </insert>
 
     <resultMap id="PurchaseReturnsSheetPO" type="com.nju.edu.erp.model.po.PurchaseReturnsSheetPO">
-        <id column="id" property="id"></id>
-        <result column="purchase_sheet_id" property="purchaseSheetId"></result>
-        <result column="operator" property="operator"></result>
-        <result column="remark" property="remark"></result>
-        <result column="total_amount" property="totalAmount"></result>
-        <result column="state" property="state"></result>
-        <result column="create_time" property="createTime"></result>
+        <id column="id" property="id"/>
+        <result column="purchase_sheet_id" property="purchaseSheetId"/>
+        <result column="operator" property="operator"/>
+        <result column="remark" property="remark"/>
+        <result column="total_amount" property="totalAmount"/>
+        <result column="state" property="state"/>
+        <result column="create_time" property="createTime"/>
     </resultMap>
 </mapper>

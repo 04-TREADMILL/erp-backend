@@ -161,8 +161,7 @@ public class PurchaseReturnsServiceImpl implements PurchaseReturnsService {
                 //- 【 pid -> 定位到单位进价->Σ单位进价*quantity=要收回的钱->客户payable减去要收回的钱】
                 List<PurchaseReturnsSheetContentPO> contents = purchaseReturnsSheetDao.findContentByPurchaseReturnsSheetId(purchaseReturnsSheetId);
                 BigDecimal payableToDeduct = BigDecimal.ZERO;
-                for (PurchaseReturnsSheetContentPO content :
-                        contents) {
+                for (PurchaseReturnsSheetContentPO content : contents) {
                     String pid = content.getPid();
                     Integer quantity = content.getQuantity();
                     WarehousePO warehousePO = warehouseDao.findOneByPidAndBatchId(pid, batchId);

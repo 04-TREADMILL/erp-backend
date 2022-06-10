@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/seec_erp
     username: root
-    password: root
+    password: ***REMOVED***
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 mybatis:

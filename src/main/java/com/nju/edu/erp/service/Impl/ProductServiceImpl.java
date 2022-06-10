@@ -38,7 +38,7 @@ public class ProductServiceImpl implements ProductService {
         if (category == null) {
             throw new MyServiceException("B0001", "当前分类不存在");
         }
-        if (category.isLeaf() == false) {
+        if (!category.isLeaf()) {
             throw new MyServiceException("B0002", "当前分类无法增加商品");
         }
         // 生成商品ID

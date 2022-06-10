@@ -12,6 +12,10 @@
         update warehouse set quantity = (quantity - #{quantity})
         where batch_id = #{batchId} and pid = #{pid};
     </update>
+    <update id="addQuantity" parameterType="WarehousePO">
+        update warehouse set quantity = (quantity + #{quantity})
+        where batch_id = #{batchId} and pid = #{pid};
+    </update>
 
 
     <select id="findAllNotZeroByPidSortedByBatchId" resultType="com.nju.edu.erp.model.po.WarehousePO">
@@ -30,11 +34,11 @@
     </select>
 
     <resultMap id="WarehousePO" type="com.nju.edu.erp.model.po.WarehousePO">
-        <id column="id" property="id"></id>
-        <result column="pid" property="pid"></result>
-        <result column="quantity" property="quantity"></result>
-        <result column="purchase_price" property="purchasePrice"></result>
-        <result column="batch_id" property="batchId"></result>
-        <result column="production_date" property="productionDate"></result>
+        <id column="id" property="id"/>
+        <result column="pid" property="pid"/>
+        <result column="quantity" property="quantity"/>
+        <result column="purchase_price" property="purchasePrice"/>
+        <result column="batch_id" property="batchId"/>
+        <result column="production_date" property="productionDate"/>
     </resultMap>
 </mapper>
