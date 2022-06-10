@@ -2,9 +2,11 @@ package com.nju.edu.erp.service.Impl;
 
 import com.nju.edu.erp.dao.CustomerDao;
 import com.nju.edu.erp.enums.CustomerType;
+import com.nju.edu.erp.exception.MyServiceException;
 import com.nju.edu.erp.model.po.CustomerPO;
 import com.nju.edu.erp.model.vo.CustomerVO;
 import com.nju.edu.erp.service.CustomerService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,5 +47,24 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerPO findCustomerById(Integer supplier) {
         return customerDao.findOneById(supplier);
+    }
+
+    @Override
+    public void addCustomer(CustomerVO customerVO) {
+        CustomerPO customerPO = customerDao.findOneById(customerVO.getId());
+        if (customerPO != null) {
+            throw new MyServiceException("A0002", "客户已存在");
+        }
+        CustomerPO customerSave = new CustomerPO();
+        BeanUtils.copyProperties(customerVO, customerSave);
+        customerDao.createCustomer(customerSave);
+    }
+
+    @Override
+    public void deleteCustomerById(Integer id) {
+        CustomerPO customerPO = customerDao.findOneById(id);
+        if (customerPO != null) {
+            customerDao.deleteCustomerById(id);
+        }
     }
 }

@@ -15,4 +15,8 @@ public interface CustomerDao {
     CustomerPO findOneById(Integer supplier);
 
     List<CustomerPO> findAllByType(CustomerType customerType);
+
+    int createCustomer(CustomerPO customerPO);
+
+    int deleteCustomerById(Integer id);
 }
