@@ -22,7 +22,23 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         cache: maven
-    - name: Build with Maven
+    - name: build with maven
       run: mvn -B package --file pom.xml
-    - name: Take a look
-      run: ls -al
+    - name: set ssh key
+      run: |
+        mkdir -p ~/.ssh/
+        echo "${{secrets.COSEN_ID_RSA}}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan "43.142.159.174" >> ~/.ssh/known_hosts      
+    - name: scp
+      run: scp target/ERP-0.0.1-SNAPSHOT.jar ubuntu@43.142.159.174:~/erp/back-end
+    - name: deploy
+      run: |
+        ssh ubuntu@43.142.159.174 "
+          cd ~/erp/back-end/;
+          pkill -9 java;
+          nohup java -jar ERP-0.0.1-SNAPSHOT.jar > erp.log 2>&1 &;
+          ls -al;
+        "
+    - name: delete ssh key
+      run: rm -rf ~/.ssh/id_rsa
