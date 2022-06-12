@@ -35,10 +35,7 @@ jobs:
     - name: deploy
       run: |
         ssh ubuntu@43.142.159.174 "
-          cd ~/erp/back-end/;
-          pkill -9 java;
-          nohup java -jar ERP-0.0.1-SNAPSHOT.jar > erp.log 2>&1 &;
-          ls -al;
+          ./backend-setup.sh
         "
     - name: delete ssh key
       run: rm -rf ~/.ssh/id_rsa
