@@ -31,6 +31,7 @@ jobs:
           mkdir -p ~/.ssh/
           echo "${{secrets.COSEN_ID_RSA}}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan "43.142.159.174" >> ~/.ssh/known_hosts
       - name: deploy
         run: |
           ssh ubuntu@43.142.159.174 "
