@@ -1,7 +1,7 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/seec_erp
-    username: root
+    url: jdbc:mysql://43.142.159.174:3306/seec_erp
+    username: vgalaxy
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
 
