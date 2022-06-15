@@ -31,12 +31,12 @@
     </delete>
 
     <resultMap id="CategoryPO" type="com.nju.edu.erp.model.po.CategoryPO">
-        <id column="id" property="id"></id>
-        <result column="name" property="name"></result>
-        <result column="parent_id" property="parentId"></result>
-        <result column="is_leaf" property="isLeaf"></result>
-        <result column="item_count" property="itemCount"></result>
-        <result column="item_index" property="itemIndex"></result>
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="is_leaf" property="isLeaf"/>
+        <result column="item_count" property="itemCount"/>
+        <result column="item_index" property="itemIndex"/>
     </resultMap>
 
 </mapper>

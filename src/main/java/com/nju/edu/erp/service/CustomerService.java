@@ -24,4 +24,8 @@ public interface CustomerService {
 
 
     CustomerPO findCustomerById(Integer supplier);
+
+    void addCustomer(CustomerVO customerVO);
+
+    void deleteCustomerById(Integer id);
 }
