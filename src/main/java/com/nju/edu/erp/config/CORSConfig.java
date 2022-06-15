@@ -18,9 +18,14 @@ public class CORSConfig {
     private static String[] originsVal =
             new String[]{
                     "localhost:8000",
+                    "localhost:8080",
+                    "localhost",
                     "127.0.0.1:8000",
                     "127.0.0.1:8080",
                     "127.0.0.1",
+                    "43.142.159.174:80",
+                    "43.142.159.174:8080",
+                    "43.142.159.174",
             };
 
     @Bean
