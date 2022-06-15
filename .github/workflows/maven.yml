@@ -32,7 +32,7 @@ jobs:
         ssh-keyscan "43.142.159.174" >> ~/.ssh/known_hosts      
     - name: Secure Copy
       run: scp target/ERP-0.0.1-SNAPSHOT.jar ubuntu@43.142.159.174:~/erp
-    - name: deploy
+    - name: Deploy
       run: |
         ssh ubuntu@43.142.159.174 "
           ./erp/backend-setup.sh
