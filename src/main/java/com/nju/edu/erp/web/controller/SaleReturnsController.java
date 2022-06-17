@@ -26,7 +26,7 @@ public class SaleReturnsController {
      */
     @Authorized(roles = {Role.SALE_STAFF, Role.SALE_MANAGER, Role.GM, Role.ADMIN})
     @PostMapping(value = "/sheet-make")
-    public Response makePurchaseOrder(UserVO userVO, @RequestBody SaleReturnsSheetVO saleReturnsSheetVO) {
+    public Response makeSaleOrder(UserVO userVO, @RequestBody SaleReturnsSheetVO saleReturnsSheetVO) {
         saleReturnsService.makeSaleReturnsSheet(userVO, saleReturnsSheetVO);
         return Response.buildSuccess();
     }
