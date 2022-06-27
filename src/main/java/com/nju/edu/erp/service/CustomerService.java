@@ -28,4 +28,6 @@ public interface CustomerService {
     void addCustomer(CustomerVO customerVO);
 
     void deleteCustomerById(Integer id);
+
+    void updateCustomer(CustomerVO customerVO);
 }

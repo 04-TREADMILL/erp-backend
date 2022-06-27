@@ -23,4 +23,22 @@ public class CustomerController {
         return Response.buildSuccess(customerService.getCustomersByType(type));
     }
 
+    @GetMapping("/add")
+    public Response addCustomer(@RequestBody CustomerVO customerVO) {
+        customerService.addCustomer(customerVO);
+        return Response.buildSuccess();
+    }
+
+    @GetMapping("/delete")
+    public Response deleteCustomer(@RequestParam Integer id) {
+        customerService.deleteCustomerById(id);
+        return Response.buildSuccess();
+    }
+
+    @GetMapping("/update")
+    public Response updateCustomer(@RequestBody CustomerVO customerVO) {
+        customerService.updateCustomer(customerVO);
+        return Response.buildSuccess();
+    }
+
 }

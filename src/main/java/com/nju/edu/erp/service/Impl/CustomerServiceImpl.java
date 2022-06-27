@@ -67,4 +67,14 @@ public class CustomerServiceImpl implements CustomerService {
             customerDao.deleteCustomerById(id);
         }
     }
+
+    @Override
+    public void updateCustomer(CustomerVO customerVO) {
+        CustomerPO customerPO = customerDao.findOneById(customerVO.getId());
+        if (customerPO != null) {
+            CustomerPO updatedCustomerPO = new CustomerPO();
+            BeanUtils.copyProperties(customerVO, updatedCustomerPO);
+            customerDao.updateOne(updatedCustomerPO);
+        }
+    }
 }
