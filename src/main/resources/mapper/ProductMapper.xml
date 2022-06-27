@@ -33,14 +33,14 @@
     </delete>
 
     <resultMap id="ProductPO" type="com.nju.edu.erp.model.po.ProductPO">
-        <id column="id" property="id"></id>
-        <result column="name" property="name"></result>
-        <result column="category_id" property="categoryId"></result>
-        <result column="type" property="type"></result>
-        <result column="quantity" property="quantity"></result>
-        <result column="purchase_price" property="purchasePrice"></result>
-        <result column="retail_price" property="retailPrice"></result>
-        <result column="recent_pp" property="recentPp"></result>
-        <result column="recent_rp" property="recentRp"></result>
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="type" property="type"/>
+        <result column="quantity" property="quantity"/>
+        <result column="purchase_price" property="purchasePrice"/>
+        <result column="retail_price" property="retailPrice"/>
+        <result column="recent_pp" property="recentPp"/>
+        <result column="recent_rp" property="recentRp"/>
     </resultMap>
 </mapper>
