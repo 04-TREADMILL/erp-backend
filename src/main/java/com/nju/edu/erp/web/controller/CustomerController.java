@@ -23,7 +23,7 @@ public class CustomerController {
         return Response.buildSuccess(customerService.getCustomersByType(type));
     }
 
-    @GetMapping("/add")
+    @PostMapping("/add")
     public Response addCustomer(@RequestBody CustomerVO customerVO) {
         customerService.addCustomer(customerVO);
         return Response.buildSuccess();
@@ -35,7 +35,7 @@ public class CustomerController {
         return Response.buildSuccess();
     }
 
-    @GetMapping("/update")
+    @PostMapping("/update")
     public Response updateCustomer(@RequestBody CustomerVO customerVO) {
         customerService.updateCustomer(customerVO);
         return Response.buildSuccess();
