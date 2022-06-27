@@ -53,11 +53,11 @@
         select * from customer where `type` = #{type}
     </select>
 
-    <insert id="createCustomer" parameterType="CustomerPO" useGeneratedKeys="true" keyProperty="id">
-        insert into customer (`type`, `level`, `name`, `phone`,
+    <insert id="createCustomer" parameterType="CustomerPO">
+        insert into customer (`id`, `type`, `level`, `name`, `phone`,
             `address`, `zipcode`, `email`, `line_of_credit`, `receivable`, `payable`, `operator`)
-        values (#{type}, #{level}, #{name}, #{phone}, #{address}, #{zipcode}, #{email},
-            #{line_of_credit}, #{receivable}, #{payable}, #{operator})
+        values (#{id}, #{type}, #{level}, #{name}, #{phone}, #{address}, #{zipcode}, #{email},
+            #{lineOfCredit}, #{receivable}, #{payable}, #{operator})
     </insert>
 
     <delete id="deleteCustomerById">
