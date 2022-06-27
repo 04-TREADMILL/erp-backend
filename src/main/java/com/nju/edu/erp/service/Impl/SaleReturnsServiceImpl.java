@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 
 @Service
@@ -87,12 +88,9 @@ public class SaleReturnsServiceImpl implements SaleReturnsService {
             sContentPO.setUnitPrice(item.getUnitPrice());
 
             BigDecimal unitPrice = sContentPO.getUnitPrice();
-            sContentPO.setTotalPrice(
-                    BigDecimal.valueOf(sContentPO.getQuantity()).multiply(
-                            unitPrice.multiply(discount).add(
-                                    voucherAmount.multiply(unitPrice).divide(rawTotalAmount, 2, BigDecimal.ROUND_UNNECESSARY)
-                            )
-                    ));
+            BigDecimal unitVoucherAmount = voucherAmount.multiply(unitPrice).divide(rawTotalAmount, 2, RoundingMode.HALF_UP);
+            unitPrice = unitPrice.multiply(discount).subtract(unitVoucherAmount);
+            sContentPO.setTotalPrice(BigDecimal.valueOf(sContentPO.getQuantity()).multiply(unitPrice));
             sContentPOList.add(sContentPO);
             totalAmount = totalAmount.add(sContentPO.getTotalPrice());
         }
