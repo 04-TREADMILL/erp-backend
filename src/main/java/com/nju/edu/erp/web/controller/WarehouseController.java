@@ -8,14 +8,17 @@ import com.nju.edu.erp.exception.MyServiceException;
 import com.nju.edu.erp.model.po.*;
 import com.nju.edu.erp.model.vo.UserVO;
 import com.nju.edu.erp.model.vo.warehouse.GetWareProductInfoParamsVO;
+import com.nju.edu.erp.model.vo.warehouse.WarehouseCountingVO;
 import com.nju.edu.erp.model.vo.warehouse.WarehouseInputFormVO;
 import com.nju.edu.erp.model.vo.warehouse.WarehouseOutputFormVO;
 import com.nju.edu.erp.service.WarehouseService;
+import com.nju.edu.erp.utils.ExcelUtil;
 import com.nju.edu.erp.web.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.text.ParseException;
 import java.util.List;
 
@@ -177,5 +180,12 @@ public class WarehouseController {
     @Authorized(roles = {Role.ADMIN, Role.INVENTORY_MANAGER})
     public Response getWarehouseCounting() {
         return Response.buildSuccess(warehouseService.warehouseCounting());
+    }
+
+    @GetMapping("/warehouse/exportExcel")
+    @Authorized(roles = {Role.ADMIN, Role.INVENTORY_MANAGER})
+    public Response exportExcel(HttpServletResponse response) {
+        ExcelUtil.exportWarehouseExcel(response, warehouseService.warehouseCounting());
+        return Response.buildSuccess(response);
     }
 }
