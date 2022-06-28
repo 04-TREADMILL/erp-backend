@@ -30,7 +30,7 @@ public class CustomerController {
     }
 
     @GetMapping("/delete")
-    public Response deleteCustomer(@RequestParam Integer id) {
+    public Response deleteCustomer(@RequestParam(value = "id") int id) {
         customerService.deleteCustomerById(id);
         return Response.buildSuccess();
     }
