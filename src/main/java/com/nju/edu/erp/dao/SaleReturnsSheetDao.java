@@ -82,12 +82,4 @@ public interface SaleReturnsSheetDao {
      * @return
      */
     List<SaleReturnsSheetContentPO> findContentBySaleReturnsSheetId(String saleReturnsSheetId);
-
-    /**
-     * 通过purchaseReturnsSheetId找到退的货的对应批次
-     *
-     * @param saleReturnsSheetId
-     * @return 批次号
-     */
-    Integer findBatchId(String saleReturnsSheetId);
 }

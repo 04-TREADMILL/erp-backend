@@ -32,10 +32,6 @@
             resultType="com.nju.edu.erp.model.po.SaleReturnsSheetContentPO">
         select * from sale_returns_sheet_content where sale_returns_sheet_id = #{sale_returns_sheet_id}
     </select>
-    <select id="findBatchId" resultType="java.lang.Integer">
-        select wos.batch_id from sale_returns_sheet srs, warehouse_output_sheet wos
-        where srs.sale_sheet_id = wos.sale_sheet_id and srs.id = #{saleReturnsSheetId}
-    </select>
 
     <insert id="saveBatch" useGeneratedKeys="true" keyProperty="id">
         insert into sale_returns_sheet_content (sale_returns_sheet_id, pid, quantity, unit_price, total_price,
