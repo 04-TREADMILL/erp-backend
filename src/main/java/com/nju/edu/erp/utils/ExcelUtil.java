@@ -2,30 +2,34 @@ package com.nju.edu.erp.utils;
 
 import com.nju.edu.erp.model.vo.ProductInfoVO;
 import com.nju.edu.erp.model.vo.warehouse.WarehouseCountingVO;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigDecimal;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
 
 public class ExcelUtil {
 
     public static void exportWarehouseExcel(HttpServletResponse response, List<WarehouseCountingVO> items) {
+        response.reset();
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("application/vnd.ms-excel");
+        response.setHeader("Pragma", "No-cache");
+        response.setHeader("Cache-Control", "No-cache");
+        response.setHeader("Content-Disposition", "attachment;filename=warehouse-snapshot.xlsx");
+
         Date date = new Date();
         Workbook wb = createWorkbook(date, items);
         try {
-            response.reset();
-            response.setHeader("Content-Disposition", "attachment;filename=warehouse-snapshot");
-            OutputStream os = new BufferedOutputStream(response.getOutputStream());
-            response.setContentType("application/vnd.ms-excel;charset=utf-8");
+            OutputStream os = response.getOutputStream();
             wb.write(os);
             os.flush();
             os.close();
@@ -37,8 +41,8 @@ public class ExcelUtil {
         }
     }
 
-    private static Workbook createWorkbook(Date date, List<WarehouseCountingVO> items) {
-        Workbook wb = new HSSFWorkbook();
+    public static Workbook createWorkbook(Date date, List<WarehouseCountingVO> items) {
+        Workbook wb = new XSSFWorkbook();
         Sheet sheet = wb.createSheet("warehouse-snapshot-" + date.toString());
         Row titleRow = sheet.createRow(0);
         Cell titleCell = titleRow.createCell(0);
