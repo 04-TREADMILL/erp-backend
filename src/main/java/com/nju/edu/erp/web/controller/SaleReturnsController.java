@@ -57,7 +57,7 @@ public class SaleReturnsController {
      */
     @Authorized(roles = {Role.GM, Role.ADMIN})
     @GetMapping(value = "/second-approval")
-    public Response secondApproval(@RequestParam("purchaseReturnsSheetId") String saleReturnsSheetId,
+    public Response secondApproval(@RequestParam("saleReturnsSheetId") String saleReturnsSheetId,
                                    @RequestParam("state") SaleReturnsSheetState state) {
         if (state.equals(SaleReturnsSheetState.FAILURE) || state.equals(SaleReturnsSheetState.SUCCESS)) {
             saleReturnsService.approval(saleReturnsSheetId, state);
