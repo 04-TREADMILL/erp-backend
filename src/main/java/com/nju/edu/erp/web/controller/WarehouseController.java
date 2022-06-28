@@ -206,7 +206,7 @@ public class WarehouseController {
         titleCell.setCellValue("批次");
         titleCell = titleRow.createCell(5);
         titleCell.setCellValue("出厂日期");
-        return Response.buildSuccess("aaa");
+        return Response.buildSuccess(wb);
     }
 //    public void exportExcel(HttpServletRequest request, HttpServletResponse response) {
 //        ExcelUtil.exportWarehouseExcel(response, warehouseService.warehouseCounting());
