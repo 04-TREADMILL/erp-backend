@@ -28,6 +28,8 @@ public interface WarehouseDao {
 
     WarehousePO findOneByPidAndBatchId(String pid, Integer batchId);
 
+    List<WarehousePO> findByPidOrderByQuantity(String pid);
+
 
     /**
      * 查看所有库存（库存盘点）

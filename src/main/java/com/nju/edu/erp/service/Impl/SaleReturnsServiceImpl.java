@@ -147,7 +147,6 @@ public class SaleReturnsServiceImpl implements SaleReturnsService {
             if (state.equals(SaleReturnsSheetState.SUCCESS)) {
                 // TODO 审批完成, 修改一系列状态
                 // 销售退货单id， 关联的销售单id 【销售退货单id->销售单id->入库单id->批次id】
-                Integer batchId = saleReturnsSheetDao.findBatchId(saleReturnsSheetId);
 
                 //- 销售退货单id-pid， quantity 【批次id+pid -> 定位到库存的一个条目->库存加上quantity】
                 //- 【 pid -> 定位到单位进价->Σ单位进价*quantity=要收回的钱->客户payable减去要收回的钱】
@@ -156,7 +155,11 @@ public class SaleReturnsServiceImpl implements SaleReturnsService {
                 for (SaleReturnsSheetContentPO content : contents) {
                     String pid = content.getPid();
                     Integer quantity = content.getQuantity();
-                    WarehousePO warehousePO = warehouseDao.findOneByPidAndBatchId(pid, batchId);
+                    List<WarehousePO> warehousePOS = warehouseDao.findByPidOrderByQuantity(pid);
+                    if (warehousePOS == null || warehousePOS.size() == 0) {
+                        throw new RuntimeException("单据发生错误！请联系管理员！");
+                    }
+                    WarehousePO warehousePO = warehousePOS.get(0);
                     if (warehousePO == null) throw new RuntimeException("单据发生错误！请联系管理员！");
                     warehousePO.setQuantity(quantity);
                     warehouseDao.addQuantity(warehousePO);
