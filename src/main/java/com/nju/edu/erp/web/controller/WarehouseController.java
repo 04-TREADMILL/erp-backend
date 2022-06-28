@@ -15,9 +15,11 @@ import com.nju.edu.erp.service.WarehouseService;
 import com.nju.edu.erp.utils.ExcelUtil;
 import com.nju.edu.erp.web.Response;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.ParseException;
 import java.util.List;
@@ -184,8 +186,12 @@ public class WarehouseController {
 
     @GetMapping("/warehouse/exportExcel")
     @Authorized(roles = {Role.ADMIN, Role.INVENTORY_MANAGER})
-    public void exportExcel(HttpServletResponse response) {
-        ExcelUtil.exportWarehouseExcel(response, warehouseService.warehouseCounting());
-//        return Response.buildSuccess(response);
+    public Response exportExcel() {
+        Workbook workbook = ExcelUtil.exportWarehouseExcel(warehouseService.warehouseCounting());
+        return Response.buildSuccess(workbook);
     }
+//    public void exportExcel(HttpServletRequest request, HttpServletResponse response) {
+//        ExcelUtil.exportWarehouseExcel(response, warehouseService.warehouseCounting());
+////        return Response.buildSuccess(response);
+//    }
 }
