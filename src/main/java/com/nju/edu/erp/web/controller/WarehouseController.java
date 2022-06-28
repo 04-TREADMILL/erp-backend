@@ -193,6 +193,7 @@ public class WarehouseController {
     @GetMapping("/warehouse/exportExcel")
     @Authorized(roles = {Role.ADMIN, Role.INVENTORY_MANAGER})
     public void exportExcel(HttpServletRequest request, HttpServletResponse response) {
+        response.setCharacterEncoding("utf-8");
         ExcelUtil.exportWarehouseExcel(response, warehouseService.warehouseCounting());
     }
 }

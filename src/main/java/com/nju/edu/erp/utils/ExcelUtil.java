@@ -19,17 +19,17 @@ import java.util.List;
 public class ExcelUtil {
 
     public static void exportWarehouseExcel(HttpServletResponse response, List<WarehouseCountingVO> items) {
+        response.reset();
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/vnd.ms-excel");
+        response.setHeader("Pragma", "No-cache");
+        response.setHeader("Cache-Control", "No-cache");
+        response.setHeader("Content-Disposition", "attachment;filename=warehouse-snapshot.xlsx");
+
         Date date = new Date();
         Workbook wb = createWorkbook(date, items);
-
         try {
             OutputStream os = response.getOutputStream();
-
-            response.reset();
-            response.setContentType("application/vnd.ms-excel; charset=utf-8");
-            response.setHeader("Content-Disposition", "attachment; filename="
-                    + URLEncoder.encode("warehouse-snapshot.xlsx", "UTF-8"));
-
             wb.write(os);
             os.flush();
             os.close();
@@ -41,10 +41,10 @@ public class ExcelUtil {
         }
     }
 
-    public static Workbook exportWarehouseExcel(List<WarehouseCountingVO> items) {
-        Date date = new Date();
-        return createWorkbook(date, items);
-    }
+//    public static Workbook exportWarehouseExcel(List<WarehouseCountingVO> items) {
+//        Date date = new Date();
+//        return createWorkbook(date, items);
+//    }
 
     private static Workbook createWorkbook(Date date, List<WarehouseCountingVO> items) {
         Workbook wb = new XSSFWorkbook();
