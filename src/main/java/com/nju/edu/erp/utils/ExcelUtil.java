@@ -18,28 +18,28 @@ import java.util.List;
 
 public class ExcelUtil {
 
-//    public static void exportWarehouseExcel(HttpServletResponse response, List<WarehouseCountingVO> items) {
-//        Date date = new Date();
-//        Workbook wb = createWorkbook(date, items);
-//
-//        try {
-//            OutputStream os = response.getOutputStream();
-//
-//            response.reset();
-//            response.setHeader("content-Type", "application/vnd.ms-excel");
-//            response.setHeader("Content-Disposition", "attachment; filename="
-//                    + URLEncoder.encode("warehouse-snapshot-"+date.toString()+".xlsx", "UTF-8"));
-//
-//            wb.write(os);
-//            os.flush();
-//            os.close();
-//            System.out.println("导出库存快照excel成功!");
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            System.out.println("导出库存快照excel失败!");
-//        }
-//    }
+    public static void exportWarehouseExcel(HttpServletResponse response, List<WarehouseCountingVO> items) {
+        Date date = new Date();
+        Workbook wb = createWorkbook(date, items);
+
+        try {
+            OutputStream os = response.getOutputStream();
+
+            response.reset();
+            response.setHeader("content-Type", "application/vnd.ms-excel");
+            response.setHeader("Content-Disposition", "attachment; filename="
+                    + URLEncoder.encode("warehouse-snapshot-"+date.toString()+".xlsx", "UTF-8"));
+
+            wb.write(os);
+            os.flush();
+            os.close();
+            System.out.println("导出库存快照excel成功!");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("导出库存快照excel失败!");
+        }
+    }
 
     public static Workbook exportWarehouseExcel(List<WarehouseCountingVO> items) {
         Date date = new Date();

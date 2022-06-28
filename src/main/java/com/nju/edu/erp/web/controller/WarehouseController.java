@@ -190,28 +190,28 @@ public class WarehouseController {
 
     @GetMapping("/warehouse/exportExcel")
     @Authorized(roles = {Role.ADMIN, Role.INVENTORY_MANAGER})
-    public Response exportExcel() {
-//        Workbook workbook = ExcelUtil.exportWarehouseExcel(warehouseService.warehouseCounting());
-//        return Response.buildSuccess(workbook);
-        Workbook wb = new XSSFWorkbook();
-        Sheet sheet = wb.createSheet("warehouse-snapshot");
-        Row titleRow = sheet.createRow(0);
-        Cell titleCell = titleRow.createCell(0);
-        titleCell.setCellValue("库存id");
-        titleCell = titleRow.createCell(1);
-        titleCell.setCellValue("商品编号");
-        titleCell = titleRow.createCell(2);
-        titleCell.setCellValue("数量");
-        titleCell = titleRow.createCell(3);
-        titleCell.setCellValue("进价");
-        titleCell = titleRow.createCell(4);
-        titleCell.setCellValue("批次");
-        titleCell = titleRow.createCell(5);
-        titleCell.setCellValue("出厂日期");
-        return Response.buildSuccess(wb);
-    }
-//    public void exportExcel(HttpServletRequest request, HttpServletResponse response) {
-//        ExcelUtil.exportWarehouseExcel(response, warehouseService.warehouseCounting());
-////        return Response.buildSuccess(response);
+//    public Response exportExcel() {
+////        Workbook workbook = ExcelUtil.exportWarehouseExcel(warehouseService.warehouseCounting());
+////        return Response.buildSuccess(workbook);
+//        Workbook wb = new XSSFWorkbook();
+//        Sheet sheet = wb.createSheet("warehouse-snapshot");
+//        Row titleRow = sheet.createRow(0);
+//        Cell titleCell = titleRow.createCell(0);
+//        titleCell.setCellValue("库存id");
+//        titleCell = titleRow.createCell(1);
+//        titleCell.setCellValue("商品编号");
+//        titleCell = titleRow.createCell(2);
+//        titleCell.setCellValue("数量");
+//        titleCell = titleRow.createCell(3);
+//        titleCell.setCellValue("进价");
+//        titleCell = titleRow.createCell(4);
+//        titleCell.setCellValue("批次");
+//        titleCell = titleRow.createCell(5);
+//        titleCell.setCellValue("出厂日期");
+//        return Response.buildSuccess(wb);
 //    }
+    public void exportExcel(HttpServletRequest request, HttpServletResponse response) {
+        ExcelUtil.exportWarehouseExcel(response, warehouseService.warehouseCounting());
+//        return Response.buildSuccess(response);
+    }
 }
