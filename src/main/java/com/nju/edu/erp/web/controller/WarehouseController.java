@@ -212,6 +212,6 @@ public class WarehouseController {
 //    }
     public Response exportExcel(HttpServletRequest request, HttpServletResponse response) {
         ExcelUtil.exportWarehouseExcel(response, warehouseService.warehouseCounting());
-        return Response.buildSuccess(response);
+        return Response.buildSuccess("excel!");
     }
 }
