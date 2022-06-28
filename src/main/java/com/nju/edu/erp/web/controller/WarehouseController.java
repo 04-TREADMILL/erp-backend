@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.text.ParseException;
 import java.util.List;
@@ -192,8 +193,7 @@ public class WarehouseController {
 
     @GetMapping("/warehouse/exportExcel")
     @Authorized(roles = {Role.ADMIN, Role.INVENTORY_MANAGER})
-    public void exportExcel(HttpServletRequest request, HttpServletResponse response) {
-        response.setCharacterEncoding("utf-8");
+    public void exportExcel(HttpServletResponse response) {
         ExcelUtil.exportWarehouseExcel(response, warehouseService.warehouseCounting());
     }
 }
