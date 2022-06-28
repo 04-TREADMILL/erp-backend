@@ -184,8 +184,8 @@ public class WarehouseController {
 
     @GetMapping("/warehouse/exportExcel")
     @Authorized(roles = {Role.ADMIN, Role.INVENTORY_MANAGER})
-    public Response exportExcel(HttpServletResponse response) {
+    public void exportExcel(HttpServletResponse response) {
         ExcelUtil.exportWarehouseExcel(response, warehouseService.warehouseCounting());
-        return Response.buildSuccess(response);
+//        return Response.buildSuccess(response);
     }
 }
