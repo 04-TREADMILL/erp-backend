@@ -27,7 +27,7 @@ public class ExcelUtil {
             response.reset();
             response.setHeader("Content-Disposition", "attachment;filename=warehouse-snapshot");
             OutputStream os = new BufferedOutputStream(response.getOutputStream());
-            response.setContentType("application/vnd.ms-excel;charset=utf-8");
+            response.setContentType("application/vnd.ms-excel;charset=gbk");
             wb.write(os);
             os.flush();
             os.close();
