@@ -1,5 +1,6 @@
 package com.nju.edu.erp.utils;
 
+import com.nju.edu.erp.model.vo.ProductInfoVO;
 import com.nju.edu.erp.model.vo.warehouse.WarehouseCountingVO;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -10,6 +11,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
@@ -61,19 +63,27 @@ public class ExcelUtil {
         titleCell = titleRow.createCell(5);
         titleCell.setCellValue("出厂日期");
         for (int i = 0; i < items.size(); ++i) {
+            WarehouseCountingVO item = items.get(i);
+            Integer id = item.getId();
+            ProductInfoVO pVO = item.getProduct();
+            Integer quantity = item.getQuantity();
+            BigDecimal price = item.getPurchasePrice();
+            Integer batchId = item.getBatchId();
+            Date productionDate = item.getProductionDate();
+
             Row row = sheet.createRow(i+1);
             Cell cell = row.createCell(0);
-            cell.setCellValue(items.get(i).getId().toString());
+            cell.setCellValue(id == null ? "" : id.toString());
             cell = row.createCell(1);
-            cell.setCellValue(items.get(i).getProduct().getId());
+            cell.setCellValue(pVO == null ? "" : pVO.getId());
             cell = row.createCell(2);
-            cell.setCellValue(items.get(i).getQuantity().toString());
+            cell.setCellValue(quantity == null ? "" : quantity.toString());
             cell = row.createCell(3);
-            cell.setCellValue(items.get(i).getPurchasePrice().toString());
+            cell.setCellValue(price == null ? "" : price.toString());
             cell = row.createCell(4);
-            cell.setCellValue(items.get(i).getBatchId().toString());
+            cell.setCellValue(batchId == null ? "" : batchId.toString());
             cell = row.createCell(5);
-            cell.setCellValue(items.get(i).getProductionDate().toString());
+            cell.setCellValue(productionDate == null ? "" : productionDate.toString());
         }
         return wb;
     }
