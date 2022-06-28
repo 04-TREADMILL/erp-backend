@@ -28,7 +28,7 @@ public class ExcelUtil {
             response.reset();
             response.setContentType("application/vnd.ms-excel");
             response.setHeader("Content-Disposition", "attachment; filename="
-                    + URLEncoder.encode("warehouse-snapshot-"+date.toString()+".xlsx", "UTF-8"));
+                    + URLEncoder.encode("warehouse-snapshot.xlsx", "UTF-8"));
 
             wb.write(os);
             os.flush();
