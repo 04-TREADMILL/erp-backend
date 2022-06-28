@@ -20,7 +20,7 @@ public class ExcelUtil {
 
     public static void exportWarehouseExcel(HttpServletResponse response, List<WarehouseCountingVO> items) {
         response.reset();
-        response.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("utf-8");
         response.setContentType("application/vnd.ms-excel");
         response.setHeader("Pragma", "No-cache");
         response.setHeader("Cache-Control", "No-cache");
@@ -41,12 +41,7 @@ public class ExcelUtil {
         }
     }
 
-//    public static Workbook exportWarehouseExcel(List<WarehouseCountingVO> items) {
-//        Date date = new Date();
-//        return createWorkbook(date, items);
-//    }
-
-    private static Workbook createWorkbook(Date date, List<WarehouseCountingVO> items) {
+    public static Workbook createWorkbook(Date date, List<WarehouseCountingVO> items) {
         Workbook wb = new XSSFWorkbook();
         Sheet sheet = wb.createSheet("warehouse-snapshot-" + date.toString());
         Row titleRow = sheet.createRow(0);
