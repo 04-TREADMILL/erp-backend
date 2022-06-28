@@ -187,8 +187,9 @@ public class WarehouseController {
     @GetMapping("/warehouse/exportExcel")
     @Authorized(roles = {Role.ADMIN, Role.INVENTORY_MANAGER})
     public Response exportExcel() {
-        Workbook workbook = ExcelUtil.exportWarehouseExcel(warehouseService.warehouseCounting());
-        return Response.buildSuccess(workbook);
+//        Workbook workbook = ExcelUtil.exportWarehouseExcel(warehouseService.warehouseCounting());
+//        return Response.buildSuccess(workbook);
+        return Response.buildSuccess("excel");
     }
 //    public void exportExcel(HttpServletRequest request, HttpServletResponse response) {
 //        ExcelUtil.exportWarehouseExcel(response, warehouseService.warehouseCounting());
