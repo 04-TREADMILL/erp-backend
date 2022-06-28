@@ -210,8 +210,8 @@ public class WarehouseController {
 //        titleCell.setCellValue("出厂日期");
 //        return Response.buildSuccess(wb);
 //    }
-    public void exportExcel(HttpServletRequest request, HttpServletResponse response) {
+    public Response exportExcel(HttpServletRequest request, HttpServletResponse response) {
         ExcelUtil.exportWarehouseExcel(response, warehouseService.warehouseCounting());
-//        return Response.buildSuccess(response);
+        return Response.buildSuccess(response);
     }
 }
