@@ -3,6 +3,7 @@ package com.nju.edu.erp.service;
 
 import com.nju.edu.erp.model.po.WarehouseIODetailPO;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.junit.Ignore;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,11 +106,14 @@ public class WarehouseServiceTest {
     }
 
     @Test
-    public void getExcel() {
+    @Ignore
+    public void getWarehouseExcel() {
         Date date = new Date();
         Workbook wb = createWorkbook(date, warehouseService.warehouseCounting());
         try {
-            OutputStream os = Files.newOutputStream(new File("/home/vgalaxy/Downloads/test.xls").toPath());
+            String path = System.getProperty("user.home");
+            path += "/warehouse-snapshot.xls";
+            OutputStream os = Files.newOutputStream(new File(path).toPath());
             wb.write(os);
             os.flush();
             os.close();
