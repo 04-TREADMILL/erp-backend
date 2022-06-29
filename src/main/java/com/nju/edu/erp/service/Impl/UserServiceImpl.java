@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -63,5 +64,10 @@ public class UserServiceImpl implements UserService {
                 .role(Role.valueOf(claims.get("role").as(String.class)))
                 .build();
         return userVO;
+    }
+
+    @Override
+    public List<String> getUsersNameByType(String type) {
+        return userDao.getUsersNameByType(type);
     }
 }

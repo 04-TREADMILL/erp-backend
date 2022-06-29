@@ -1,7 +1,10 @@
 package com.nju.edu.erp.web.controller;
 
+import com.nju.edu.erp.auth.Authorized;
 import com.nju.edu.erp.config.JwtConfig;
 import com.nju.edu.erp.dao.UserDao;
+import com.nju.edu.erp.enums.CustomerType;
+import com.nju.edu.erp.enums.Role;
 import com.nju.edu.erp.model.vo.UserVO;
 import com.nju.edu.erp.service.UserService;
 import com.nju.edu.erp.web.Response;
@@ -40,5 +43,11 @@ public class UserController {
     @GetMapping("/auth")
     public Response userAuth(@RequestParam(name = "token") String token) {
         return Response.buildSuccess(userService.auth(token));
+    }
+
+    @GetMapping("/findByType")
+    @Authorized(roles = {Role.ADMIN, Role.GM})
+    public Response findByType(@RequestParam String type) {
+        return Response.buildSuccess(userService.getUsersNameByType(type));
     }
 }
