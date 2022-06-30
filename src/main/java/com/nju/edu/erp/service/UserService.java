@@ -30,6 +30,4 @@ public interface UserService {
      * @param token
      */
     UserVO auth(String token);
-
-    List<String> getUsersNameByType(String type);
 }

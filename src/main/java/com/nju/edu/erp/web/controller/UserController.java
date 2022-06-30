@@ -44,10 +44,4 @@ public class UserController {
     public Response userAuth(@RequestParam(name = "token") String token) {
         return Response.buildSuccess(userService.auth(token));
     }
-
-    @GetMapping("/findByType")
-    @Authorized(roles = {Role.ADMIN, Role.GM})
-    public Response findByType(@RequestParam String type) {
-        return Response.buildSuccess(userService.getUsersNameByType(type));
-    }
 }

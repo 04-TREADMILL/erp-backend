@@ -17,6 +17,4 @@ public interface UserDao {
     int createUser(User user);
 
     User findByUsername(String username);
-
-    List<String> getUsersNameByType(String type);
 }

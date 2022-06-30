@@ -15,10 +15,6 @@
         values (#{password}, #{name}, #{role})
     </insert>
 
-    <select id="getUsersNameByType">
-        select name from user where `role` = #{type}
-    </select>
-
     <resultMap id="User" type="com.nju.edu.erp.model.po.User">
         <id column="id" property="id"/>
         <result column="name" property="name"/>

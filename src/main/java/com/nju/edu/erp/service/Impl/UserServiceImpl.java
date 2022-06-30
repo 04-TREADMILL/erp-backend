@@ -65,9 +65,4 @@ public class UserServiceImpl implements UserService {
                 .build();
         return userVO;
     }
-
-    @Override
-    public List<String> getUsersNameByType(String type) {
-        return userDao.getUsersNameByType(type);
-    }
 }
