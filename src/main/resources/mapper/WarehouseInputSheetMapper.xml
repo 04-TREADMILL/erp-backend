@@ -99,23 +99,26 @@
 
 
     <resultMap id="WarehouseInputSheetPO" type="com.nju.edu.erp.model.po.WarehouseInputSheetPO">
-        <id column="id" property="id"></id>
-        <result column="batch_id" property="batchId"></result>
-        <result column="operator" property="operator"></result>
-        <result column="create_time" property="createTime"></result>
-        <result column="purchase_sheet_id" property="purchaseSheetId"></result>
-        <result column="state" property="state"></result>
+        <id column="id" property="id"/>
+        <result column="batch_id" property="batchId"/>
+        <result column="operator" property="operator"/>
+
+        <result column="create_time" property="createTime"/>
+
+        <result column="purchase_sheet_id" property="purchaseSheetId"/>
+
+        <result column="state" property="state"/>
     </resultMap>
 
     <resultMap id="WarehouseIODetailPO" type="com.nju.edu.erp.model.po.WarehouseIODetailPO">
-        <result column="type" property="type"></result>
-        <result column="sheet_id" property="sheetId"></result>
-        <result column="product_name" property="productName"></result>
-        <result column="category_name" property="categoryName"></result>
-        <result column="quantity" property="quantity"></result>
-        <result column="unit_price" property="unitPrice"></result>
-        <result column="total_price" property="totalPrice"></result>
-        <result column="create_time" property="createTime"></result>
+        <result column="type" property="type"/>
+        <result column="sheet_id" property="sheetId"/>
+        <result column="product_name" property="productName"/>
+        <result column="category_name" property="categoryName"/>
+        <result column="quantity" property="quantity"/>
+        <result column="unit_price" property="unitPrice"/>
+        <result column="total_price" property="totalPrice"/>
+        <result column="create_time" property="createTime"/>
     </resultMap>
 
 </mapper>

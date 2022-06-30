@@ -1,5 +1,6 @@
 package com.nju.edu.erp.service;
 
+import com.nju.edu.erp.model.vo.UserInfoVO;
 import com.nju.edu.erp.model.vo.UserVO;
 import org.springframework.stereotype.Service;
 
@@ -30,4 +31,6 @@ public interface UserService {
      * @param token
      */
     UserVO auth(String token);
+
+    void createUserInfo(UserInfoVO userInfoVO);
 }

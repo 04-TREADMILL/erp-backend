@@ -57,8 +57,8 @@
     </select>
 
     <resultMap id="WarehouseOutputSheetPO" type="com.nju.edu.erp.model.po.WarehouseOutputSheetPO">
-        <id column="id" property="id"></id>
-        <result column="operator" property="operator"></result>
-        <result column="create_time" property="createTime"></result>
+        <id column="id" property="id"/>
+        <result column="operator" property="operator"/>
+        <result column="create_time" property="createTime"/>
     </resultMap>
 </mapper>

@@ -5,6 +5,9 @@ import com.nju.edu.erp.config.JwtConfig;
 import com.nju.edu.erp.dao.UserDao;
 import com.nju.edu.erp.enums.CustomerType;
 import com.nju.edu.erp.enums.Role;
+import com.nju.edu.erp.model.po.UserInfo;
+import com.nju.edu.erp.model.vo.CustomerVO;
+import com.nju.edu.erp.model.vo.UserInfoVO;
 import com.nju.edu.erp.model.vo.UserVO;
 import com.nju.edu.erp.service.UserService;
 import com.nju.edu.erp.web.Response;
@@ -43,5 +46,12 @@ public class UserController {
     @GetMapping("/auth")
     public Response userAuth(@RequestParam(name = "token") String token) {
         return Response.buildSuccess(userService.auth(token));
+    }
+
+    @PostMapping("/createInfo")
+    @Authorized(roles = {Role.ADMIN, Role.GM, Role.HR})
+    public Response updateCustomer(@RequestBody UserInfoVO userInfoVO) {
+        userService.createUserInfo(userInfoVO);
+        return Response.buildSuccess();
     }
 }

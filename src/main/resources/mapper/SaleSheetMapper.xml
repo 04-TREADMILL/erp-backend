@@ -61,19 +61,19 @@
     </select>
 
     <resultMap id="CustomerPurchaseAmountPO" type="com.nju.edu.erp.model.po.CustomerPurchaseAmountPO">
-        <result column="total_final_amount" property="totalFinalAmount"></result>
+        <result column="total_final_amount" property="totalFinalAmount"/>
         <association property="customerPO" javaType="CustomerPO">
-            <id column="id" property="id"></id>
-            <result column="type" property="type"></result>
-            <result column="level" property="level"></result>
-            <result column="name" property="name"></result>
-            <result column="phone" property="phone"></result>
-            <result column="address" property="address"></result>
-            <result column="zipcode" property="zipcode"></result>
-            <result column="email" property="email"></result>
-            <result column="line_of_credit" property="lineOfCredit"></result>
-            <result column="receivable" property="receivable"></result>
-            <result column="operator" property="operator"></result>
+            <id column="id" property="id"/>
+            <result column="type" property="type"/>
+            <result column="level" property="level"/>
+            <result column="name" property="name"/>
+            <result column="phone" property="phone"/>
+            <result column="address" property="address"/>
+            <result column="zipcode" property="zipcode"/>
+            <result column="email" property="email"/>
+            <result column="line_of_credit" property="lineOfCredit"/>
+            <result column="receivable" property="receivable"/>
+            <result column="operator" property="operator"/>
         </association>
     </resultMap>
 
