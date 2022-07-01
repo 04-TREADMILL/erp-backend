@@ -31,7 +31,7 @@ public class SaleController {
      */
     @Authorized(roles = {Role.SALE_STAFF, Role.SALE_MANAGER, Role.GM, Role.ADMIN})
     @PostMapping(value = "/sheet-make")
-    public Response makePurchaseOrder(UserVO userVO, @RequestBody SaleSheetVO saleSheetVO) {
+    public Response makeSaleOrder(UserVO userVO, @RequestBody SaleSheetVO saleSheetVO) {
         saleService.makeSaleSheet(userVO, saleSheetVO);
         return Response.buildSuccess();
     }
