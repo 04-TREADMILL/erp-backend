@@ -2,6 +2,7 @@ package com.nju.edu.erp.web.controller;
 
 import com.nju.edu.erp.auth.Authorized;
 import com.nju.edu.erp.enums.Role;
+import com.nju.edu.erp.exception.MyServiceException;
 import com.nju.edu.erp.model.vo.UserVO;
 import com.nju.edu.erp.model.vo.employee.EmployeePunchVO;
 import com.nju.edu.erp.model.vo.employee.EmployeeVO;
@@ -26,7 +27,13 @@ public class EmployeeController {
 
     @GetMapping("/show")
     public Response showEmployees() {
-        return Response.buildSuccess(employeeService.getALLEmployees());
+        try {
+            return Response.buildSuccess(employeeService.getALLEmployees());
+        } catch (MyServiceException e) {
+            return Response.buildFailed(e.getCode(), e.getMessage());
+        } catch (Exception e) {
+            return Response.buildFailed("111111", "Unknown Exception");
+        }
     }
 
     /**
@@ -35,14 +42,20 @@ public class EmployeeController {
     @PostMapping("/add")
     @Authorized(roles = {Role.HR, Role.GM, Role.ADMIN})
     public Response addEmployee(@RequestBody EmployeeVO employeeVO) {
-        employeeService.addEmployee(employeeVO);
-        UserVO userVO = UserVO.builder()
-                .name(employeeVO.getPhone())
-                .role(employeeVO.getRole())
-                .password("123456")
-                .build();
-        userService.register(userVO);
-        return Response.buildSuccess();
+        try {
+            employeeService.addEmployee(employeeVO);
+            UserVO userVO = UserVO.builder()
+                    .name(employeeVO.getPhone())
+                    .role(employeeVO.getRole())
+                    .password("123456")
+                    .build();
+            userService.register(userVO);
+            return Response.buildSuccess("添加员工成功");
+        } catch (MyServiceException e) {
+            return Response.buildFailed(e.getCode(), e.getMessage());
+        } catch (Exception e) {
+            return Response.buildFailed("111111", "Unknown Exception");
+        }
     }
 
     /**
@@ -51,8 +64,14 @@ public class EmployeeController {
     @PostMapping("/update")
     @Authorized(roles = {Role.HR, Role.GM, Role.ADMIN})
     public Response updateEmployee(@RequestBody EmployeeVO employeeVO) {
-        employeeService.updateEmployee(employeeVO);
-        return Response.buildSuccess();
+        try {
+            employeeService.updateEmployee(employeeVO);
+            return Response.buildSuccess();
+        } catch (MyServiceException e) {
+            return Response.buildFailed(e.getCode(), e.getMessage());
+        } catch (Exception e) {
+            return Response.buildFailed("111111", "Unknown Exception");
+        }
     }
 
     /**
@@ -61,8 +80,14 @@ public class EmployeeController {
     @GetMapping("/delete")
     @Authorized(roles = {Role.ADMIN, Role.GM, Role.HR})
     public Response deleteEmployee(@RequestParam(value = "id") int id) {
-        employeeService.deleteEmployeeById(id);
-        return Response.buildSuccess();
+        try {
+            employeeService.deleteEmployeeById(id);
+            return Response.buildSuccess();
+        } catch (MyServiceException e) {
+            return Response.buildFailed(e.getCode(), e.getMessage());
+        } catch (Exception e) {
+            return Response.buildFailed("111111", "Unknown Exception");
+        }
     }
 
     /**
@@ -71,8 +96,14 @@ public class EmployeeController {
     @PostMapping("/add-punch")
     @Authorized(roles = {Role.HR, Role.GM, Role.ADMIN})
     public Response addPunch(@RequestBody EmployeePunchVO employeePunchVO) {
-        employeeService.addPunch(employeePunchVO);
-        return Response.buildSuccess();
+        try {
+            employeeService.addPunch(employeePunchVO);
+            return Response.buildSuccess();
+        } catch (MyServiceException e) {
+            return Response.buildFailed(e.getCode(), e.getMessage());
+        } catch (Exception e) {
+            return Response.buildFailed("111111", "Unknown Exception");
+        }
     }
 
     /**
@@ -81,6 +112,12 @@ public class EmployeeController {
     @GetMapping("/show-punch")
     @Authorized(roles = {Role.ADMIN, Role.GM, Role.HR})
     public Response showPunch(@RequestParam(value = "id") int id) {
-        return Response.buildSuccess(employeeService.showPunchByEmployeeId(id));
+        try {
+            return Response.buildSuccess(employeeService.showPunchByEmployeeId(id));
+        } catch (MyServiceException e) {
+            return Response.buildFailed(e.getCode(), e.getMessage());
+        } catch (Exception e) {
+            return Response.buildFailed("111111", "Unknown Exception");
+        }
     }
 }
