@@ -107,6 +107,13 @@
             <version>3.9</version>
         </dependency>
 
+        <!-- java对象和json对象的转换 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.62</version>
+        </dependency>
+
 
     </dependencies>
 
