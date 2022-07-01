@@ -92,4 +92,16 @@ public class EmployeeServiceImpl implements EmployeeService {
         List<EmployeePunchPO> employeePunchPOS = employeeDao.getPunchByEmployeeId(eid);
         return employeePunchPOS.size();
     }
+
+    @Override
+    public List<EmployeePunchVO> showPunchByEmployeeId(Integer eid) {
+        List<EmployeePunchPO> employeePunchPOS = employeeDao.getPunchByEmployeeId(eid);
+        List<EmployeePunchVO> employeePunchVOS = new ArrayList<>();
+        for (EmployeePunchPO employeePunchPO : employeePunchPOS) {
+            EmployeePunchVO employeePunchVO = new EmployeePunchVO();
+            BeanUtils.copyProperties(employeePunchPO, employeePunchVO);
+            employeePunchVOS.add(employeePunchVO);
+        }
+        return employeePunchVOS;
+    }
 }
