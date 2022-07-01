@@ -3,12 +3,9 @@ package com.nju.edu.erp.service.Impl;
 import com.auth0.jwt.interfaces.Claim;
 import com.nju.edu.erp.config.JwtConfig;
 import com.nju.edu.erp.dao.UserDao;
-import com.nju.edu.erp.dao.UserInfoDao;
 import com.nju.edu.erp.enums.Role;
 import com.nju.edu.erp.exception.MyServiceException;
 import com.nju.edu.erp.model.po.User;
-import com.nju.edu.erp.model.po.UserInfo;
-import com.nju.edu.erp.model.vo.UserInfoVO;
 import com.nju.edu.erp.model.vo.UserVO;
 import com.nju.edu.erp.service.UserService;
 import org.springframework.beans.BeanUtils;
@@ -23,13 +20,11 @@ import java.util.Map;
 public class UserServiceImpl implements UserService {
 
     private final UserDao userDao;
-    private final UserInfoDao userInfoDao;
     private final JwtConfig jwtConfig;
 
     @Autowired
-    public UserServiceImpl(UserDao userDao, UserInfoDao userInfoDao, JwtConfig jwtConfig) {
+    public UserServiceImpl(UserDao userDao, JwtConfig jwtConfig) {
         this.userDao = userDao;
-        this.userInfoDao = userInfoDao;
         this.jwtConfig = jwtConfig;
     }
 
@@ -65,12 +60,5 @@ public class UserServiceImpl implements UserService {
                 .role(Role.valueOf(claims.get("role").as(String.class)))
                 .build();
         return userVO;
-    }
-
-    @Override
-    public void createUserInfo(UserInfoVO userInfoVO) {
-        UserInfo userInfo = new UserInfo();
-        BeanUtils.copyProperties(userInfoVO, userInfo);
-        userInfoDao.createUserInfo(userInfo);
     }
 }

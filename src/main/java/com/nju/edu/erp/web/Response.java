@@ -25,8 +25,6 @@ public class Response {
         return new Response("00000", "Success", "操作成功");
     }
 
-    ;
-
     public static Response buildFailed(String code, RuntimeException e) {
         return new Response(code, e.getLocalizedMessage(), null);
     }
