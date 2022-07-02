@@ -1,4 +1,4 @@
-package com.nju.edu.erp.CategoryTest;
+package com.nju.edu.erp.category;
 
 import com.nju.edu.erp.dao.CategoryDao;
 import com.nju.edu.erp.model.po.CategoryPO;
@@ -17,7 +17,7 @@ import java.util.List;
 
 
 @RunWith(MockitoJUnitRunner.class)
-public class CategoryTests {
+public class CategoryTest {
 
     @InjectMocks
     CategoryServiceImpl categoryService1;

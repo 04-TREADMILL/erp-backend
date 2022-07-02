@@ -6,11 +6,14 @@ import com.nju.edu.erp.exception.MyServiceException;
 import com.nju.edu.erp.model.vo.UserVO;
 import com.nju.edu.erp.model.vo.employee.EmployeePunchVO;
 import com.nju.edu.erp.model.vo.employee.EmployeeVO;
+import com.nju.edu.erp.service.AccountService;
 import com.nju.edu.erp.service.EmployeeService;
 import com.nju.edu.erp.service.UserService;
 import com.nju.edu.erp.web.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
 
 @RestController
 @RequestMapping(path = "/employee")
@@ -18,11 +21,13 @@ public class EmployeeController {
 
     private final EmployeeService employeeService;
     private final UserService userService;
+    private final AccountService accountService;
 
     @Autowired
-    public EmployeeController(EmployeeService employeeService, UserService userService) {
+    public EmployeeController(EmployeeService employeeService, UserService userService, AccountService accountService) {
         this.employeeService = employeeService;
         this.userService = userService;
+        this.accountService = accountService;
     }
 
     @GetMapping("/show")
@@ -50,6 +55,7 @@ public class EmployeeController {
                     .password("123456")
                     .build();
             userService.register(userVO);
+            accountService.createAccount(employeeVO.getAccount(), BigDecimal.ZERO);
             return Response.buildSuccess("添加员工成功");
         } catch (MyServiceException e) {
             return Response.buildFailed(e.getCode(), e.getMessage());

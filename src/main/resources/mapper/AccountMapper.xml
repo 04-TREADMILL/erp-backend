@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nju.edu.erp.dao.AccountDao">
+
+    <insert id="createAccount" parameterType="AccountPO">
+        insert into account (`name`, `amount`)
+        values (#{name}, #{amount})
+    </insert>
+
+    <select id="findByAccountName" resultMap="AccountPO">
+        select * from account where name = #{name}
+    </select>
+
+    <select id="findAll" resultMap="AccountPO">
+        select * from account
+    </select>
+
+    <update id="updateByName" parameterType="AccountPO">
+        update account
+        <set>
+            amount = #{amount},
+        </set>
+        where `name` = #{name}
+    </update>
+
+    <delete id="deleteByName">
+        delete from account where `name` = #{name}
+    </delete>
+
+    <resultMap id="AccountPO" type="com.nju.edu.erp.model.po.AccountPO">
+        <id column="name" property="name"/>
+        <result column="amount" property="amount"/>
+    </resultMap>
+
+</mapper>

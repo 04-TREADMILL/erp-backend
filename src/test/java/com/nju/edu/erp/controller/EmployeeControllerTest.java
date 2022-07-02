@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.nju.edu.erp.enums.Role;
 import com.nju.edu.erp.model.vo.employee.EmployeePunchVO;
 import com.nju.edu.erp.model.vo.employee.EmployeeVO;
+import com.nju.edu.erp.service.AccountService;
 import com.nju.edu.erp.service.EmployeeService;
 import com.nju.edu.erp.service.UserService;
 import com.nju.edu.erp.web.controller.EmployeeController;
@@ -20,11 +21,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
-import static org.springframework.test.web.servlet.setup.SharedHttpSessionConfigurer.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -36,12 +33,14 @@ public class EmployeeControllerTest {
     EmployeeService employeeService;
     @Autowired
     UserService userService;
+    @Autowired
+    AccountService accountService;
 
     MockMvc mockMvc;
 
     @BeforeEach
     void setUp(WebApplicationContext wac) {
-        this.mockMvc = MockMvcBuilders.standaloneSetup(new EmployeeController(employeeService, userService)).build();
+        this.mockMvc = MockMvcBuilders.standaloneSetup(new EmployeeController(employeeService, userService, accountService)).build();
     }
 
     @Test
