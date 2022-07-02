@@ -1,4 +1,4 @@
-package com.nju.edu.erp.account;
+package com.nju.edu.erp.mockito;
 
 import com.nju.edu.erp.dao.AccountDao;
 import com.nju.edu.erp.model.po.AccountPO;

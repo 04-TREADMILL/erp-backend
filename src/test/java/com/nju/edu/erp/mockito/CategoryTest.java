@@ -1,4 +1,4 @@
-package com.nju.edu.erp.category;
+package com.nju.edu.erp.mockito;
 
 import com.nju.edu.erp.dao.CategoryDao;
 import com.nju.edu.erp.model.po.CategoryPO;
