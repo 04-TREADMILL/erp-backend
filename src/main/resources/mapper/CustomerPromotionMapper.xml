@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nju.edu.erp.dao.CustomerPromotionDao">
+
+    <insert id="createPromotion" parameterType="com.nju.edu.erp.model.po.CustomerPromotionPO"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into `customer_promotion_strategy` (`level`, `discount`, `amount`, `begin_time`, `end_time`)
+        values (#{level}, #{discount}, #{amount}, #{beginTime}, #{endTime})
+    </insert>
+
+    <delete id="deletePromotionById">
+        delete from `customer_promotion_strategy` where id = #{id}
+    </delete>
+
+    <select id="showPromotions" resultType="com.nju.edu.erp.model.po.CustomerPromotionPO">
+        select * from `customer_promotion_strategy`
+    </select>
+
+    <select id="getPromotionById" resultType="com.nju.edu.erp.model.po.CustomerPromotionPO">
+        select * from `customer_promotion_strategy` where id = #{id}
+    </select>
+
+    <resultMap id="CustomerPromotionPO" type="com.nju.edu.erp.model.po.CustomerPromotionPO">
+        <id column="id" property="id"/>
+        <result column="level" property="level"/>
+        <result column="discount" property="discount"/>
+        <result column="amount" property="amount"/>
+        <result column="begin_time" property="beginTime"/>
+        <result column="end_time" property="endTime"/>
+    </resultMap>
+
+</mapper>

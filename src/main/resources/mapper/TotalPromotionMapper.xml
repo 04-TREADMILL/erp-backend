@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nju.edu.erp.dao.TotalPromotionDao">
+
+    <insert id="createPromotion" parameterType="com.nju.edu.erp.model.po.TotalPromotionPO"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into `total_promotion_strategy` (`condition`, `amount`, `begin_time`, `end_time`)
+        values (#{condition}, #{amount}, #{beginTime}, #{endTime})
+    </insert>
+
+    <delete id="deletePromotionById">
+        delete from `total_promotion_strategy` where id = #{id}
+    </delete>
+
+    <select id="showPromotions" resultType="com.nju.edu.erp.model.po.TotalPromotionPO">
+        select * from `total_promotion_strategy`
+    </select>
+
+    <select id="getPromotionById" resultType="com.nju.edu.erp.model.po.TotalPromotionPO">
+        select * from `total_promotion_strategy` where id = #{id}
+    </select>
+
+    <resultMap id="TotalPromotionPO" type="com.nju.edu.erp.model.po.TotalPromotionPO">
+        <id column="id" property="id"/>
+        <result column="condition" property="condition"/>
+        <result column="amount" property="amount"/>
+        <result column="begin_time" property="beginTime"/>
+        <result column="end_time" property="endTime"/>
+    </resultMap>
+
+</mapper>
