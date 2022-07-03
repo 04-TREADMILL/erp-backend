@@ -1,6 +1,5 @@
 package com.nju.edu.erp.web.controller;
 
-
 import com.nju.edu.erp.auth.Authorized;
 import com.nju.edu.erp.enums.Role;
 import com.nju.edu.erp.enums.sheetState.SaleSheetState;
@@ -8,15 +7,11 @@ import com.nju.edu.erp.exception.MyServiceException;
 import com.nju.edu.erp.model.po.CustomerPurchaseAmountPO;
 import com.nju.edu.erp.model.vo.Sale.SaleSheetVO;
 import com.nju.edu.erp.model.vo.UserVO;
-import com.nju.edu.erp.model.vo.promotion.CustomerPromotionVO;
-import com.nju.edu.erp.model.vo.promotion.TotalPromotionVO;
 import com.nju.edu.erp.service.SaleService;
 import com.nju.edu.erp.service.strategy.PromotionStrategy;
 import com.nju.edu.erp.web.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.math.BigDecimal;
 
 @RestController
 @RequestMapping(path = "/sale")
