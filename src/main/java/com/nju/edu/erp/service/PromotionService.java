@@ -9,4 +9,6 @@ public interface PromotionService {
     void addPromotion(Object promotionVO);
 
     List<Object> getPromotions();
+
+    Object getLatestPromotion(String message);
 }

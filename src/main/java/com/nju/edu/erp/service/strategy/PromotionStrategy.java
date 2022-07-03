@@ -36,4 +36,9 @@ public class PromotionStrategy {
         PromotionService promotionService = getPromotion(type);
         return promotionService.getPromotions();
     }
+
+    public Object getOnePromotionByType(String type, String message) {
+        PromotionService promotionService = getPromotion(type);
+        return promotionService.getLatestPromotion(message);
+    }
 }

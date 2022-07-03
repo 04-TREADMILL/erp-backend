@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.nju.edu.erp.dao.CustomerPromotionDao;
 import com.nju.edu.erp.exception.MyServiceException;
 import com.nju.edu.erp.model.po.CustomerPromotionPO;
+import com.nju.edu.erp.model.po.TotalPromotionPO;
 import com.nju.edu.erp.model.vo.promotion.CustomerPromotionVO;
 import com.nju.edu.erp.service.PromotionService;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +12,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Component("customer")
@@ -53,5 +57,30 @@ public class CustomerPromotionServiceImpl implements PromotionService {
             promotionVOS.add(promotionVO);
         }
         return promotionVOS;
+    }
+
+    @Override
+    public Object getLatestPromotion(String message) {
+        List<CustomerPromotionPO> promotionPOS = promotionDao.showPromotions();
+        CustomerPromotionPO targetPO = null;
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        String now = format.format(new Date());
+        for (CustomerPromotionPO po : promotionPOS) {
+            String begin = format.format(po.getBeginTime());
+            String end = format.format(po.getEndTime());
+            if (po.getLevel() == Integer.parseInt(message)
+                    && Integer.parseInt(now) >= Integer.parseInt(begin)
+                    && Integer.parseInt(now) <= Integer.parseInt(end)) {
+                if (targetPO == null) {
+                    targetPO = po;
+                } else {
+                    targetPO = targetPO.getDiscount().compareTo(po.getDiscount()) < 0 ? targetPO : po;
+                }
+            }
+        }
+        if (targetPO == null) return null;
+        CustomerPromotionVO targetVO = new CustomerPromotionVO();
+        BeanUtils.copyProperties(targetPO, targetVO);
+        return targetVO;
     }
 }

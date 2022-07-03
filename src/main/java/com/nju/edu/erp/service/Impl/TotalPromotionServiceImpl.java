@@ -3,10 +3,7 @@ package com.nju.edu.erp.service.Impl;
 import com.alibaba.fastjson.JSONObject;
 import com.nju.edu.erp.dao.TotalPromotionDao;
 import com.nju.edu.erp.exception.MyServiceException;
-import com.nju.edu.erp.model.po.CustomerPromotionPO;
 import com.nju.edu.erp.model.po.TotalPromotionPO;
-import com.nju.edu.erp.model.vo.promotion.CustomerPromotionVO;
-import com.nju.edu.erp.model.vo.promotion.PromotionVO;
 import com.nju.edu.erp.model.vo.promotion.TotalPromotionVO;
 import com.nju.edu.erp.service.PromotionService;
 import lombok.extern.slf4j.Slf4j;
@@ -14,8 +11,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Component("total")
 @Slf4j
@@ -56,5 +54,30 @@ public class TotalPromotionServiceImpl implements PromotionService {
             promotionVOS.add(promotionVO);
         }
         return promotionVOS;
+    }
+
+    @Override
+    public Object getLatestPromotion(String message) {
+        List<TotalPromotionPO> promotionPOS = promotionDao.showPromotions();
+        TotalPromotionPO targetPO = null;
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        String now = format.format(new Date());
+        for (TotalPromotionPO po : promotionPOS) {
+            String begin = format.format(po.getBeginTime());
+            String end = format.format(po.getEndTime());
+            if (po.getCondition().compareTo(BigDecimal.valueOf(Double.parseDouble(message))) <= 0
+                    && Integer.parseInt(now) >= Integer.parseInt(begin)
+                    && Integer.parseInt(now) <= Integer.parseInt(end)) {
+                if (targetPO == null) {
+                    targetPO = po;
+                } else {
+                    targetPO = targetPO.getCondition().compareTo(po.getCondition()) > 0 ? targetPO : po;
+                }
+            }
+        }
+        if (targetPO == null) return null;
+        TotalPromotionVO targetVO = new TotalPromotionVO();
+        BeanUtils.copyProperties(targetPO, targetVO);
+        return targetVO;
     }
 }

@@ -3,27 +3,56 @@ package com.nju.edu.erp.web.controller;
 
 import com.nju.edu.erp.auth.Authorized;
 import com.nju.edu.erp.enums.Role;
-import com.nju.edu.erp.enums.sheetState.PurchaseSheetState;
 import com.nju.edu.erp.enums.sheetState.SaleSheetState;
+import com.nju.edu.erp.exception.MyServiceException;
 import com.nju.edu.erp.model.po.CustomerPurchaseAmountPO;
 import com.nju.edu.erp.model.vo.Sale.SaleSheetVO;
 import com.nju.edu.erp.model.vo.UserVO;
+import com.nju.edu.erp.model.vo.promotion.CustomerPromotionVO;
+import com.nju.edu.erp.model.vo.promotion.TotalPromotionVO;
 import com.nju.edu.erp.service.SaleService;
+import com.nju.edu.erp.service.strategy.PromotionStrategy;
 import com.nju.edu.erp.web.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.charset.StandardCharsets;
+import java.math.BigDecimal;
 
 @RestController
 @RequestMapping(path = "/sale")
 public class SaleController {
 
     private final SaleService saleService;
+    private final PromotionStrategy promotionStrategy;
 
     @Autowired
-    public SaleController(SaleService saleService) {
+    public SaleController(SaleService saleService, PromotionStrategy promotionStrategy) {
         this.saleService = saleService;
+        this.promotionStrategy = promotionStrategy;
+    }
+
+    @GetMapping("/get-total-promotion")
+    @Authorized(roles = {Role.SALE_STAFF, Role.SALE_MANAGER, Role.GM, Role.ADMIN})
+    public Response getTotalPromotion(@RequestParam("total") String total) {
+        try {
+            return Response.buildSuccess(promotionStrategy.getOnePromotionByType("total", total));
+        } catch (MyServiceException e) {
+            return Response.buildFailed(e.getCode(), e.getMessage());
+        } catch (Exception e) {
+            return Response.buildFailed("111111", "Unknown Exception");
+        }
+    }
+
+    @GetMapping("/get-customer-promotion")
+    @Authorized(roles = {Role.SALE_STAFF, Role.SALE_MANAGER, Role.GM, Role.ADMIN})
+    public Response getCustomerPromotion(@RequestParam("level") String level) {
+        try {
+            return Response.buildSuccess(promotionStrategy.getOnePromotionByType("customer", level));
+        } catch (MyServiceException e) {
+            return Response.buildFailed(e.getCode(), e.getMessage());
+        } catch (Exception e) {
+            return Response.buildFailed("111111", "Unknown Exception");
+        }
     }
 
     /**
