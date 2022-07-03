@@ -20,7 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
@@ -165,5 +167,22 @@ public class PromotionControllerTest {
         String responseJSONStr = result.getResponse().getContentAsString();
         Response response = JSONObject.parseObject(responseJSONStr, Response.class);
         Assertions.assertEquals("unknown promotion type", response.getMsg());
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void showPromotionsTest() throws Exception {
+        MvcResult result = this.mockMvc.perform(
+                get("/promotion/show")
+                        .param("promotionType", "total")
+                        .accept(MediaType.APPLICATION_JSON)
+        ).andReturn();
+        String responseJSONStr = result.getResponse().getContentAsString();
+        Response response = JSONObject.parseObject(responseJSONStr, Response.class);
+        Assertions.assertEquals("Success", response.getMsg());
+        System.out.println(response.getResult());
+        List<Object> resultList = (List<Object>) response.getResult();
+        Assertions.assertEquals(1, resultList.size());
     }
 }
