@@ -110,7 +110,60 @@ public class PromotionControllerTest {
     @Test
     @Transactional
     @Rollback
-    public void deletePromotionTest() throws Exception {
+    public void deletePromotionTest1() throws Exception {
+        MvcResult result = this.mockMvc.perform(
+                get("/promotion/delete")
+                        .param("promotionType", "customer")
+                        .param("promotionId", "13")
+                        .accept(MediaType.APPLICATION_JSON)
+        ).andReturn();
+        String responseJSONStr = result.getResponse().getContentAsString();
+        Response response = JSONObject.parseObject(responseJSONStr, Response.class);
+        Assertions.assertEquals("Success", response.getMsg());
+    }
 
+    @Test
+    @Transactional
+    @Rollback
+    public void deletePromotionTest2() throws Exception {
+        MvcResult result = this.mockMvc.perform(
+                get("/promotion/delete")
+                        .param("promotionType", "total")
+                        .param("promotionId", "2")
+                        .accept(MediaType.APPLICATION_JSON)
+        ).andReturn();
+        String responseJSONStr = result.getResponse().getContentAsString();
+        Response response = JSONObject.parseObject(responseJSONStr, Response.class);
+        Assertions.assertEquals("Success", response.getMsg());
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void deletePromotionTest3() throws Exception {
+        MvcResult result = this.mockMvc.perform(
+                get("/promotion/delete")
+                        .param("promotionType", "total")
+                        .param("promotionId", "100")
+                        .accept(MediaType.APPLICATION_JSON)
+        ).andReturn();
+        String responseJSONStr = result.getResponse().getContentAsString();
+        Response response = JSONObject.parseObject(responseJSONStr, Response.class);
+        Assertions.assertEquals("123456", response.getCode());
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void deletePromotionTest4() throws Exception {
+        MvcResult result = this.mockMvc.perform(
+                get("/promotion/delete")
+                        .param("promotionType", "???")
+                        .param("promotionId", "3")
+                        .accept(MediaType.APPLICATION_JSON)
+        ).andReturn();
+        String responseJSONStr = result.getResponse().getContentAsString();
+        Response response = JSONObject.parseObject(responseJSONStr, Response.class);
+        Assertions.assertEquals("unknown promotion type", response.getMsg());
     }
 }
