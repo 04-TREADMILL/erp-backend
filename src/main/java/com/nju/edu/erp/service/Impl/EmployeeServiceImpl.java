@@ -26,10 +26,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void addEmployee(EmployeeVO employeeVO) {
-//        EmployeePO employeePO = employeeDao.findEmployeeById(employeeVO.getId());
-//        if (employeePO != null) {
-//            throw new MyServiceException("A0003", "员工已存在");
-//        }
         EmployeePO employeeSave = new EmployeePO();
         BeanUtils.copyProperties(employeeVO, employeeSave);
         employeeDao.createEmployee(employeeSave);
@@ -56,10 +52,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void addPunch(EmployeePunchVO employeePunchVO) {
-//        EmployeePunchPO employeePunchPO = employeeDao.getPunchById(employeePunchVO.getId());
-//        if (employeePunchPO != null) {
-//            throw new MyServiceException("A0004", "打卡记录已存在");
-//        }
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         String date = format.format(employeePunchVO.getPunchTime());
         List<EmployeePunchPO> employeePunchPOS = employeeDao.getPunchByEmployeeId(employeePunchVO.getEid());
