@@ -184,4 +184,16 @@ public class PromotionControllerTest {
         List<Object> resultList = (List<Object>) response.getResult();
         Assertions.assertEquals(1, resultList.size());
     }
+
+    @Test
+    public void getOnePromotionTest() {
+        Object obj1 = promotionStrategy.getOnePromotionByType("total", "4000");
+        Object obj2 = promotionStrategy.getOnePromotionByType("total", "7000");
+        Assertions.assertNull(obj1);
+        Assertions.assertNotNull(obj2);
+        Object obj3 = promotionStrategy.getOnePromotionByType("customer", "3");
+        Object obj4 = promotionStrategy.getOnePromotionByType("customer", "2");
+        Assertions.assertNull(obj3);
+        Assertions.assertNotNull(obj4);
+    }
 }
