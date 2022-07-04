@@ -1,6 +1,7 @@
 package com.nju.edu.erp.dao;
 
 import com.nju.edu.erp.enums.sheetState.ReceiptSheetState;
+import com.nju.edu.erp.model.po.PaymentSheetPO;
 import com.nju.edu.erp.model.po.ReceiptSheetPO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -10,6 +11,8 @@ import java.util.List;
 @Repository
 @Mapper
 public interface ReceiptSheetDao {
+
+    ReceiptSheetPO getLatest();
 
     int save(ReceiptSheetPO toSave);
 
