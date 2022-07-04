@@ -40,7 +40,7 @@ public class PromotionControllerTest {
 
     @Test
     @Transactional
-    @Rollback(value = false)
+    @Rollback
     public void addPromotionTest1() throws Exception {
         TotalPromotionVO promotionVO = TotalPromotionVO.childBuilder()
                 .condition(BigDecimal.valueOf(5000))
@@ -115,7 +115,7 @@ public class PromotionControllerTest {
         MvcResult result = this.mockMvc.perform(
                 get("/promotion/delete")
                         .param("promotionType", "customer")
-                        .param("promotionId", "13")
+                        .param("promotionId", "22")
                         .accept(MediaType.APPLICATION_JSON)
         ).andReturn();
         String responseJSONStr = result.getResponse().getContentAsString();
@@ -130,7 +130,7 @@ public class PromotionControllerTest {
         MvcResult result = this.mockMvc.perform(
                 get("/promotion/delete")
                         .param("promotionType", "total")
-                        .param("promotionId", "2")
+                        .param("promotionId", "11")
                         .accept(MediaType.APPLICATION_JSON)
         ).andReturn();
         String responseJSONStr = result.getResponse().getContentAsString();
@@ -167,6 +167,7 @@ public class PromotionControllerTest {
         Response response = JSONObject.parseObject(responseJSONStr, Response.class);
         Assertions.assertEquals("unknown promotion type", response.getMsg());
     }
+
 
     @Test
     @Transactional
