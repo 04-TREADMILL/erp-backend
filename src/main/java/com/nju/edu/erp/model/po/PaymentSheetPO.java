@@ -1,11 +1,13 @@
 package com.nju.edu.erp.model.po;
 
+import com.nju.edu.erp.enums.sheetState.PaymentSheetState;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -36,4 +38,12 @@ public class PaymentSheetPO {
      * 备注
      */
     private String comment;
+    /**
+     * 单据状态
+     */
+    private PaymentSheetState state;
+    /**
+     * 创建时间
+     */
+    private Date createTime;
 }

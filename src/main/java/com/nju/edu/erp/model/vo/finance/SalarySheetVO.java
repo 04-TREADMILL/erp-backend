@@ -1,11 +1,13 @@
 package com.nju.edu.erp.model.vo.finance;
 
+import com.nju.edu.erp.enums.sheetState.SalarySheetState;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -29,7 +31,23 @@ public class SalarySheetVO {
      */
     private String account;
     /**
-     * 员工工资
+     * 应发工资
      */
-    private BigDecimal salary;
+    private BigDecimal originalSalary;
+    /**
+     * 扣除税款
+     */
+    private BigDecimal tax;
+    /**
+     * 实发工资
+     */
+    private BigDecimal realSalary;
+    /**
+     * 单据状态
+     */
+    private SalarySheetState state;
+    /**
+     * 创建时间
+     */
+    private Date createTime;
 }
