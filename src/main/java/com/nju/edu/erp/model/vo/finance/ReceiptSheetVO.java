@@ -27,7 +27,7 @@ public class ReceiptSheetVO {
      */
     private String operator;
     /**
-     * 销售商银行账户
+     * 公司银行账户
      */
     private String account;
     /**

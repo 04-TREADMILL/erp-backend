@@ -27,7 +27,7 @@ public class PaymentSheetPO {
      */
     private String operator;
     /**
-     * 供应商银行账户
+     * 公司银行账户
      */
     private String account;
     /**

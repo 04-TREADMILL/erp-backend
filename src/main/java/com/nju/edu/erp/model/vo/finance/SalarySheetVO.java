@@ -27,7 +27,7 @@ public class SalarySheetVO {
      */
     private String name;
     /**
-     * 员工银行账户
+     * 公司银行账户
      */
     private String account;
     /**
