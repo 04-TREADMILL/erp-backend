@@ -7,10 +7,7 @@ import com.nju.edu.erp.model.vo.finance.AccountVO;
 import com.nju.edu.erp.service.AccountService;
 import com.nju.edu.erp.web.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 
@@ -48,7 +45,7 @@ public class AccountController {
         }
     }
 
-    @GetMapping("/add")
+    @PostMapping("/add")
     @Authorized(roles = {Role.GM, Role.ADMIN})
     public Response addAccount(@RequestBody AccountVO accountVO) {
         try {
