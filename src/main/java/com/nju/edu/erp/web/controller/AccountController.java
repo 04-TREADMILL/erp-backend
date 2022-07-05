@@ -22,7 +22,7 @@ public class AccountController {
     }
 
     @GetMapping("/show")
-    @Authorized(roles = {Role.GM, Role.ADMIN})
+    @Authorized(roles = {Role.GM, Role.ADMIN, Role.FINANCIAL_STAFF})
     public Response getAllAccounts() {
         try {
             return Response.buildSuccess(accountService.queryAllAccounts());
@@ -34,7 +34,7 @@ public class AccountController {
     }
 
     @GetMapping("/get")
-    @Authorized(roles = {Role.GM, Role.ADMIN})
+    @Authorized(roles = {Role.GM, Role.ADMIN, Role.FINANCIAL_STAFF})
     public Response getAccount(@RequestBody String name) {
         try {
             return Response.buildSuccess(accountService.queryAccount(name));
@@ -46,7 +46,7 @@ public class AccountController {
     }
 
     @PostMapping("/add")
-    @Authorized(roles = {Role.GM, Role.ADMIN})
+    @Authorized(roles = {Role.GM, Role.ADMIN, Role.FINANCIAL_STAFF})
     public Response addAccount(@RequestBody AccountVO accountVO) {
         try {
             accountService.createAccount(accountVO.getName(), accountVO.getAmount());
@@ -59,7 +59,7 @@ public class AccountController {
     }
 
     @GetMapping("/delete")
-    @Authorized(roles = {Role.GM, Role.ADMIN})
+    @Authorized(roles = {Role.GM, Role.ADMIN, Role.FINANCIAL_STAFF})
     public Response deleteAccount(@RequestBody String name) {
         try {
             accountService.deleteAccount(name);
