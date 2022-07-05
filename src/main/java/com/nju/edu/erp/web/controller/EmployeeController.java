@@ -4,9 +4,11 @@ import com.nju.edu.erp.auth.Authorized;
 import com.nju.edu.erp.enums.Role;
 import com.nju.edu.erp.exception.MyServiceException;
 import com.nju.edu.erp.model.vo.UserVO;
+import com.nju.edu.erp.model.vo.employee.AnnualBonusVO;
 import com.nju.edu.erp.model.vo.employee.EmployeePunchVO;
 import com.nju.edu.erp.model.vo.employee.EmployeeVO;
 import com.nju.edu.erp.service.AccountService;
+import com.nju.edu.erp.service.AnnualBonusService;
 import com.nju.edu.erp.service.EmployeeService;
 import com.nju.edu.erp.service.UserService;
 import com.nju.edu.erp.web.Response;
@@ -22,12 +24,14 @@ public class EmployeeController {
     private final EmployeeService employeeService;
     private final UserService userService;
     private final AccountService accountService;
+    private final AnnualBonusService annualBonusService;
 
     @Autowired
-    public EmployeeController(EmployeeService employeeService, UserService userService, AccountService accountService) {
+    public EmployeeController(EmployeeService employeeService, UserService userService, AccountService accountService, AnnualBonusService annualBonusService) {
         this.employeeService = employeeService;
         this.userService = userService;
         this.accountService = accountService;
+        this.annualBonusService = annualBonusService;
     }
 
     @GetMapping("/show")
@@ -120,6 +124,41 @@ public class EmployeeController {
     public Response showPunch(@RequestParam(value = "id") int id) {
         try {
             return Response.buildSuccess(employeeService.showPunchByEmployeeId(id));
+        } catch (MyServiceException e) {
+            return Response.buildFailed(e.getCode(), e.getMessage());
+        } catch (Exception e) {
+            return Response.buildFailed("111111", "Unknown Exception");
+        }
+    }
+
+    /**
+     * 分发年终奖
+     * */
+    @GetMapping("/allocate-annual-bonus")
+    @Authorized(roles = {Role.ADMIN, Role.GM})
+    public Response allocateAnnualBonusByEmployeeId(@RequestParam(value = "id") int id,
+                                                    @RequestParam(value = "extraBonus") BigDecimal extraBonus) {
+        try {
+            EmployeeVO employeeVO = employeeService.getEmployeeById(id);
+            AnnualBonusVO annualBonusVO = annualBonusService.addAnnualBonus(id, employeeVO.getRole(), extraBonus);
+            BigDecimal totalBonus = annualBonusVO.getBaseBonus().add(annualBonusVO.getExtraBonus());
+            accountService.increaseAccountAmount(employeeVO.getAccount(), totalBonus);
+            return Response.buildSuccess();
+        } catch (MyServiceException e) {
+            return Response.buildFailed(e.getCode(), e.getMessage());
+        } catch (Exception e) {
+            return Response.buildFailed("111111", "Unknown Exception");
+        }
+    }
+
+    /**
+     * 查看年终奖
+     * */
+    @GetMapping("/show-annual-bonus")
+    @Authorized(roles = {Role.ADMIN, Role.GM})
+    public Response showAnnualBonusByEmployeeId(@RequestParam(value = "id") int id) {
+        try {
+            return Response.buildSuccess(annualBonusService.getAnnualBonusByEmployeeId(id));
         } catch (MyServiceException e) {
             return Response.buildFailed(e.getCode(), e.getMessage());
         } catch (Exception e) {

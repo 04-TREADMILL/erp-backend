@@ -5,8 +5,10 @@ import com.nju.edu.erp.enums.Role;
 import com.nju.edu.erp.model.vo.employee.EmployeePunchVO;
 import com.nju.edu.erp.model.vo.employee.EmployeeVO;
 import com.nju.edu.erp.service.AccountService;
+import com.nju.edu.erp.service.AnnualBonusService;
 import com.nju.edu.erp.service.EmployeeService;
 import com.nju.edu.erp.service.UserService;
+import com.nju.edu.erp.web.Response;
 import com.nju.edu.erp.web.controller.EmployeeController;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,12 +37,14 @@ public class EmployeeControllerTest {
     UserService userService;
     @Autowired
     AccountService accountService;
+    @Autowired
+    AnnualBonusService annualBonusService;
 
     MockMvc mockMvc;
 
     @BeforeEach
     void setUp(WebApplicationContext wac) {
-        this.mockMvc = MockMvcBuilders.standaloneSetup(new EmployeeController(employeeService, userService, accountService)).build();
+        this.mockMvc = MockMvcBuilders.standaloneSetup(new EmployeeController(employeeService, userService, accountService, annualBonusService)).build();
     }
 
     @Test
@@ -50,7 +54,9 @@ public class EmployeeControllerTest {
         MvcResult result = this.mockMvc.perform(
                 get("/employee/show").accept(MediaType.APPLICATION_JSON)
         ).andReturn();
-        Assertions.assertEquals(200, result.getResponse().getStatus());
+        String responseJSONStr = result.getResponse().getContentAsString();
+        Response response = JSONObject.parseObject(responseJSONStr, Response.class);
+        Assertions.assertEquals("Success", response.getMsg());
     }
 
     @Test
@@ -61,13 +67,13 @@ public class EmployeeControllerTest {
                 .name("赵四")
                 .gender("男")
                 .birthday(new Date())
-                .phone("13323332333")
+                .phone("13323332000")
                 .role(Role.SALE_STAFF)
                 .basicSalary(BigDecimal.valueOf(3000))
                 .postSalary(BigDecimal.valueOf(4000))
                 .salaryGrantingMode("month")
                 .salaryCalculatingMode("default")
-                .account("0123456789")
+                .account("abcdefg")
                 .build();
         String employeeJSONStr = JSONObject.toJSONString(employeeVO);
         MvcResult result = this.mockMvc.perform(
@@ -76,7 +82,9 @@ public class EmployeeControllerTest {
                         .content(employeeJSONStr)
                         .accept(MediaType.APPLICATION_JSON)
         ).andReturn();
-        Assertions.assertEquals(200, result.getResponse().getStatus());
+        String responseJSONStr = result.getResponse().getContentAsString();
+        Response response = JSONObject.parseObject(responseJSONStr, Response.class);
+        Assertions.assertEquals("00000", response.getCode());
     }
 
     @Test
@@ -88,7 +96,9 @@ public class EmployeeControllerTest {
                         .param("id", String.valueOf(17))
                         .accept(MediaType.APPLICATION_JSON)
         ).andReturn();
-        Assertions.assertEquals(200, result.getResponse().getStatus());
+        String responseJSONStr = result.getResponse().getContentAsString();
+        Response response = JSONObject.parseObject(responseJSONStr, Response.class);
+        Assertions.assertEquals("Success", response.getMsg());
     }
 
     @Test
@@ -113,7 +123,9 @@ public class EmployeeControllerTest {
                         .content(employeeJSONStr)
                         .accept(MediaType.APPLICATION_JSON)
         ).andReturn();
-        Assertions.assertEquals(200, result.getResponse().getStatus());
+        String responseJSONStr = result.getResponse().getContentAsString();
+        Response response = JSONObject.parseObject(responseJSONStr, Response.class);
+        Assertions.assertEquals("Success", response.getMsg());
     }
 
     @Test
@@ -131,7 +143,9 @@ public class EmployeeControllerTest {
                         .content(punchVOJSONStr)
                         .accept(MediaType.APPLICATION_JSON)
         ).andReturn();
-        Assertions.assertEquals(200, result.getResponse().getStatus());
+        String responseJSONStr = result.getResponse().getContentAsString();
+        Response response = JSONObject.parseObject(responseJSONStr, Response.class);
+        Assertions.assertEquals("Success", response.getMsg());
     }
 
     @Test
@@ -143,12 +157,29 @@ public class EmployeeControllerTest {
                         .param("id", String.valueOf(17))
                         .accept(MediaType.APPLICATION_JSON)
         ).andReturn();
-        Assertions.assertEquals(200, result.getResponse().getStatus());
+        String responseJSONStr = result.getResponse().getContentAsString();
+        Response response = JSONObject.parseObject(responseJSONStr, Response.class);
+        Assertions.assertEquals("Success", response.getMsg());
     }
 
     @Test
     public void getLatestPunchTimesTest() {
         int times = employeeService.getPunchedTimesInLast30DaysByEmployeeId(17);
         Assertions.assertEquals(1, times);
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void addAnnualBonusTest() throws Exception {
+        MvcResult result = this.mockMvc.perform(
+                get("/employee/allocate-annual-bonus")
+                        .param("id", String.valueOf(59))
+                        .param("extraBonus", String.valueOf(10000))
+                        .accept(MediaType.APPLICATION_JSON)
+        ).andReturn();
+        String responseJSONStr = result.getResponse().getContentAsString();
+        Response response = JSONObject.parseObject(responseJSONStr, Response.class);
+        Assertions.assertEquals("Success", response.getMsg());
     }
 }

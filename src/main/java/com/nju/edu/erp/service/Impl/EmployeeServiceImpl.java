@@ -148,4 +148,12 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
         return employeePunchVOS;
     }
+
+    @Override
+    public EmployeeVO getEmployeeById(Integer id) {
+        EmployeePO employeePO = employeeDao.findEmployeeById(id);
+        EmployeeVO employeeVO = new EmployeeVO();
+        BeanUtils.copyProperties(employeePO, employeeVO);
+        return employeeVO;
+    }
 }
