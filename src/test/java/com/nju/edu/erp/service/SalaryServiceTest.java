@@ -43,8 +43,8 @@ public class SalaryServiceTest {
         AccountVO accountVO = accountService.queryAccount("core");
         BigDecimal prevAmount = accountVO.getAmount();
 
-        salaryService.approval("GZD-20220705-00000", SalarySheetState.SUCCESS);
-        SalarySheetVO sheet = salaryService.getSalarySheetById("GZD-20220705-00000");
+        salaryService.approval("GZD-20220605-00000", SalarySheetState.SUCCESS);
+        SalarySheetVO sheet = salaryService.getSalarySheetById("GZD-20220605-00000");
         Assertions.assertEquals(SalarySheetState.SUCCESS, sheet.getState());
 
         accountVO = accountService.queryAccount("core");
@@ -57,8 +57,8 @@ public class SalaryServiceTest {
     @Transactional
     @Rollback
     public void approval_failure() {
-        salaryService.approval("GZD-20220705-00000", SalarySheetState.FAILURE);
-        SalarySheetVO sheet = salaryService.getSalarySheetById("GZD-20220705-00000");
+        salaryService.approval("GZD-20220605-00000", SalarySheetState.FAILURE);
+        SalarySheetVO sheet = salaryService.getSalarySheetById("GZD-20220605-00000");
         Assertions.assertEquals(SalarySheetState.FAILURE, sheet.getState());
     }
 }
