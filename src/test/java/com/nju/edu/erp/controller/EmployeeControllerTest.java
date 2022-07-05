@@ -145,4 +145,10 @@ public class EmployeeControllerTest {
         ).andReturn();
         Assertions.assertEquals(200, result.getResponse().getStatus());
     }
+
+    @Test
+    public void getLatestPunchTimesTest() {
+        int times = employeeService.getPunchedTimesInLast30DaysByEmployeeId(17);
+        Assertions.assertEquals(1, times);
+    }
 }

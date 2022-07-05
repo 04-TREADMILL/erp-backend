@@ -21,7 +21,7 @@ public interface EmployeeService {
 
     String getEmployeeSalaryCalculatingModeById(Integer id);
 
-    int getPunchedTimesByEmployeeId(Integer eid);
+    int getPunchedTimesInLast30DaysByEmployeeId(Integer eid);
 
     List<EmployeePunchVO> showPunchByEmployeeId(Integer id);
 }
