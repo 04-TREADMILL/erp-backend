@@ -171,11 +171,26 @@ public class EmployeeControllerTest {
     @Test
     @Transactional
     @Rollback
-    public void addAnnualBonusTest() throws Exception {
+    public void addAnnualBonusTest1() throws Exception {
         MvcResult result = this.mockMvc.perform(
                 get("/employee/allocate-annual-bonus")
                         .param("id", String.valueOf(59))
                         .param("extraBonus", String.valueOf(10000))
+                        .accept(MediaType.APPLICATION_JSON)
+        ).andReturn();
+        String responseJSONStr = result.getResponse().getContentAsString();
+        Response response = JSONObject.parseObject(responseJSONStr, Response.class);
+        Assertions.assertEquals("Success", response.getMsg());
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void addAnnualBonusTest2() throws Exception {
+        MvcResult result = this.mockMvc.perform(
+                get("/employee/allocate-annual-bonus")
+                        .param("id", String.valueOf(59))
+                        .param("extraBonus", String.valueOf(-10000))
                         .accept(MediaType.APPLICATION_JSON)
         ).andReturn();
         String responseJSONStr = result.getResponse().getContentAsString();
