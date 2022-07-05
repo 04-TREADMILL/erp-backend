@@ -61,32 +61,6 @@ public class AccountController {
         }
     }
 
-    @GetMapping("/incr")
-    @Authorized(roles = {Role.GM, Role.ADMIN})
-    public Response incrAccount(@RequestBody String name, @RequestBody BigDecimal amount) {
-        try {
-            accountService.increaseAccountAmount(name, amount);
-            return Response.buildSuccess("增加账户金额成功");
-        } catch (MyServiceException e) {
-            return Response.buildFailed(e.getCode(), e.getMessage());
-        } catch (Exception e) {
-            return Response.buildFailed("114514", "未知错误");
-        }
-    }
-
-    @GetMapping("/decr")
-    @Authorized(roles = {Role.GM, Role.ADMIN})
-    public Response decrAccount(@RequestBody String name, @RequestBody BigDecimal amount) {
-        try {
-            accountService.decreaseAccountAmount(name, amount);
-            return Response.buildSuccess("减少账户金额成功");
-        } catch (MyServiceException e) {
-            return Response.buildFailed(e.getCode(), e.getMessage());
-        } catch (Exception e) {
-            return Response.buildFailed("114514", "未知错误");
-        }
-    }
-
     @GetMapping("/delete")
     @Authorized(roles = {Role.GM, Role.ADMIN})
     public Response deleteAccount(@RequestBody String name) {

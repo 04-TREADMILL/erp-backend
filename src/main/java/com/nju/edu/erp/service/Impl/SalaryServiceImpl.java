@@ -11,7 +11,6 @@ import com.nju.edu.erp.service.AccountService;
 import com.nju.edu.erp.service.SalaryService;
 import com.nju.edu.erp.utils.IdGenerator;
 import com.nju.edu.erp.utils.Triplet;
-import com.sun.tools.javac.util.Pair;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +28,7 @@ public class SalaryServiceImpl implements SalaryService {
 
     private final AccountService accountService;
 
-    private static final List<Pair<Double, Pair<BigDecimal, BigDecimal>>> taxMap = new ArrayList<>();
+    private static final List<Triplet<Double, BigDecimal, BigDecimal>> taxMap = new ArrayList<>();
 
     private static final Map<String, BiFunction<EmployeePO, SalarySheetPO, SalarySheetPO>> originSalaryMap = new HashMap<>();
 
@@ -56,10 +55,10 @@ public class SalaryServiceImpl implements SalaryService {
 
     private SalarySheetPO calculateRealSalary(SalarySheetPO salarySheetPO) {
         BigDecimal originalSalary = salarySheetPO.getOriginalSalary();
-        for (Pair<Double, Pair<BigDecimal, BigDecimal>> rule : taxMap) {
-            if ((Triplet.getMid(rule) == null || Triplet.getMid(rule).compareTo(originalSalary) <= 0) &&
-                    (Triplet.getRight(rule) == null || Triplet.getRight(rule).compareTo(originalSalary) >= 0)) {
-                salarySheetPO.setTax(originalSalary.multiply(BigDecimal.valueOf(Triplet.getLeft(rule))));
+        for (Triplet<Double, BigDecimal, BigDecimal> rule : taxMap) {
+            if ((rule.getMid() == null || rule.getMid().compareTo(originalSalary) <= 0) &&
+                    (rule.getRight() == null || rule.getRight().compareTo(originalSalary) >= 0)) {
+                salarySheetPO.setTax(originalSalary.multiply(BigDecimal.valueOf(rule.getLeft())));
                 break;
             }
         }

@@ -1,25 +1,30 @@
 package com.nju.edu.erp.utils;
+public class Triplet<A, B, C> {
 
-import com.sun.tools.javac.util.Pair;
+    public final A left;
+    public final B mid;
 
-public class Triplet {
-    // 从指定的类型参数创建一个三元组
-    public static <L, M, R> Pair<L, Pair<M, R>> of(L left, M mid, R right) {
-        return Pair.of(left, Pair.of(mid, right));
+    public final C right;
+
+    public Triplet(A left, B mid, C right) {
+        this.left = left;
+        this.mid = mid;
+        this.right = right;
     }
 
-    // 返回三元组的左元素
-    public static <L, M, R> L getLeft(Pair<L, Pair<M, R>> pair) {
-        return pair.fst;
+    public A getLeft() {
+        return left;
     }
 
-    // 返回三元组的中间元素
-    public static <L, M, R> M getMid(Pair<L, Pair<M, R>> pair) {
-        return pair.snd.fst;
+    public B getMid() {
+        return mid;
     }
 
-    // 返回三元组的右元素
-    public static <L, M, R> R getRight(Pair<L, Pair<M, R>> pair) {
-        return pair.snd.snd;
+    public C getRight() {
+        return right;
+    }
+
+    public static <A, B, C> Triplet<A, B, C> of(A a, B b, C c) {
+        return new Triplet<>(a, b, c);
     }
 }
