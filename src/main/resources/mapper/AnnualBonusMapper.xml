@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nju.edu.erp.dao.AnnualBonusDao">
+
+    <select id="findAnnualBonusByEmployeeId" resultType="com.nju.edu.erp.model.po.AnnualBonusPO">
+        select * from `annual_bonus` where `eid` = #{eid}
+    </select>
+
+    <insert id="createAnnualBonus" parameterType="com.nju.edu.erp.model.po.AnnualBonusPO"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into `annual_bonus` (`eid`,`base_bonus`, `extra_bonus`)
+        values (#{eid}, #{baseBonus}, #{extraBonus})
+    </insert>
+
+    <resultMap id="AnnualBonusPO" type="com.nju.edu.erp.model.po.AnnualBonusPO">
+        <id column="id" property="id"/>
+        <result column="eid" property="eid"/>
+        <result column="base_bonus" property="baseBonus"/>
+        <result column="extra_bonus" property="extraBonus"/>
+    </resultMap>
+
+</mapper>

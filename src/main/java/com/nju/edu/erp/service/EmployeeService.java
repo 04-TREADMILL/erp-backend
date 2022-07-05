@@ -24,4 +24,6 @@ public interface EmployeeService {
     int getPunchedTimesInLast30DaysByEmployeeId(Integer eid);
 
     List<EmployeePunchVO> showPunchByEmployeeId(Integer id);
+
+    EmployeeVO getEmployeeById(Integer id);
 }
