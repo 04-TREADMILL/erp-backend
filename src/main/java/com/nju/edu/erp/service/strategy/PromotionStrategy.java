@@ -27,7 +27,7 @@ public class PromotionStrategy {
         promotionService.deletePromotionById(id);
     }
 
-    public void addPromotion(String type, Object promotionVO) {
+    public void addPromotion(String type, String promotionVO) {
         PromotionService promotionService = getPromotion(type);
         promotionService.addPromotion(promotionVO);
     }

@@ -36,9 +36,9 @@ public class TotalPromotionServiceImpl implements PromotionService {
     }
 
     @Override
-    public void addPromotion(Object promotionVO) {
-        String str = JSONObject.toJSONString(promotionVO);
-        TotalPromotionVO vo = JSONObject.parseObject(str, TotalPromotionVO.class);
+    public void addPromotion(String promotionVO) {
+//        String str = JSONObject.toJSONString(promotionVO);
+        TotalPromotionVO vo = JSONObject.parseObject(promotionVO, TotalPromotionVO.class);
         TotalPromotionPO po = new TotalPromotionPO();
         BeanUtils.copyProperties(vo, po);
         promotionDao.createPromotion(po);

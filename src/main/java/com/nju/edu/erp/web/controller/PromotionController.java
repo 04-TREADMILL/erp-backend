@@ -22,7 +22,7 @@ public class PromotionController {
     @PostMapping("/add")
     @Authorized(roles = {Role.GM, Role.ADMIN})
     public Response addPromotion(@RequestParam("promotionType") String promotionType,
-                                 @RequestBody Object promotionVO) {
+                                 @RequestBody String promotionVO) {
         try {
             promotionStrategy.addPromotion(promotionType, promotionVO);
             return Response.buildSuccess();
