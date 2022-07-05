@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -91,9 +92,49 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public int getPunchedTimesByEmployeeId(Integer eid) {
+    public int getPunchedTimesInLast30DaysByEmployeeId(Integer eid) {
         List<EmployeePunchPO> employeePunchPOS = employeeDao.getPunchByEmployeeId(eid);
-        return employeePunchPOS.size();
+        int times = 0;
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        for (EmployeePunchPO po : employeePunchPOS) {
+            String punchDateStr = format.format(po.getPunchTime());
+            if (inLast30Days(punchDateStr, format.format(new Date()))) {
+                ++times;
+            }
+        }
+        return times;
+    }
+
+    private boolean inLast30Days(String punchDate, String today) {
+        int year = Integer.parseInt(today.substring(0, 4));
+        int month = Integer.parseInt(today.substring(4, 6));
+        int day = Integer.parseInt(today.substring(6, 8)) - 29;
+        if (day <= 0) {
+            --month;
+            if (month == 0) {
+                --year;
+                month = 12;
+            }
+            if (month == 4 || month == 6 || month == 9 || month == 11) {
+                day += 30;
+            } else if (month == 2) {
+                if ((year % 4 == 0 && year % 100 == 0 && year % 400 == 0)
+                        || (year % 4 == 0 && year % 100 != 0)) {
+                    day += 29;
+                } else {
+                    day += 28;
+                }
+            }
+        }
+        String yearStr = String.valueOf(year);
+        String monthStr = String.valueOf(month);
+        monthStr = monthStr.length() == 1 ? "0" + monthStr : monthStr;
+        String dayStr = String.valueOf(day);
+        dayStr = dayStr.length() == 1 ? "0" + dayStr : dayStr;
+        int left = Integer.parseInt(yearStr + monthStr + dayStr);
+        int right = Integer.parseInt(today);
+        int punch = Integer.parseInt(punchDate);
+        return punch >= left && punch <= right;
     }
 
     @Override
