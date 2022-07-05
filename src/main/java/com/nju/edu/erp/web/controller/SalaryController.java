@@ -3,6 +3,7 @@ package com.nju.edu.erp.web.controller;
 import com.nju.edu.erp.auth.Authorized;
 import com.nju.edu.erp.enums.Role;
 import com.nju.edu.erp.enums.sheetState.SalarySheetState;
+import com.nju.edu.erp.exception.MyServiceException;
 import com.nju.edu.erp.model.vo.finance.SalarySheetVO;
 import com.nju.edu.erp.service.SalaryService;
 import com.nju.edu.erp.web.Response;
@@ -22,8 +23,14 @@ public class SalaryController {
     @Authorized(roles = {Role.GM, Role.ADMIN, Role.FINANCIAL_STAFF})
     @PostMapping(value = "/sheet-make")
     public Response makeSalarySheet(@RequestBody SalarySheetVO salarySheetVO) {
-        salaryService.makeSalarySheet(salarySheetVO);
-        return Response.buildSuccess();
+        try {
+            salaryService.makeSalarySheet(salarySheetVO);
+            return Response.buildSuccess();
+        } catch (MyServiceException e) {
+            return Response.buildFailed(e.getCode(), e.getMessage());
+        } catch (Exception e) {
+            return Response.buildFailed("114514", "未知错误");
+        }
     }
 
     @GetMapping(value = "/approval")

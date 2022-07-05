@@ -2,12 +2,15 @@ package com.nju.edu.erp.service.Impl;
 
 import com.nju.edu.erp.dao.EmployeeDao;
 import com.nju.edu.erp.dao.SalarySheetDao;
+import com.nju.edu.erp.enums.Role;
 import com.nju.edu.erp.enums.sheetState.SalarySheetState;
+import com.nju.edu.erp.exception.MyServiceException;
 import com.nju.edu.erp.model.po.*;
 import com.nju.edu.erp.model.po.SalarySheetPO;
 import com.nju.edu.erp.model.vo.finance.AccountVO;
 import com.nju.edu.erp.model.vo.finance.SalarySheetVO;
 import com.nju.edu.erp.service.AccountService;
+import com.nju.edu.erp.service.EmployeeService;
 import com.nju.edu.erp.service.SalaryService;
 import com.nju.edu.erp.utils.IdGenerator;
 import com.nju.edu.erp.utils.Triplet;
@@ -27,6 +30,8 @@ public class SalaryServiceImpl implements SalaryService {
     private final EmployeeDao employeeDao;
 
     private final AccountService accountService;
+
+    private final EmployeeService employeeService;
 
     private static final List<Triplet<Double, BigDecimal, BigDecimal>> taxMap = new ArrayList<>();
 
@@ -68,15 +73,41 @@ public class SalaryServiceImpl implements SalaryService {
 
     private SalarySheetPO calculateOriginalSalary(SalarySheetPO salarySheetPO) {
         EmployeePO employeePO = employeeDao.findEmployeeById(salarySheetPO.getEmployeeId());
-        // TODO -> punch time
-        return originSalaryMap.get(employeePO.getSalaryCalculatingMode()).apply(employeePO, salarySheetPO);
+        salarySheetPO = originSalaryMap.get(employeePO.getSalaryCalculatingMode()).apply(employeePO, salarySheetPO);
+
+        SalarySheetPO latest = salarySheetDao.getLatestByEmployeeId(salarySheetPO.getEmployeeId());
+        if (employeePO.getRole() != Role.GM) {
+            if (latest != null) {
+                Calendar now = Calendar.getInstance();
+                Calendar prev = Calendar.getInstance();
+                prev.setTime(latest.getCreateTime());
+                if (now.getTimeInMillis() - prev.getTimeInMillis() < 2592000000L) { // 30 * 24 * 60 * 60 * 1000
+                    throw new MyServiceException("654321", "尚未到制定工资单的时间");
+                }
+                int punched_times = employeeService.getPunchedTimesInLast30DaysByEmployeeId(salarySheetPO.getEmployeeId());
+                salarySheetPO.setOriginalSalary(
+                        salarySheetPO.getOriginalSalary().multiply(BigDecimal.valueOf((double) punched_times / 30)));
+            }
+        } else {
+            if (latest != null) {
+                Calendar now = Calendar.getInstance();
+                Calendar prev = Calendar.getInstance();
+                prev.setTime(latest.getCreateTime());
+                if (now.getTimeInMillis() - prev.getTimeInMillis() < 31536000000L) { // 365 * 24 * 60 * 60 * 1000
+                    throw new MyServiceException("654321", "尚未到制定工资单的时间");
+                }
+            }
+        }
+
+        return salarySheetPO;
     }
 
     @Autowired
-    public SalaryServiceImpl(SalarySheetDao salarySheetDao, EmployeeDao employeeDao, AccountService accountService) {
+    public SalaryServiceImpl(SalarySheetDao salarySheetDao, EmployeeDao employeeDao, AccountService accountService, EmployeeService employeeService) {
         this.salarySheetDao = salarySheetDao;
         this.employeeDao = employeeDao;
         this.accountService = accountService;
+        this.employeeService = employeeService;
     }
 
     @Override

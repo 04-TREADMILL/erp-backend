@@ -16,6 +16,9 @@
         where id = #{salarySheetId} and state = #{prevState}
     </update>
 
+    <select id="getLatestByEmployeeId" resultMap="SalarySheetPO">
+        select * from salary_sheet where employee_id = #{employeeId} order by id desc limit 0,1 ;
+    </select>
     <select id="getLatest" resultMap="SalarySheetPO">
         select * from salary_sheet order by id desc limit 0,1 ;
     </select>
