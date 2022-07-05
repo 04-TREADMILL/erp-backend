@@ -103,7 +103,6 @@ public class WarehouseServiceImpl implements WarehouseService {
     @Override
     @Transactional
     public void productOutOfWarehouse(WarehouseOutputFormVO warehouseOutputFormVO) {
-        // TODO 需要进行修改
         /**
          * 商品出库
          * 1. 查到上一次出库单的ID
@@ -207,7 +206,6 @@ public class WarehouseServiceImpl implements WarehouseService {
     @Override
     @Transactional
     public void approvalInputSheet(UserVO user, String warehouseInputSheetId, WarehouseInputSheetState state) {
-        // TODO
         // 也许要加一个修改草稿的接口 此处只是审批通过并修改操作员
         WarehouseInputSheetPO warehouseInputSheetPO = warehouseInputSheetDao.getSheet(warehouseInputSheetId);
         warehouseInputSheetPO.setOperator(user.getName());
@@ -358,7 +356,6 @@ public class WarehouseServiceImpl implements WarehouseService {
      */
     @Override
     public List<WarehouseIODetailPO> getWarehouseIODetailByTime(String beginDateStr, String endDateStr) {
-        // TODO
         /**
          * 1.注意日期的格式转换和转换异常
          * 2.考虑开始时间大于结束时间的情况、查询结果为空的情况
@@ -390,7 +387,6 @@ public class WarehouseServiceImpl implements WarehouseService {
      * @return
      */
     public int getWarehouseInputProductQuantityByTime(String beginDateStr, String endDateStr) {
-        // TODO
         /**
          * 1.注意日期的格式转换和转换异常
          * 2.考虑开始时间大于结束时间的情况、查询结果为空的情况
@@ -422,7 +418,6 @@ public class WarehouseServiceImpl implements WarehouseService {
      * @return
      */
     public int getWarehouseOutProductQuantityByTime(String beginDateStr, String endDateStr) {
-        // TODO
         /**
          * 1.注意日期的格式转换和转换异常
          * 2.考虑开始时间大于结束时间的情况、查询结果为空的情况

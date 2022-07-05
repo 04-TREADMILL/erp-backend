@@ -59,7 +59,6 @@ public class SaleServiceImpl implements SaleService {
     @Override
     @Transactional
     public void makeSaleSheet(UserVO userVO, SaleSheetVO saleSheetVO) {
-        // TODO
         // 需要持久化销售单（SaleSheet）和销售单content（SaleSheetContent），其中总价或者折后价格的计算需要在后端进行
         // 需要的service和dao层相关方法均已提供，可以不用自己再实现一遍
         SaleSheetPO saleSheetPO = new SaleSheetPO();
@@ -96,7 +95,6 @@ public class SaleServiceImpl implements SaleService {
     @Override
     @Transactional
     public List<SaleSheetVO> getSaleSheetByState(SaleSheetState state) {
-        // TODO
         // 根据单据状态获取销售单（注意：VO包含SaleSheetContent）
         // 依赖的dao层部分方法未提供，需要自己实现
         List<SaleSheetVO> saleSheetVOS = new ArrayList<>();
@@ -132,7 +130,6 @@ public class SaleServiceImpl implements SaleService {
     @Override
     @Transactional
     public void approval(String saleSheetId, SaleSheetState state) {
-        // TODO
         // 需要的service和dao层相关方法均已提供，可以不用自己再实现一遍
         /* 一些注意点：
             1. 二级审批成功之后需要进行
