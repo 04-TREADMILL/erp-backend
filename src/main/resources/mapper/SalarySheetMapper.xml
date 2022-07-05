@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nju.edu.erp.dao.SalarySheetDao">
+    <insert id="save" parameterType="SalarySheetPO">
+        insert into salary_sheet (`id`, `employee_id`, `name`, `account`, `original_salary`, `tax`, `real_salary`, `state`, `create_time`)
+        values (#{id}, #{employeeId}, #{name}, #{account}, #{originalSalary}, #{tax}, #{realSalary}, #{state}, #{createTime})
+    </insert>
+    <update id="updateState">
+        update salary_sheet
+        set state = #{state}
+        where id = #{salarySheetId}
+    </update>
+    <update id="updateStateV2">
+        update salary_sheet
+        set state = #{state}
+        where id = #{salarySheetId} and state = #{prevState}
+    </update>
+
+    <select id="getLatest" resultMap="SalarySheetPO">
+        select * from salary_sheet order by id desc limit 0,1 ;
+    </select>
+    <select id="findAll" resultType="com.nju.edu.erp.model.po.SalarySheetPO">
+        select * from salary_sheet;
+    </select>
+    <select id="findAllByState" resultType="com.nju.edu.erp.model.po.SalarySheetPO">
+        select * from salary_sheet where state = #{state}
+    </select>
+    <select id="findOneById" resultType="com.nju.edu.erp.model.po.SalarySheetPO">
+        select * from salary_sheet where id = #{salarySheetId}
+    </select>
+
+    <resultMap id="SalarySheetPO" type="com.nju.edu.erp.model.po.SalarySheetPO">
+        <id column="id" property="id"/>
+        <result column="employee_id" property="employeeId"/>
+        <result column="name" property="name"/>
+        <result column="account" property="account"/>
+        <result column="original_salary" property="originalSalary"/>
+        <result column="tax" property="tax"/>
+        <result column="real_salary" property="realSalary"/>
+        <result column="state" property="state"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+</mapper>

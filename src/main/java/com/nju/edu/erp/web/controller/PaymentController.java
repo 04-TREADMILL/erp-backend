@@ -22,7 +22,7 @@ public class PaymentController {
 
     @Authorized(roles = {Role.GM, Role.ADMIN, Role.FINANCIAL_STAFF})
     @PostMapping(value = "/sheet-make")
-    public Response makePurchaseOrder(UserVO userVO, @RequestBody PaymentSheetVO paymentSheetVO) {
+    public Response makePaymentSheet(UserVO userVO, @RequestBody PaymentSheetVO paymentSheetVO) {
         paymentService.makePaymentSheet(userVO, paymentSheetVO);
         return Response.buildSuccess();
     }

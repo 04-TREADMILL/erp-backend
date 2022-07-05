@@ -11,6 +11,8 @@ import java.util.List;
 @Mapper
 public interface SalarySheetDao {
 
+    SalarySheetPO getLatest();
+
     int save(SalarySheetPO toSave);
 
     List<SalarySheetPO> findAll();

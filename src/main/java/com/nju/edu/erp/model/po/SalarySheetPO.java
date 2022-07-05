@@ -21,7 +21,7 @@ public class SalarySheetPO {
     /**
      * 员工编号
      */
-    private String employeeId;
+    private int employeeId;
     /**
      * 员工姓名
      */

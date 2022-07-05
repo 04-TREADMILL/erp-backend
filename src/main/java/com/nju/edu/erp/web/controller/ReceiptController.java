@@ -22,7 +22,7 @@ public class ReceiptController {
 
     @Authorized(roles = {Role.GM, Role.ADMIN, Role.FINANCIAL_STAFF})
     @PostMapping(value = "/sheet-make")
-    public Response makePurchaseOrder(UserVO userVO, @RequestBody ReceiptSheetVO receiptSheetVO) {
+    public Response makeReceiptSheet(UserVO userVO, @RequestBody ReceiptSheetVO receiptSheetVO) {
         receiptService.makeReceiptSheet(userVO, receiptSheetVO);
         return Response.buildSuccess();
     }
