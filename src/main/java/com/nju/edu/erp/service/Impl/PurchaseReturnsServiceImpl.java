@@ -134,7 +134,7 @@ public class PurchaseReturnsServiceImpl implements PurchaseReturnsService {
      */
     @Override
     @Transactional
-    public void approval(String purchaseReturnsSheetId, PurchaseReturnsSheetState state) { // TODO
+    public void approval(String purchaseReturnsSheetId, PurchaseReturnsSheetState state) {
         PurchaseReturnsSheetPO purchaseReturnsSheet = purchaseReturnsSheetDao.findOneById(purchaseReturnsSheetId);
         if (state.equals(PurchaseReturnsSheetState.FAILURE)) {
             if (purchaseReturnsSheet.getState() == PurchaseReturnsSheetState.SUCCESS)
@@ -153,7 +153,6 @@ public class PurchaseReturnsServiceImpl implements PurchaseReturnsService {
             int effectLines = purchaseReturnsSheetDao.updateStateV2(purchaseReturnsSheetId, prevState, state);
             if (effectLines == 0) throw new RuntimeException("状态更新失败");
             if (state.equals(PurchaseReturnsSheetState.SUCCESS)) {
-                // TODO 审批完成, 修改一系列状态
                 // 进货退货单id， 关联的进货单id 【   进货退货单id->进货单id->入库单id->批次id】
                 Integer batchId = purchaseReturnsSheetDao.findBatchId(purchaseReturnsSheetId);
 

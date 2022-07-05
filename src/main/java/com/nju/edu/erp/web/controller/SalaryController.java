@@ -22,7 +22,6 @@ public class SalaryController {
     @Authorized(roles = {Role.GM, Role.ADMIN, Role.FINANCIAL_STAFF})
     @PostMapping(value = "/sheet-make")
     public Response makeSalarySheet(@RequestBody SalarySheetVO salarySheetVO) {
-        // TODO -> sheet make time constraints
         salaryService.makeSalarySheet(salarySheetVO);
         return Response.buildSuccess();
     }
