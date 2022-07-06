@@ -40,4 +40,12 @@ public class FinanceController {
                                 ))
                         .collect(Collectors.toList()));
     }
+
+    @GetMapping("/profit")
+    @Authorized(roles = {Role.GM, Role.ADMIN, Role.FINANCIAL_STAFF})
+    public Response getProfit(
+            @RequestParam(value = "from") Date from,
+            @RequestParam(value = "to") Date to) {
+        return Response.buildSuccess(financeService.calculateProfit(from, to));
+    }
 }
