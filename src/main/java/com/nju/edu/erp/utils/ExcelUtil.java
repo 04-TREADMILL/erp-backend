@@ -1,5 +1,6 @@
 package com.nju.edu.erp.utils;
 
+import com.nju.edu.erp.model.vo.finance.SaleDetailVO;
 import com.nju.edu.erp.model.vo.product.ProductInfoVO;
 import com.nju.edu.erp.model.vo.warehouse.WarehouseCountingVO;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -18,9 +19,55 @@ import java.util.List;
 
 public class ExcelUtil {
 
+    public static void exportSaleDetailExcel(HttpServletResponse response, List<SaleDetailVO> items) {
+        Date date = new Date();
+        Workbook wb = createSaleDetailWorkbook(date, items);
+        try {
+            response.reset();
+            response.setHeader("Content-Disposition", "attachment;filename=sale-detail-snapshot");
+            OutputStream os = new BufferedOutputStream(response.getOutputStream());
+            response.setContentType("application/vnd.ms-excel;charset=gb2312");
+            wb.write(os);
+            os.flush();
+            os.close();
+            System.out.println("导出库存快照excel成功!");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("导出库存快照excel失败!");
+        }
+    }
+
+    public static Workbook createSaleDetailWorkbook(Date date, List<SaleDetailVO> items) {
+        Workbook wb = new HSSFWorkbook();
+        Sheet sheet = wb.createSheet("sale-detail-snapshot-" + date.toString());
+        Row titleRow = sheet.createRow(0);
+        titleRow.createCell(0).setCellValue("时间");
+        titleRow.createCell(1).setCellValue("商品名");
+        titleRow.createCell(2).setCellValue("商品型号");
+        titleRow.createCell(3).setCellValue("商品数量");
+        titleRow.createCell(4).setCellValue("商品单价");
+        titleRow.createCell(5).setCellValue("商品金额");
+        titleRow.createCell(6).setCellValue("业务员");
+        titleRow.createCell(7).setCellValue("客户编号");
+        for (int i = 0; i < items.size(); ++i) {
+            SaleDetailVO item = items.get(i);
+            Row row = sheet.createRow(i + 1);
+            row.createCell(0).setCellValue(item.getTime() == null ? "" : item.getTime());
+            row.createCell(1).setCellValue(item.getName() == null ? "" : item.getName());
+            row.createCell(2).setCellValue(item.getType() == null ? "" : item.getType());
+            row.createCell(3).setCellValue(item.getQuantity() == null ? "" : item.getQuantity().toString());
+            row.createCell(4).setCellValue(item.getUnitPrice() == null ? "" : item.getUnitPrice().toString());
+            row.createCell(5).setCellValue(item.getTotalPrice() == null ? "" : item.getTotalPrice().toString());
+            row.createCell(6).setCellValue(item.getSalesman() == null ? "" : item.getSalesman());
+            row.createCell(7).setCellValue(item.getSeller() == null ? "" : item.getSeller().toString());
+        }
+        return wb;
+    }
+
     public static void exportWarehouseExcel(HttpServletResponse response, List<WarehouseCountingVO> items) {
         Date date = new Date();
-        Workbook wb = createWorkbook(date, items);
+        Workbook wb = createWarehouseWorkbook(date, items);
         try {
             response.reset();
             response.setHeader("Content-Disposition", "attachment;filename=warehouse-snapshot");
@@ -37,7 +84,7 @@ public class ExcelUtil {
         }
     }
 
-    public static Workbook createWorkbook(Date date, List<WarehouseCountingVO> items) {
+    public static Workbook createWarehouseWorkbook(Date date, List<WarehouseCountingVO> items) {
         Workbook wb = new HSSFWorkbook();
         Sheet sheet = wb.createSheet("warehouse-snapshot-" + date.toString());
         Row titleRow = sheet.createRow(0);

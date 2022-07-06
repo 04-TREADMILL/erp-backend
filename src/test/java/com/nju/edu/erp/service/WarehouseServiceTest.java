@@ -3,7 +3,6 @@ package com.nju.edu.erp.service;
 
 import com.nju.edu.erp.model.po.WarehouseIODetailPO;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.junit.Ignore;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,7 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
-import static com.nju.edu.erp.utils.ExcelUtil.createWorkbook;
+import static com.nju.edu.erp.utils.ExcelUtil.createWarehouseWorkbook;
 
 
 @SpringBootTest
@@ -105,10 +104,11 @@ public class WarehouseServiceTest {
     }
 
     @Test
-    @Ignore
+    @Transactional
+    @Rollback
     public void getWarehouseExcel() {
         Date date = new Date();
-        Workbook wb = createWorkbook(date, warehouseService.warehouseCounting());
+        Workbook wb = createWarehouseWorkbook(date, warehouseService.warehouseCounting());
         try {
             String path = System.getProperty("user.home");
             path += "/warehouse-snapshot.xls";

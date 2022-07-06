@@ -3,6 +3,7 @@ package com.nju.edu.erp.web.controller;
 import com.nju.edu.erp.auth.Authorized;
 import com.nju.edu.erp.enums.Role;
 import com.nju.edu.erp.service.FinanceService;
+import com.nju.edu.erp.utils.ExcelUtil;
 import com.nju.edu.erp.utils.IdDateUtil;
 import com.nju.edu.erp.web.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.stream.Collectors;
 
 @RestController
@@ -43,6 +45,13 @@ public class FinanceController {
                                 ))
                         .collect(Collectors.toList()));
     }
+
+    @GetMapping("/sale-detail-excel")
+    @Authorized(roles = {Role.GM, Role.ADMIN, Role.FINANCIAL_STAFF})
+    public void getSaleDetailExcel(HttpServletRequest request, HttpServletResponse response) {
+        ExcelUtil.exportSaleDetailExcel(response, financeService.fetchAllSaleDetail());
+    }
+
 
     @GetMapping("/profit")
     @Authorized(roles = {Role.GM, Role.ADMIN, Role.FINANCIAL_STAFF})

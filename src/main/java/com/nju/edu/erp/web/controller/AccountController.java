@@ -43,7 +43,7 @@ public class AccountController {
         }
     }
 
-    @GetMapping("/getFzf")
+    @GetMapping("/get-fzf")
     @Authorized(roles = {Role.GM, Role.ADMIN, Role.FINANCIAL_STAFF})
     public Response getAccountFzf(@RequestParam(value = "key") String key) {
         try {

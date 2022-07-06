@@ -170,7 +170,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         int toMonth = Integer.parseInt(today.substring(4, 6));
         String lastMonth, year;
         if (toMonth > 10) {
-            lastMonth = "" + (toMonth-1);
+            lastMonth = "" + (toMonth - 1);
             year = today.substring(0, 4);
         } else if (toMonth > 1) {
             lastMonth = "0" + (toMonth - 1);

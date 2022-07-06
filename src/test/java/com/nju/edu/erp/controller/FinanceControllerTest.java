@@ -1,7 +1,9 @@
 package com.nju.edu.erp.controller;
 
 import com.nju.edu.erp.service.FinanceService;
+import com.nju.edu.erp.utils.ExcelUtil;
 import com.nju.edu.erp.web.controller.FinanceController;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,6 +16,12 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.util.Date;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
@@ -63,5 +71,25 @@ public class FinanceControllerTest {
                         .accept(MediaType.APPLICATION_JSON)
         ).andReturn();
         Assertions.assertEquals(200, result.getResponse().getStatus());
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void getSaleDetailExcel() {
+        Date date = new Date();
+        Workbook wb = ExcelUtil.createSaleDetailWorkbook(date, financeService.fetchAllSaleDetail());
+        try {
+            String path = System.getProperty("user.home");
+            path += "/sale-detail-snapshot.xls";
+            OutputStream os = Files.newOutputStream(new File(path).toPath());
+            wb.write(os);
+            os.flush();
+            os.close();
+            System.out.println("导出库存快照excel成功!");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("导出库存快照excel失败!");
+        }
     }
 }
