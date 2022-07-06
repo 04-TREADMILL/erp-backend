@@ -10,7 +10,7 @@ import com.nju.edu.erp.model.vo.finance.ReceiptSheetVO;
 import com.nju.edu.erp.service.AccountService;
 import com.nju.edu.erp.service.CustomerService;
 import com.nju.edu.erp.service.ReceiptService;
-import com.nju.edu.erp.utils.IdUtil;
+import com.nju.edu.erp.utils.IdDateUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,7 +41,7 @@ public class ReceiptServiceImpl implements ReceiptService {
         receiptSheetPO.setOperator(userVO.getName());
         receiptSheetPO.setCreateTime(new Date());
         ReceiptSheetPO latest = receiptSheetDao.getLatest();
-        String id = IdUtil.generateSheetId(latest == null ? null : latest.getId(), "SKD");
+        String id = IdDateUtil.generateSheetId(latest == null ? null : latest.getId(), "SKD");
         receiptSheetPO.setId(id);
         receiptSheetPO.setState(ReceiptSheetState.PENDING);
         receiptSheetDao.save(receiptSheetPO);

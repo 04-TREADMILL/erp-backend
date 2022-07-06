@@ -16,7 +16,7 @@ public class SaleDetailVO {
     /**
      * 时间
      */
-    private Date time;
+    private String time;
     /**
      * 商品名
      */

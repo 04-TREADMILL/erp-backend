@@ -17,7 +17,7 @@ import com.nju.edu.erp.service.CustomerService;
 import com.nju.edu.erp.service.ProductService;
 import com.nju.edu.erp.service.PurchaseService;
 import com.nju.edu.erp.service.WarehouseService;
-import com.nju.edu.erp.utils.IdUtil;
+import com.nju.edu.erp.utils.IdDateUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -64,7 +64,7 @@ public class PurchaseServiceImpl implements PurchaseService {
         purchaseSheetPO.setOperator(userVO.getName());
         purchaseSheetPO.setCreateTime(new Date());
         PurchaseSheetPO latest = purchaseSheetDao.getLatest();
-        String id = IdUtil.generateSheetId(latest == null ? null : latest.getId(), "JHD");
+        String id = IdDateUtil.generateSheetId(latest == null ? null : latest.getId(), "JHD");
         purchaseSheetPO.setId(id);
         purchaseSheetPO.setState(PurchaseSheetState.PENDING_LEVEL_1);
         BigDecimal totalAmount = BigDecimal.ZERO;

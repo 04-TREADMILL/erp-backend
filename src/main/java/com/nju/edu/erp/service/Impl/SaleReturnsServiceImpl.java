@@ -14,7 +14,7 @@ import com.nju.edu.erp.service.CustomerService;
 import com.nju.edu.erp.service.ProductService;
 import com.nju.edu.erp.service.SaleReturnsService;
 import com.nju.edu.erp.service.WarehouseService;
-import com.nju.edu.erp.utils.IdUtil;
+import com.nju.edu.erp.utils.IdDateUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -66,7 +66,7 @@ public class SaleReturnsServiceImpl implements SaleReturnsService {
         saleReturnsSheetPO.setOperator(userVO.getName());
         saleReturnsSheetPO.setCreateTime(new Date());
         SaleReturnsSheetPO latest = saleReturnsSheetDao.getLatest();
-        String id = IdUtil.generateSheetId(latest == null ? null : latest.getId(), "XSTHD");
+        String id = IdDateUtil.generateSheetId(latest == null ? null : latest.getId(), "XSTHD");
         saleReturnsSheetPO.setId(id);
         saleReturnsSheetPO.setState(SaleReturnsSheetState.PENDING_LEVEL_1);
         BigDecimal totalAmount = BigDecimal.ZERO;

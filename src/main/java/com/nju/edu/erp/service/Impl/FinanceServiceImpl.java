@@ -11,7 +11,7 @@ import com.nju.edu.erp.model.vo.purchase.PurchaseSheetVO;
 import com.nju.edu.erp.model.vo.sale.SaleSheetContentVO;
 import com.nju.edu.erp.model.vo.sale.SaleSheetVO;
 import com.nju.edu.erp.service.*;
-import com.nju.edu.erp.utils.IdUtil;
+import com.nju.edu.erp.utils.IdDateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,7 +49,7 @@ public class FinanceServiceImpl implements FinanceService {
                 saleDetailVO = SaleDetailVO.builder()
                         .name(productInfoVO.getName())
                         .type(productInfoVO.getType())
-                        .time(IdUtil.parseDateFromSheetId(saleSheetVO.getId(), "XSD"))
+                        .time(saleSheetVO.getId().substring(4, 12))
                         .quantity(saleSheetContentVO.getQuantity())
                         .unitPrice(saleSheetContentVO.getUnitPrice())
                         .totalPrice(saleSheetContentVO.getTotalPrice())
@@ -73,7 +73,7 @@ public class FinanceServiceImpl implements FinanceService {
         BigDecimal outgoingHuman = BigDecimal.ZERO;
 
         for (SaleSheetVO saleSheetVO : saleService.getSaleSheetByState(SaleSheetState.SUCCESS)) {
-            Date date = IdUtil.parseDateFromSheetId(saleSheetVO.getId(), "XSD");
+            Date date = IdDateUtil.parseDateFromSheetId(saleSheetVO.getId(), "XSD");
             if (date.after(from) && date.before(to)) {
                 incomingRaw = incomingRaw.add(saleSheetVO.getRawTotalAmount());
                 incomingReal = incomingReal.add(saleSheetVO.getFinalAmount());
@@ -81,14 +81,14 @@ public class FinanceServiceImpl implements FinanceService {
         }
 
         for (PurchaseSheetVO purchaseSheetVO : purchaseService.getPurchaseSheetByState(PurchaseSheetState.SUCCESS)) {
-            Date date = IdUtil.parseDateFromSheetId(purchaseSheetVO.getId(), "JHD");
+            Date date = IdDateUtil.parseDateFromSheetId(purchaseSheetVO.getId(), "JHD");
             if (date.after(from) && date.before(to)) {
                 outgoingPurchase = outgoingPurchase.add(purchaseSheetVO.getTotalAmount());
             }
         }
 
         for (SalarySheetVO salarySheetVO : salaryService.getSalarySheetByState(SalarySheetState.SUCCESS)) {
-            Date date = IdUtil.parseDateFromSheetId(salarySheetVO.getId(), "GZD");
+            Date date = IdDateUtil.parseDateFromSheetId(salarySheetVO.getId(), "GZD");
             if (date.after(from) && date.before(to)) {
                 outgoingHuman = outgoingHuman.add(salarySheetVO.getRealSalary());
             }

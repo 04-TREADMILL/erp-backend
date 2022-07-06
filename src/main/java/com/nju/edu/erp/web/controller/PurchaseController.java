@@ -6,7 +6,7 @@ import com.nju.edu.erp.enums.sheetState.PurchaseSheetState;
 import com.nju.edu.erp.model.vo.UserVO;
 import com.nju.edu.erp.model.vo.purchase.PurchaseSheetVO;
 import com.nju.edu.erp.service.PurchaseService;
-import com.nju.edu.erp.utils.IdUtil;
+import com.nju.edu.erp.utils.IdDateUtil;
 import com.nju.edu.erp.web.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -81,14 +81,14 @@ public class PurchaseController {
 
     @GetMapping(value = "/sheet-show-filter")
     public Response showSheetFilter(
-            @RequestParam(value = "from", required = false) Date from,
-            @RequestParam(value = "to", required = false) Date to,
+            @RequestParam(value = "from", required = false) String from,
+            @RequestParam(value = "to", required = false) String to,
             @RequestParam(value = "operator", required = false) String operator,
             @RequestParam(value = "customerId", required = false) Integer customerId) {
         return Response.buildSuccess(purchaseService.getPurchaseSheetByState(null).stream().filter(
                 purchaseSheetVO -> {
-                    Date date = IdUtil.parseDateFromSheetId(purchaseSheetVO.getId(), "JHD");
-                    return (((from == null && to == null) || (date.after(from) && date.before(to)))
+                    Date date = IdDateUtil.parseDateFromSheetId(purchaseSheetVO.getId(), "JHD");
+                    return (((from == null && to == null) || (date.after(IdDateUtil.parseDateFromStr(from)) && date.before(IdDateUtil.parseDateFromStr(to))))
                             && (operator == null || purchaseSheetVO.getOperator().equals(operator))
                             && (customerId == null || purchaseSheetVO.getSupplier().equals(customerId))
                     );

@@ -38,4 +38,17 @@ public class FinanceControllerTest {
         ).andReturn();
         Assertions.assertEquals(200, result.getResponse().getStatus());
     }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void showAccountTestWithDate() throws Exception {
+        MvcResult result = this.mockMvc.perform(
+                get("/finance/sale-detail")
+                        .param("from", "20220523")
+                        .param("to", "20220604")
+                        .accept(MediaType.APPLICATION_JSON)
+        ).andReturn();
+        Assertions.assertEquals(200, result.getResponse().getStatus());
+    }
 }

@@ -4,7 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class IdUtil {
+public class IdDateUtil {
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 
@@ -31,6 +31,14 @@ public class IdUtil {
     public static Date parseDateFromSheetId(String id, String prefix) {
         try {
             return dateFormat.parse(id.substring(prefix.length() + 1, prefix.length() + 9));
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static Date parseDateFromStr(String str) {
+        try {
+            return dateFormat.parse(str);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }

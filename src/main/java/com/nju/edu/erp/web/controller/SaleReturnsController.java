@@ -6,7 +6,7 @@ import com.nju.edu.erp.enums.sheetState.SaleReturnsSheetState;
 import com.nju.edu.erp.model.vo.UserVO;
 import com.nju.edu.erp.model.vo.saleReturns.SaleReturnsSheetVO;
 import com.nju.edu.erp.service.SaleReturnsService;
-import com.nju.edu.erp.utils.IdUtil;
+import com.nju.edu.erp.utils.IdDateUtil;
 import com.nju.edu.erp.web.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -81,13 +81,13 @@ public class SaleReturnsController {
 
     @GetMapping(value = "/sheet-show-filter")
     public Response showSheetFilter(
-            @RequestParam(value = "from", required = false) Date from,
-            @RequestParam(value = "to", required = false) Date to,
+            @RequestParam(value = "from", required = false) String from,
+            @RequestParam(value = "to", required = false) String to,
             @RequestParam(value = "salesman", required = false) String salesman) {
         return Response.buildSuccess(saleReturnsService.getSaleReturnsSheetByState(null).stream().filter(
                 saleReturnsSheetVO -> {
-                    Date date = IdUtil.parseDateFromSheetId(saleReturnsSheetVO.getId(), "XSTHD");
-                    return (((from == null && to == null) || (date.after(from) && date.before(to)))
+                    Date date = IdDateUtil.parseDateFromSheetId(saleReturnsSheetVO.getId(), "XSTHD");
+                    return (((from == null && to == null) || (date.after(IdDateUtil.parseDateFromStr(from)) && date.before(IdDateUtil.parseDateFromStr(to))))
                             && (salesman == null || saleReturnsSheetVO.getSalesman().equals(salesman))
                     );
                 }
