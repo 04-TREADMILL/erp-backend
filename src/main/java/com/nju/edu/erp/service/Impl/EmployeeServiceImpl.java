@@ -141,12 +141,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<EmployeePunchVO> showPunchByEmployeeId(Integer eid) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
         List<EmployeePunchPO> employeePunchPOS = employeeDao.getPunchByEmployeeId(eid);
         List<EmployeePunchVO> employeePunchVOS = new ArrayList<>();
         for (EmployeePunchPO employeePunchPO : employeePunchPOS) {
-            EmployeePunchVO employeePunchVO = new EmployeePunchVO();
-            BeanUtils.copyProperties(employeePunchPO, employeePunchVO);
-            employeePunchVOS.add(employeePunchVO);
+            String punchDateStr = format.format(employeePunchPO.getPunchTime());
+            if (inLast30Days(punchDateStr, format.format(new Date()))) {
+                EmployeePunchVO employeePunchVO = new EmployeePunchVO();
+                BeanUtils.copyProperties(employeePunchPO, employeePunchVO);
+                employeePunchVOS.add(employeePunchVO);
+            }
         }
         return employeePunchVOS;
     }

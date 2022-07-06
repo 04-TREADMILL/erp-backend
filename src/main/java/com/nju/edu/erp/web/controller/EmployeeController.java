@@ -117,7 +117,7 @@ public class EmployeeController {
     }
 
     /**
-     * 显示某个员工的打卡记录
+     * 显示某个员工近一个月的打卡记录
      */
     @GetMapping("/show-punch")
     @Authorized(roles = {Role.ADMIN, Role.GM, Role.HR})
