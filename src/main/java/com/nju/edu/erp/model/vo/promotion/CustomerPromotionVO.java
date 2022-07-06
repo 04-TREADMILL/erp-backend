@@ -1,6 +1,9 @@
 package com.nju.edu.erp.model.vo.promotion;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -17,7 +20,7 @@ public class CustomerPromotionVO extends PromotionVO {
     BigDecimal amount;
 
     @Builder(builderMethodName = "childBuilder")
-    public CustomerPromotionVO(int id, Date beginTime, Date endTime, int level, BigDecimal discount,BigDecimal amount) {
+    public CustomerPromotionVO(int id, Date beginTime, Date endTime, int level, BigDecimal discount, BigDecimal amount) {
         super(id, beginTime, endTime);
         this.level = level;
         this.amount = amount;

@@ -3,15 +3,19 @@
 <mapper namespace="com.nju.edu.erp.dao.WarehouseOutputSheetDao">
     <insert id="save" parameterType="WarehouseOutputSheetPO">
         insert into warehouse_output_sheet (id, operator, create_time, `state`, sale_sheet_id)
-        values (#{id},#{operator},#{createTime},#{state},#{saleSheetId})
+        values (#{id}, #{operator}, #{createTime}, #{state}, #{saleSheetId})
     </insert>
 
     <delete id="deleteContent">
-        delete from warehouse_output_sheet_content where wo_id = #{sheetId} ;
+        delete
+        from warehouse_output_sheet_content
+        where wo_id = #{sheetId};
     </delete>
 
     <select id="getLatest" resultMap="WarehouseOutputSheetPO">
-        select * from warehouse_output_sheet order by id desc limit 0,1 ;
+        select *
+        from warehouse_output_sheet
+        order by id desc limit 0,1;
     </select>
 
     <insert id="saveBatch" useGeneratedKeys="true" keyProperty="id">
@@ -22,8 +26,11 @@
     </insert>
 
     <update id="updateById">
-        update warehouse_output_sheet set operator = #{operator},
-        sale_sheet_id = #{saleSheetId}, `state` = #{state} where id = #{id};
+        update warehouse_output_sheet
+        set operator      = #{operator},
+            sale_sheet_id = #{saleSheetId},
+            `state`       = #{state}
+        where id = #{id};
     </update>
 
 
@@ -33,27 +40,37 @@
     2.出库单状态必须为"审批完成",才算是完成一次出库操作
     -->
     <select id="getWarehouseOutputProductQuantityByTime" resultType="java.lang.Integer">
-        select sum(warehouse_output_sheet_content.quantity) from warehouse_output_sheet, warehouse_output_sheet_content
-        where state = '审批完成' and
-        warehouse_output_sheet.id = warehouse_output_sheet_content.wo_id and
-        create_time &lt;= #{endTime} and create_time &gt;= #{beginTime};
+        select sum(warehouse_output_sheet_content.quantity)
+        from warehouse_output_sheet,
+             warehouse_output_sheet_content
+        where state = '审批完成'
+          and warehouse_output_sheet.id = warehouse_output_sheet_content.wo_id
+          and create_time &lt;= #{endTime}
+          and create_time &gt;= #{beginTime};
     </select>
 
 
     <select id="getAllSheets" resultType="com.nju.edu.erp.model.po.WarehouseOutputSheetPO">
-        select * from warehouse_output_sheet;
+        select *
+        from warehouse_output_sheet;
     </select>
 
     <select id="getDraftSheets" resultType="com.nju.edu.erp.model.po.WarehouseOutputSheetPO">
-        select * from warehouse_output_sheet where `state` = #{state};
+        select *
+        from warehouse_output_sheet
+        where `state` = #{state};
     </select>
 
     <select id="getSheet" resultType="com.nju.edu.erp.model.po.WarehouseOutputSheetPO">
-        select * from warehouse_output_sheet where id = #{sheetId};
+        select *
+        from warehouse_output_sheet
+        where id = #{sheetId};
     </select>
 
     <select id="getAllContentById" resultType="com.nju.edu.erp.model.po.WarehouseOutputSheetContentPO">
-        select * from warehouse_output_sheet_content where wo_id = #{sheetId};
+        select *
+        from warehouse_output_sheet_content
+        where wo_id = #{sheetId};
     </select>
 
     <resultMap id="WarehouseOutputSheetPO" type="com.nju.edu.erp.model.po.WarehouseOutputSheetPO">

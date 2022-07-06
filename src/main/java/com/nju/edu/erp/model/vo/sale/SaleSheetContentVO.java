@@ -1,4 +1,4 @@
-package com.nju.edu.erp.model.vo.Sale;
+package com.nju.edu.erp.model.vo.sale;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

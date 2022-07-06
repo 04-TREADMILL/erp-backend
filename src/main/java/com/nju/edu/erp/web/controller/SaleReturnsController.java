@@ -35,7 +35,7 @@ public class SaleReturnsController {
      * 销售经理审批
      *
      * @param saleReturnsSheetId 销售退货单id
-     * @param state                  修改后的状态("审批失败"/"待二级审批")
+     * @param state              修改后的状态("审批失败"/"待二级审批")
      */
     @GetMapping(value = "/first-approval")
     @Authorized(roles = {Role.SALE_MANAGER, Role.GM, Role.ADMIN})
@@ -53,7 +53,7 @@ public class SaleReturnsController {
      * 总经理审批
      *
      * @param saleReturnsSheetId 销售退货单id
-     * @param state                  修改后的状态("审批失败"/"审批完成")
+     * @param state              修改后的状态("审批失败"/"审批完成")
      */
     @Authorized(roles = {Role.GM, Role.ADMIN})
     @GetMapping(value = "/second-approval")

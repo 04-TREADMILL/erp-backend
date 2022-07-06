@@ -1,7 +1,6 @@
-package com.nju.edu.erp.model.vo.Sale;
+package com.nju.edu.erp.model.vo.sale;
 
 import com.nju.edu.erp.enums.sheetState.SaleSheetState;
-import com.nju.edu.erp.model.vo.purchase.PurchaseSheetContentVO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

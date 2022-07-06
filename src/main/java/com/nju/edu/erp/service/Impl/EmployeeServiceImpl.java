@@ -23,7 +23,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeDao employeeDao;
 
     @Autowired
-    public EmployeeServiceImpl(EmployeeDao employeeDao) { this.employeeDao = employeeDao; }
+    public EmployeeServiceImpl(EmployeeDao employeeDao) {
+        this.employeeDao = employeeDao;
+    }
 
     @Override
     public void addEmployee(EmployeeVO employeeVO) {
@@ -59,7 +61,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         for (EmployeePunchPO punchPO : employeePunchPOS) {
             String punchDate = format.format(punchPO.getPunchTime());
             if (date.equals(punchDate)) {
-                throw new MyServiceException("A0004", "员工"+employeePunchVO.getEid()+"今日已打卡");
+                throw new MyServiceException("A0004", "员工" + employeePunchVO.getEid() + "今日已打卡");
             }
         }
         EmployeePunchPO employeePunchSave = new EmployeePunchPO();

@@ -1,59 +1,48 @@
-package com.nju.edu.erp.model.vo;
-
+package com.nju.edu.erp.model.vo.finance;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductInfoVO {
-
+@Builder
+public class SaleDetailVO {
     /**
-     * 商品id
+     * 时间
      */
-    private String id;
-
+    private Date time;
     /**
      * 商品名
      */
     private String name;
-
-    /**
-     * 分类ID
-     */
-    private Integer categoryId;
-
     /**
      * 商品型号
      */
     private String type;
-
     /**
      * 商品数量
      */
     private Integer quantity;
-
     /**
-     * 进价
+     * 商品单价
      */
-    private BigDecimal purchasePrice;
-
+    private BigDecimal unitPrice;
     /**
-     * 零售价
+     * 商品金额
      */
-    private BigDecimal retailPrice;
-
+    private BigDecimal totalPrice;
     /**
-     * 最近进价
+     * 业务员
      */
-    private BigDecimal recentPp;
-
+    private String salesman;
     /**
-     * 最近零售价
+     * 客户编号
      */
-    private BigDecimal recentRp;
+    private Integer seller;
 }

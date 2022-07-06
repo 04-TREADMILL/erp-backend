@@ -3,7 +3,7 @@
 <mapper namespace="com.nju.edu.erp.dao.SaleReturnsSheetDao">
     <insert id="save" parameterType="SaleReturnsSheetPO">
         insert into sale_returns_sheet (id, sale_sheet_id, operator, remark, total_amount, state, create_time)
-        values (#{id},#{saleSheetId},#{operator},#{remark},#{totalAmount},#{state}, #{createTime})
+        values (#{id}, #{saleSheetId}, #{operator}, #{remark}, #{totalAmount}, #{state}, #{createTime})
     </insert>
     <update id="updateState">
         update sale_returns_sheet
@@ -13,24 +13,34 @@
     <update id="updateStateV2">
         update sale_returns_sheet
         set state = #{state}
-        where id = #{saleReturnsSheetId} and state = #{prevState}
+        where id = #{saleReturnsSheetId}
+          and state = #{prevState}
     </update>
 
     <select id="getLatest" resultMap="SaleReturnsSheetPO">
-        select * from sale_returns_sheet order by id desc limit 0,1 ;
+        select *
+        from sale_returns_sheet
+        order by id desc limit 0,1;
     </select>
     <select id="findAll" resultType="com.nju.edu.erp.model.po.SaleReturnsSheetPO">
-        select * from sale_returns_sheet;
+        select *
+        from sale_returns_sheet;
     </select>
     <select id="findAllByState" resultType="com.nju.edu.erp.model.po.SaleReturnsSheetPO">
-        select * from sale_returns_sheet where state = #{state}
+        select *
+        from sale_returns_sheet
+        where state = #{state}
     </select>
     <select id="findOneById" resultType="com.nju.edu.erp.model.po.SaleReturnsSheetPO">
-        select * from sale_returns_sheet where id=#{saleReturnsSheetId}
+        select *
+        from sale_returns_sheet
+        where id = #{saleReturnsSheetId}
     </select>
     <select id="findContentBySaleReturnsSheetId"
             resultType="com.nju.edu.erp.model.po.SaleReturnsSheetContentPO">
-        select * from sale_returns_sheet_content where sale_returns_sheet_id = #{sale_returns_sheet_id}
+        select *
+        from sale_returns_sheet_content
+        where sale_returns_sheet_id = #{sale_returns_sheet_id}
     </select>
 
     <insert id="saveBatch" useGeneratedKeys="true" keyProperty="id">

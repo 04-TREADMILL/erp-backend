@@ -1,7 +1,7 @@
 package com.nju.edu.erp.service;
 
-import com.nju.edu.erp.model.vo.CreateProductVO;
-import com.nju.edu.erp.model.vo.ProductInfoVO;
+import com.nju.edu.erp.model.vo.product.CreateProductVO;
+import com.nju.edu.erp.model.vo.product.ProductInfoVO;
 
 import java.util.List;
 

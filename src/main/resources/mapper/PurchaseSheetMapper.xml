@@ -3,7 +3,7 @@
 <mapper namespace="com.nju.edu.erp.dao.PurchaseSheetDao">
     <insert id="save" parameterType="PurchaseSheetPO">
         insert into purchase_sheet (id, supplier, operator, remark, total_amount, state, create_time)
-        values (#{id},#{supplier},#{operator},#{remark},#{totalAmount},#{state}, #{createTime})
+        values (#{id}, #{supplier}, #{operator}, #{remark}, #{totalAmount}, #{state}, #{createTime})
     </insert>
     <update id="updateState">
         update purchase_sheet
@@ -13,23 +13,33 @@
     <update id="updateStateV2">
         update purchase_sheet
         set state = #{state}
-        where id = #{purchaseSheetId} and state = #{prevState}
+        where id = #{purchaseSheetId}
+          and state = #{prevState}
     </update>
 
     <select id="getLatest" resultMap="PurchaseSheetPO">
-        select * from purchase_sheet order by id desc limit 0,1 ;
+        select *
+        from purchase_sheet
+        order by id desc limit 0,1;
     </select>
     <select id="findAll" resultType="com.nju.edu.erp.model.po.PurchaseSheetPO">
-        select * from purchase_sheet;
+        select *
+        from purchase_sheet;
     </select>
     <select id="findAllByState" resultType="com.nju.edu.erp.model.po.PurchaseSheetPO">
-        select * from purchase_sheet where state = #{state}
+        select *
+        from purchase_sheet
+        where state = #{state}
     </select>
     <select id="findOneById" resultType="com.nju.edu.erp.model.po.PurchaseSheetPO">
-        select * from purchase_sheet where id=#{purchaseSheetId}
+        select *
+        from purchase_sheet
+        where id = #{purchaseSheetId}
     </select>
     <select id="findContentByPurchaseSheetId" resultType="com.nju.edu.erp.model.po.PurchaseSheetContentPO">
-        select * from purchase_sheet_content where purchase_sheet_id = #{purchase_sheet_id}
+        select *
+        from purchase_sheet_content
+        where purchase_sheet_id = #{purchase_sheet_id}
     </select>
 
     <insert id="saveBatch" useGeneratedKeys="true" keyProperty="id">

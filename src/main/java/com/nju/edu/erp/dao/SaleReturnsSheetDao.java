@@ -52,7 +52,7 @@ public interface SaleReturnsSheetDao {
      * 根据 purchaseReturnsSheetId 找到条目， 并更新其状态为state
      *
      * @param saleReturnsSheetId 进货退货单id
-     * @param state                  进货退货单状态
+     * @param state              进货退货单状态
      * @return 影响的条目数
      */
     int updateState(String saleReturnsSheetId, SaleReturnsSheetState state);
@@ -61,8 +61,8 @@ public interface SaleReturnsSheetDao {
      * 根据 purchaseReturnsSheetId 和 prevState 找到条目， 并更新其状态为state
      *
      * @param saleReturnsSheetId 进货退货单id
-     * @param prevState              进货退货单之前的状态
-     * @param state                  进货退货单状态
+     * @param prevState          进货退货单之前的状态
+     * @param state              进货退货单状态
      * @return 影响的条目数
      */
     int updateStateV2(String saleReturnsSheetId, SaleReturnsSheetState prevState, SaleReturnsSheetState state);

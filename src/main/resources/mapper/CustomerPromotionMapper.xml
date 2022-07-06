@@ -9,15 +9,20 @@
     </insert>
 
     <delete id="deletePromotionById">
-        delete from `customer_promotion_strategy` where id = #{id}
+        delete
+        from `customer_promotion_strategy`
+        where id = #{id}
     </delete>
 
     <select id="showPromotions" resultType="com.nju.edu.erp.model.po.CustomerPromotionPO">
-        select * from `customer_promotion_strategy`
+        select *
+        from `customer_promotion_strategy`
     </select>
 
     <select id="getPromotionById" resultType="com.nju.edu.erp.model.po.CustomerPromotionPO">
-        select * from `customer_promotion_strategy` where id = #{id}
+        select *
+        from `customer_promotion_strategy`
+        where id = #{id}
     </select>
 
     <resultMap id="CustomerPromotionPO" type="com.nju.edu.erp.model.po.CustomerPromotionPO">

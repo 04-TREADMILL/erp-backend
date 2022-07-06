@@ -2,12 +2,10 @@ package com.nju.edu.erp.service;
 
 import com.nju.edu.erp.enums.sheetState.SaleSheetState;
 import com.nju.edu.erp.model.po.CustomerPurchaseAmountPO;
-import com.nju.edu.erp.model.vo.Sale.SaleSheetVO;
 import com.nju.edu.erp.model.vo.UserVO;
-import com.nju.edu.erp.model.vo.purchase.PurchaseSheetVO;
+import com.nju.edu.erp.model.vo.sale.SaleSheetVO;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
 @Service

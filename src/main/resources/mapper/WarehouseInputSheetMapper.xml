@@ -3,17 +3,24 @@
 <mapper namespace="com.nju.edu.erp.dao.WarehouseInputSheetDao">
     <insert id="save" parameterType="WarehouseInputSheetPO">
         insert into warehouse_input_sheet (id, batch_id, operator, create_time, purchase_sheet_id, state)
-        values (#{id},#{batchId},#{operator},#{createTime},#{purchaseSheetId},#{state})
+        values (#{id}, #{batchId}, #{operator}, #{createTime}, #{purchaseSheetId}, #{state})
     </insert>
 
     <update id="updateById">
-        update warehouse_input_sheet set batch_id = #{batchId}, operator = #{operator}, create_time = #{createTime},
-        purchase_sheet_id = #{purchaseSheetId}, `state` = #{state} where id = #{id};
+        update warehouse_input_sheet
+        set batch_id          = #{batchId},
+            operator          = #{operator},
+            create_time       = #{createTime},
+            purchase_sheet_id = #{purchaseSheetId},
+            `state`           = #{state}
+        where id = #{id};
     </update>
 
 
     <select id="getLatest" resultMap="WarehouseInputSheetPO">
-        select * from warehouse_input_sheet order by id desc limit 0,1 ;
+        select *
+        from warehouse_input_sheet
+        order by id desc limit 0,1;
     </select>
 
     <insert id="saveBatch" useGeneratedKeys="true" keyProperty="id">
@@ -24,19 +31,26 @@
     </insert>
 
     <select id="getDraftSheets" resultMap="WarehouseInputSheetPO">
-        select * from warehouse_input_sheet where `state` = #{state};
+        select *
+        from warehouse_input_sheet
+        where `state` = #{state};
     </select>
 
     <select id="getAllSheets" resultMap="WarehouseInputSheetPO">
-        select * from warehouse_input_sheet;
+        select *
+        from warehouse_input_sheet;
     </select>
 
     <select id="getSheet" resultType="com.nju.edu.erp.model.po.WarehouseInputSheetPO">
-        select * from warehouse_input_sheet where id = #{id} ;
+        select *
+        from warehouse_input_sheet
+        where id = #{id};
     </select>
 
     <select id="getAllContentById" resultType="com.nju.edu.erp.model.po.WarehouseInputSheetContentPO">
-        select * from warehouse_input_sheet_content where wi_id = #{warehouseInputSheetId} ;
+        select *
+        from warehouse_input_sheet_content
+        where wi_id = #{warehouseInputSheetId};
     </select>
 
 
@@ -47,41 +61,47 @@
     2.出入库单状态必须为"审批完成",才算是完成一次出库或者入库操作
     -->
     <select id="getWarehouseIODetailByTime" resultType="com.nju.edu.erp.model.po.WarehouseIODetailPO">
-        select 'warehouse_input' type,
-        warehouse_input_sheet.id sheet_id,
-        product.name product_name,
-        category.name category_name,
-        warehouse_input_sheet_content.quantity,
-        warehouse_input_sheet_content.purchase_price unit_price,
-        warehouse_input_sheet_content.purchase_price * warehouse_input_sheet_content.quantity total_price,
-        warehouse_input_sheet.create_time,
-        '0' batch_id
-        from warehouse_input_sheet, warehouse_input_sheet_content, product, category
-        where
-        state = '审批完成' and
-        warehouse_input_sheet.id = warehouse_input_sheet_content.wi_id and
-        warehouse_input_sheet_content.pid = product.id and
-        product.category_id = category.id and
-        warehouse_input_sheet.create_time &lt;= #{endTime} and warehouse_input_sheet.create_time &gt;= #{beginTime}
+        select 'warehouse_input'                                                                     type,
+               warehouse_input_sheet.id                                                              sheet_id,
+               product.name                                                                          product_name,
+               category.name                                                                         category_name,
+               warehouse_input_sheet_content.quantity,
+               warehouse_input_sheet_content.purchase_price                                          unit_price,
+               warehouse_input_sheet_content.purchase_price * warehouse_input_sheet_content.quantity total_price,
+               warehouse_input_sheet.create_time,
+               '0'                                                                                   batch_id
+        from warehouse_input_sheet,
+             warehouse_input_sheet_content,
+             product,
+             category
+        where state = '审批完成'
+          and warehouse_input_sheet.id = warehouse_input_sheet_content.wi_id
+          and warehouse_input_sheet_content.pid = product.id
+          and product.category_id = category.id
+          and warehouse_input_sheet.create_time &lt;= #{endTime}
+          and warehouse_input_sheet.create_time &gt;= #{beginTime}
 
         union
 
-        select 'warehouse_output' type,
-        warehouse_output_sheet.id sheet_id,
-        product.name product_name,
-        category.name category_name,
-        warehouse_output_sheet_content.quantity,
-        warehouse_output_sheet_content.sale_price unit_price,
-        warehouse_output_sheet_content.sale_price * warehouse_output_sheet_content.quantity total_price,
-        warehouse_output_sheet.create_time,
-        warehouse_output_sheet_content.batch_id
-        from warehouse_output_sheet, warehouse_output_sheet_content, product, category
-        where
-        state = '审批完成' and
-        warehouse_output_sheet.id = warehouse_output_sheet_content.wo_id and
-        warehouse_output_sheet_content.pid = product.id and
-        product.category_id = category.id and
-        warehouse_output_sheet.create_time &lt;= #{endTime} and warehouse_output_sheet.create_time &gt;= #{beginTime};
+        select 'warehouse_output'                                                                  type,
+               warehouse_output_sheet.id                                                           sheet_id,
+               product.name                                                                        product_name,
+               category.name                                                                       category_name,
+               warehouse_output_sheet_content.quantity,
+               warehouse_output_sheet_content.sale_price                                           unit_price,
+               warehouse_output_sheet_content.sale_price * warehouse_output_sheet_content.quantity total_price,
+               warehouse_output_sheet.create_time,
+               warehouse_output_sheet_content.batch_id
+        from warehouse_output_sheet,
+             warehouse_output_sheet_content,
+             product,
+             category
+        where state = '审批完成'
+          and warehouse_output_sheet.id = warehouse_output_sheet_content.wo_id
+          and warehouse_output_sheet_content.pid = product.id
+          and product.category_id = category.id
+          and warehouse_output_sheet.create_time &lt;= #{endTime}
+          and warehouse_output_sheet.create_time &gt;= #{beginTime};
     </select>
 
 
@@ -91,10 +111,13 @@
     2.入库单状态必须为"审批完成",才算是完成一次入库操作
     -->
     <select id="getWarehouseInputProductQuantityByTime" resultType="java.lang.Integer">
-        select sum(warehouse_input_sheet_content.quantity) from warehouse_input_sheet, warehouse_input_sheet_content
-        where state = '审批完成' and
-        warehouse_input_sheet.id = warehouse_input_sheet_content.wi_id and
-        create_time &lt;= #{endTime} and create_time &gt;= #{beginTime};
+        select sum(warehouse_input_sheet_content.quantity)
+        from warehouse_input_sheet,
+             warehouse_input_sheet_content
+        where state = '审批完成'
+          and warehouse_input_sheet.id = warehouse_input_sheet_content.wi_id
+          and create_time &lt;= #{endTime}
+          and create_time &gt;= #{beginTime};
     </select>
 
 

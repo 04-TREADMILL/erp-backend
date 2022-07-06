@@ -3,36 +3,45 @@
 <mapper namespace="com.nju.edu.erp.dao.EmployeeDao">
 
     <select id="findAllEmployees" resultType="com.nju.edu.erp.model.po.EmployeePO">
-        select * from employee
+        select *
+        from employee
     </select>
 
     <select id="getPunchByEmployeeId" resultType="com.nju.edu.erp.model.po.EmployeePunchPO">
-        select * from employee_punch where `eid` = #{eid}
+        select *
+        from employee_punch
+        where `eid` = #{eid}
     </select>
 
     <select id="getPunchById" resultType="com.nju.edu.erp.model.po.EmployeePunchPO">
-        select * from employee_punch where `id` = #{id}
+        select *
+        from employee_punch
+        where `id` = #{id}
     </select>
 
     <select id="findEmployeeById" resultType="com.nju.edu.erp.model.po.EmployeePO">
-        select * from employee where `id` = #{id}
+        select *
+        from employee
+        where `id` = #{id}
     </select>
 
     <insert id="punch" parameterType="com.nju.edu.erp.model.po.EmployeePunchPO"
             useGeneratedKeys="true" keyProperty="id">
-        insert into employee_punch (`eid`,`punch_time`)
+        insert into employee_punch (`eid`, `punch_time`)
         values (#{eid}, #{punchTime})
     </insert>
 
     <insert id="createEmployee" parameterType="EmployeePO" useGeneratedKeys="true" keyProperty="id">
-        insert into employee (`name`,`gender`,`birthday`,`phone`,`role`,`basic_salary`,
-            `post_salary`,`salary_granting_mode`,`salary_calculating_mode`,`account`)
-        values (#{name},#{gender},#{birthday},#{phone},#{role},#{basicSalary},
-            #{postSalary},#{salaryGrantingMode},#{salaryCalculatingMode},#{account})
+        insert into employee (`name`, `gender`, `birthday`, `phone`, `role`, `basic_salary`,
+                              `post_salary`, `salary_granting_mode`, `salary_calculating_mode`, `account`)
+        values (#{name}, #{gender}, #{birthday}, #{phone}, #{role}, #{basicSalary},
+                #{postSalary}, #{salaryGrantingMode}, #{salaryCalculatingMode}, #{account})
     </insert>
-    
+
     <delete id="deleteEmployeeById">
-        delete from employee where id = #{id}
+        delete
+        from employee
+        where id = #{id}
     </delete>
 
     <update id="updateEmployee" parameterType="EmployeePO">

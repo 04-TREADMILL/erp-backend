@@ -5,11 +5,13 @@ import com.nju.edu.erp.dao.SalarySheetDao;
 import com.nju.edu.erp.enums.Role;
 import com.nju.edu.erp.enums.sheetState.SalarySheetState;
 import com.nju.edu.erp.exception.MyServiceException;
-import com.nju.edu.erp.model.po.*;
+import com.nju.edu.erp.model.po.EmployeePO;
 import com.nju.edu.erp.model.po.SalarySheetPO;
+import com.nju.edu.erp.model.vo.employee.AnnualBonusVO;
 import com.nju.edu.erp.model.vo.finance.AccountVO;
 import com.nju.edu.erp.model.vo.finance.SalarySheetVO;
 import com.nju.edu.erp.service.AccountService;
+import com.nju.edu.erp.service.AnnualBonusService;
 import com.nju.edu.erp.service.EmployeeService;
 import com.nju.edu.erp.service.SalaryService;
 import com.nju.edu.erp.utils.IdGenerator;
@@ -33,7 +35,9 @@ public class SalaryServiceImpl implements SalaryService {
 
     private final EmployeeService employeeService;
 
-    private static final List<Triplet<Double, BigDecimal, BigDecimal>> taxMap = new ArrayList<>();
+    private final AnnualBonusService annualBonusService;
+
+    private static final List<Triplet<Double, BigDecimal, BigDecimal>> taxList = new ArrayList<>();
 
     private static final Map<String, BiFunction<EmployeePO, SalarySheetPO, SalarySheetPO>> originSalaryMap = new HashMap<>();
 
@@ -51,16 +55,16 @@ public class SalaryServiceImpl implements SalaryService {
         originSalaryMap.put("default", SalaryServiceImpl::calculateOriginalSalaryDefault);
         originSalaryMap.put("commission", SalaryServiceImpl::calculateOriginalSalaryCommission);
 
-        taxMap.add(Triplet.of(0.00, null, BigDecimal.valueOf(5000)));
-        taxMap.add(Triplet.of(0.03, BigDecimal.valueOf(5000), BigDecimal.valueOf(8000)));
-        taxMap.add(Triplet.of(0.10, BigDecimal.valueOf(8000), BigDecimal.valueOf(17000)));
-        taxMap.add(Triplet.of(0.20, BigDecimal.valueOf(17000), BigDecimal.valueOf(30000)));
-        taxMap.add(Triplet.of(0.25, BigDecimal.valueOf(30000), null));
+        taxList.add(Triplet.of(0.00, null, BigDecimal.valueOf(5000)));
+        taxList.add(Triplet.of(0.03, BigDecimal.valueOf(5000), BigDecimal.valueOf(8000)));
+        taxList.add(Triplet.of(0.10, BigDecimal.valueOf(8000), BigDecimal.valueOf(17000)));
+        taxList.add(Triplet.of(0.20, BigDecimal.valueOf(17000), BigDecimal.valueOf(30000)));
+        taxList.add(Triplet.of(0.25, BigDecimal.valueOf(30000), null));
     }
 
     private SalarySheetPO calculateRealSalary(SalarySheetPO salarySheetPO) {
         BigDecimal originalSalary = salarySheetPO.getOriginalSalary();
-        for (Triplet<Double, BigDecimal, BigDecimal> rule : taxMap) {
+        for (Triplet<Double, BigDecimal, BigDecimal> rule : taxList) {
             if ((rule.getMid() == null || rule.getMid().compareTo(originalSalary) <= 0) &&
                     (rule.getRight() == null || rule.getRight().compareTo(originalSalary) >= 0)) {
                 salarySheetPO.setTax(originalSalary.multiply(BigDecimal.valueOf(rule.getLeft())));
@@ -99,15 +103,27 @@ public class SalaryServiceImpl implements SalaryService {
             }
         }
 
+        Calendar now = Calendar.getInstance();
+        int month = now.get(Calendar.MONTH) + 1;
+        if (month == 12) {
+            List<AnnualBonusVO> annualBonusVOS = annualBonusService.getAnnualBonusByEmployeeId(salarySheetPO.getEmployeeId());
+            for (AnnualBonusVO annualBonusVO : annualBonusVOS) {
+                salarySheetPO.setOriginalSalary(
+                        salarySheetPO.getOriginalSalary().add(annualBonusVO.getBaseBonus()).add(annualBonusVO.getExtraBonus()));
+                // TODO -> invalidate
+            }
+        }
+
         return salarySheetPO;
     }
 
     @Autowired
-    public SalaryServiceImpl(SalarySheetDao salarySheetDao, EmployeeDao employeeDao, AccountService accountService, EmployeeService employeeService) {
+    public SalaryServiceImpl(SalarySheetDao salarySheetDao, EmployeeDao employeeDao, AccountService accountService, EmployeeService employeeService, AnnualBonusService annualBonusService) {
         this.salarySheetDao = salarySheetDao;
         this.employeeDao = employeeDao;
         this.accountService = accountService;
         this.employeeService = employeeService;
+        this.annualBonusService = annualBonusService;
     }
 
     @Override

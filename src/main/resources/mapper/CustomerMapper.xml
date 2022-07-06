@@ -19,22 +19,28 @@
     </update>
 
     <select id="findOneById" resultType="com.nju.edu.erp.model.po.CustomerPO">
-        select * from customer where id=#{supplier}
+        select *
+        from customer
+        where id = #{supplier}
     </select>
 
     <select id="findAllByType" resultType="com.nju.edu.erp.model.po.CustomerPO">
-        select * from customer where `type` = #{type}
+        select *
+        from customer
+        where `type` = #{type}
     </select>
 
     <insert id="createCustomer" parameterType="CustomerPO">
         insert into customer (`id`, `type`, `level`, `name`, `phone`,
-            `address`, `zipcode`, `email`, `line_of_credit`, `receivable`, `payable`, `operator`)
+                              `address`, `zipcode`, `email`, `line_of_credit`, `receivable`, `payable`, `operator`)
         values (#{id}, #{type}, #{level}, #{name}, #{phone}, #{address}, #{zipcode}, #{email},
-            #{lineOfCredit}, #{receivable}, #{payable}, #{operator})
+                #{lineOfCredit}, #{receivable}, #{payable}, #{operator})
     </insert>
 
     <delete id="deleteCustomerById">
-        delete from customer where id = #{id}
+        delete
+        from customer
+        where id = #{id}
     </delete>
 
     <resultMap id="CustomerPO" type="com.nju.edu.erp.model.po.CustomerPO">

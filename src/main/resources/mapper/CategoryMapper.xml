@@ -8,11 +8,14 @@
     </insert>
 
     <select id="findByCategoryId" resultMap="CategoryPO">
-        select * from category where id = #{categoryId}
+        select *
+        from category
+        where id = #{categoryId}
     </select>
 
     <select id="findAll" resultMap="CategoryPO">
-        select * from category
+        select *
+        from category
     </select>
 
     <update id="updateById" parameterType="CategoryPO">
@@ -27,7 +30,9 @@
     </update>
 
     <delete id="deleteById">
-        delete from category where id = #{id}
+        delete
+        from category
+        where id = #{id}
     </delete>
 
     <resultMap id="CategoryPO" type="com.nju.edu.erp.model.po.CategoryPO">

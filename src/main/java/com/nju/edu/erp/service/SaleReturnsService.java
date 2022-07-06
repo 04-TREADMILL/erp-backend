@@ -2,7 +2,6 @@ package com.nju.edu.erp.service;
 
 import com.nju.edu.erp.enums.sheetState.SaleReturnsSheetState;
 import com.nju.edu.erp.model.vo.UserVO;
-import com.nju.edu.erp.model.vo.purchaseReturns.PurchaseReturnsSheetVO;
 import com.nju.edu.erp.model.vo.saleReturns.SaleReturnsSheetVO;
 
 import java.util.List;
@@ -29,7 +28,7 @@ public interface SaleReturnsService {
      * 在controller层进行权限控制
      *
      * @param saleReturnsSheetId 进货退货单id
-     * @param state                  进货退货单修改后的状态
+     * @param state              进货退货单修改后的状态
      */
     void approval(String saleReturnsSheetId, SaleReturnsSheetState state);
 }
