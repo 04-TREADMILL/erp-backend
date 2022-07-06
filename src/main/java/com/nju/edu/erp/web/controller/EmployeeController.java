@@ -117,7 +117,7 @@ public class EmployeeController {
     }
 
     /**
-     * 显示某个员工的打卡记录
+     * 显示某个员工近一个月的打卡记录
      */
     @GetMapping("/show-punch")
     @Authorized(roles = {Role.ADMIN, Role.GM, Role.HR})
@@ -130,6 +130,43 @@ public class EmployeeController {
             return Response.buildFailed("111111", "Unknown Exception");
         }
     }
+
+    @GetMapping("/show-last-month-punch")
+    @Authorized(roles = {Role.ADMIN, Role.GM, Role.HR})
+    public Response showPunchTimesOfLastMonth(@RequestParam(value = "id") int id) {
+        try {
+            return Response.buildSuccess(employeeService.getPunchTimesOfLastMonthByEmployeeId(id));
+        } catch (MyServiceException e) {
+            return Response.buildFailed(e.getCode(), e.getMessage());
+        } catch (Exception e) {
+            return Response.buildFailed("111111", "Unknown Exception");
+        }
+    }
+
+    @GetMapping("/show-this-month-punch")
+    @Authorized(roles = {Role.ADMIN, Role.GM, Role.HR})
+    public Response showPunchTimesOfThisMonth(@RequestParam(value = "id") int id) {
+        try {
+            return Response.buildSuccess(employeeService.getPunchTimesOfThisMonthByEmployeeId(id));
+        } catch (MyServiceException e) {
+            return Response.buildFailed(e.getCode(), e.getMessage());
+        } catch (Exception e) {
+            return Response.buildFailed("111111", "Unknown Exception");
+        }
+    }
+
+    @GetMapping("/show-latest-punch")
+    @Authorized(roles = {Role.ADMIN, Role.GM, Role.HR})
+    public Response showLatestPunch(@RequestParam(value = "id") int id) {
+        try {
+            return Response.buildSuccess(employeeService.getLatestPunchByEmployeeId(id));
+        } catch (MyServiceException e) {
+            return Response.buildFailed(e.getCode(), e.getMessage());
+        } catch (Exception e) {
+            return Response.buildFailed("111111", "Unknown Exception");
+        }
+    }
+
 
     /**
      * 分发年终奖

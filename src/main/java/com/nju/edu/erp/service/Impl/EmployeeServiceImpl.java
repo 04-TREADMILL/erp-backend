@@ -141,12 +141,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<EmployeePunchVO> showPunchByEmployeeId(Integer eid) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
         List<EmployeePunchPO> employeePunchPOS = employeeDao.getPunchByEmployeeId(eid);
         List<EmployeePunchVO> employeePunchVOS = new ArrayList<>();
         for (EmployeePunchPO employeePunchPO : employeePunchPOS) {
-            EmployeePunchVO employeePunchVO = new EmployeePunchVO();
-            BeanUtils.copyProperties(employeePunchPO, employeePunchVO);
-            employeePunchVOS.add(employeePunchVO);
+            String punchDateStr = format.format(employeePunchPO.getPunchTime());
+            if (inLast30Days(punchDateStr, format.format(new Date()))) {
+                EmployeePunchVO employeePunchVO = new EmployeePunchVO();
+                BeanUtils.copyProperties(employeePunchPO, employeePunchVO);
+                employeePunchVOS.add(employeePunchVO);
+            }
         }
         return employeePunchVOS;
     }
@@ -157,5 +161,67 @@ public class EmployeeServiceImpl implements EmployeeService {
         EmployeeVO employeeVO = new EmployeeVO();
         BeanUtils.copyProperties(employeePO, employeeVO);
         return employeeVO;
+    }
+
+    @Override
+    public int getPunchTimesOfLastMonthByEmployeeId(Integer eid) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        String today = format.format(new Date());
+        int toMonth = Integer.parseInt(today.substring(4, 6));
+        String lastMonth, year;
+        if (toMonth > 10) {
+            lastMonth = "" + (toMonth-1);
+            year = today.substring(0, 4);
+        } else if (toMonth > 1) {
+            lastMonth = "0" + (toMonth - 1);
+            year = today.substring(0, 4);
+        } else {
+            lastMonth = "12";
+            year = "" + (Integer.parseInt(today.substring(0, 4)) - 1);
+        }
+        String prefix = year + lastMonth;
+        List<EmployeePunchPO> employeePunchPOS = employeeDao.getPunchByEmployeeId(eid);
+        int times = 0;
+        for (EmployeePunchPO po : employeePunchPOS) {
+            String punchDate = format.format(po.getPunchTime());
+            if (punchDate.startsWith(prefix)) {
+                ++times;
+            }
+        }
+        return times;
+    }
+
+    @Override
+    public int getPunchTimesOfThisMonthByEmployeeId(Integer eid) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        String today = format.format(new Date());
+        List<EmployeePunchPO> employeePunchPOS = employeeDao.getPunchByEmployeeId(eid);
+        int times = 0;
+        for (EmployeePunchPO po : employeePunchPOS) {
+            String punchDate = format.format(po.getPunchTime());
+            if (punchDate.startsWith(today.substring(0, 6))) {
+                ++times;
+            }
+        }
+        return times;
+    }
+
+    @Override
+    public String getLatestPunchByEmployeeId(Integer eid) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        String today = format.format(new Date());
+        String latest = "";
+        List<EmployeePunchPO> employeePunchPOS = employeeDao.getPunchByEmployeeId(eid);
+        for (EmployeePunchPO po : employeePunchPOS) {
+            String punchDate = format.format(po.getPunchTime());
+            if (latest.equals("")) {
+                latest = punchDate;
+            } else if (Integer.parseInt(today) == Integer.parseInt(punchDate)) {
+                return today;
+            } else if (Integer.parseInt(today) > Integer.parseInt(punchDate)) {
+                latest = Integer.parseInt(latest) > Integer.parseInt(punchDate) ? latest : punchDate;
+            }
+        }
+        return latest;
     }
 }
