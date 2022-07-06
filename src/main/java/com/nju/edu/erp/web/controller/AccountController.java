@@ -33,7 +33,7 @@ public class AccountController {
 
     @GetMapping("/get")
     @Authorized(roles = {Role.GM, Role.ADMIN, Role.FINANCIAL_STAFF})
-    public Response getAccount(@RequestBody String name) {
+    public Response getAccount(@RequestParam(value = "name") String name) {
         try {
             return Response.buildSuccess(accountService.queryAccount(name));
         } catch (MyServiceException e) {
@@ -58,7 +58,7 @@ public class AccountController {
 
     @GetMapping("/delete")
     @Authorized(roles = {Role.GM, Role.ADMIN, Role.FINANCIAL_STAFF})
-    public Response deleteAccount(@RequestBody String name) {
+    public Response deleteAccount(@RequestParam(value = "name") String name) {
         try {
             accountService.deleteAccount(name);
             return Response.buildSuccess("删除账户成功");

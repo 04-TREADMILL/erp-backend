@@ -37,4 +37,12 @@ public class SaleDetailVO {
      * 商品金额
      */
     private BigDecimal totalPrice;
+    /**
+     * 业务员
+     */
+    private String salesman;
+    /**
+     * 客户编号
+     */
+    private Integer seller;
 }
