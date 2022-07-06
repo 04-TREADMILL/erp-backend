@@ -7,9 +7,11 @@ import com.nju.edu.erp.enums.sheetState.SalarySheetState;
 import com.nju.edu.erp.exception.MyServiceException;
 import com.nju.edu.erp.model.po.*;
 import com.nju.edu.erp.model.po.SalarySheetPO;
+import com.nju.edu.erp.model.vo.employee.AnnualBonusVO;
 import com.nju.edu.erp.model.vo.finance.AccountVO;
 import com.nju.edu.erp.model.vo.finance.SalarySheetVO;
 import com.nju.edu.erp.service.AccountService;
+import com.nju.edu.erp.service.AnnualBonusService;
 import com.nju.edu.erp.service.EmployeeService;
 import com.nju.edu.erp.service.SalaryService;
 import com.nju.edu.erp.utils.IdGenerator;
@@ -32,6 +34,8 @@ public class SalaryServiceImpl implements SalaryService {
     private final AccountService accountService;
 
     private final EmployeeService employeeService;
+
+    private final AnnualBonusService annualBonusService;
 
     private static final List<Triplet<Double, BigDecimal, BigDecimal>> taxMap = new ArrayList<>();
 
@@ -99,15 +103,27 @@ public class SalaryServiceImpl implements SalaryService {
             }
         }
 
+        Calendar now = Calendar.getInstance();
+        int month = now.get(Calendar.MONTH) + 1;
+        if (month == 12) {
+            List<AnnualBonusVO> annualBonusVOS = annualBonusService.getAnnualBonusByEmployeeId(salarySheetPO.getEmployeeId());
+            for (AnnualBonusVO annualBonusVO : annualBonusVOS) {
+                salarySheetPO.setOriginalSalary(
+                        salarySheetPO.getOriginalSalary().add(annualBonusVO.getBaseBonus()).add(annualBonusVO.getExtraBonus()));
+                // TODO -> invalidate
+            }
+        }
+
         return salarySheetPO;
     }
 
     @Autowired
-    public SalaryServiceImpl(SalarySheetDao salarySheetDao, EmployeeDao employeeDao, AccountService accountService, EmployeeService employeeService) {
+    public SalaryServiceImpl(SalarySheetDao salarySheetDao, EmployeeDao employeeDao, AccountService accountService, EmployeeService employeeService, AnnualBonusService annualBonusService) {
         this.salarySheetDao = salarySheetDao;
         this.employeeDao = employeeDao;
         this.accountService = accountService;
         this.employeeService = employeeService;
+        this.annualBonusService = annualBonusService;
     }
 
     @Override
