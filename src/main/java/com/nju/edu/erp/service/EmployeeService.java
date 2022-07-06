@@ -26,4 +26,10 @@ public interface EmployeeService {
     List<EmployeePunchVO> showPunchByEmployeeId(Integer id);
 
     EmployeeVO getEmployeeById(Integer id);
+
+     int getPunchTimesOfLastMonthByEmployeeId(Integer id);
+
+     int getPunchTimesOfThisMonthByEmployeeId(Integer id);
+
+     String getLatestPunchByEmployeeId(Integer id);
 }
