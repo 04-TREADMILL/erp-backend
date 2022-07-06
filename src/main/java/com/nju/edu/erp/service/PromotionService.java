@@ -6,7 +6,7 @@ public interface PromotionService {
 
     void deletePromotionById(int id);
 
-    void addPromotion(String promotionVO);
+    void addPromotion(Object promotionVO);
 
     List<Object> getPromotions();
 

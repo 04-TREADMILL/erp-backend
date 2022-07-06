@@ -37,9 +37,9 @@ public class CustomerPromotionServiceImpl implements PromotionService {
     }
 
     @Override
-    public void addPromotion(String promotionVO) {
-//        String str = JSONObject.toJSONString(promotionVO);
-        CustomerPromotionVO vo = JSONObject.parseObject(promotionVO, CustomerPromotionVO.class);
+    public void addPromotion(Object promotionVO) {
+        String str = JSONObject.toJSONString(promotionVO);
+        CustomerPromotionVO vo = JSONObject.parseObject(str, CustomerPromotionVO.class);
         CustomerPromotionPO po = new CustomerPromotionPO();
         BeanUtils.copyProperties(vo, po);
         promotionDao.createPromotion(po);

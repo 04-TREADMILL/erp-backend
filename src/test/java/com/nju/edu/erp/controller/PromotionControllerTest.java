@@ -51,8 +51,7 @@ public class PromotionControllerTest {
                 .build();
         String promotionVOJSONStr = JSONObject.toJSONString(promotionVO);
         MvcResult result = this.mockMvc.perform(
-                post("/promotion/add")
-                        .param("promotionType", "total")
+                post("/promotion/add-total")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(promotionVOJSONStr)
                         .accept(MediaType.APPLICATION_JSON)
@@ -75,8 +74,7 @@ public class PromotionControllerTest {
                 .build();
         String promotionVOJSONStr = JSONObject.toJSONString(promotionVO);
         MvcResult result = this.mockMvc.perform(
-                post("/promotion/add")
-                        .param("promotionType", "customer")
+                post("/promotion/add-customer")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(promotionVOJSONStr)
                         .accept(MediaType.APPLICATION_JSON)
@@ -86,28 +84,28 @@ public class PromotionControllerTest {
         Assertions.assertEquals("Success", response.getMsg());
     }
 
-    @Test
-    @Transactional
-    @Rollback
-    public void addPromotionTest3() throws Exception {
-        TotalPromotionVO promotionVO = TotalPromotionVO.childBuilder()
-                .condition(BigDecimal.valueOf(5000))
-                .amount(BigDecimal.valueOf(200))
-                .beginTime(new Date())
-                .endTime(new Date())
-                .build();
-        String promotionVOJSONStr = JSONObject.toJSONString(promotionVO);
-        MvcResult result = this.mockMvc.perform(
-                post("/promotion/add")
-                        .param("promotionType", "xxx")
-                        .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(promotionVOJSONStr)
-                        .accept(MediaType.APPLICATION_JSON)
-        ).andReturn();
-        String responseJSONStr = result.getResponse().getContentAsString();
-        Response response = JSONObject.parseObject(responseJSONStr, Response.class);
-        Assertions.assertEquals("unknown promotion type", response.getMsg());
-    }
+//    @Test
+//    @Transactional
+//    @Rollback
+//    public void addPromotionTest3() throws Exception {
+//        TotalPromotionVO promotionVO = TotalPromotionVO.childBuilder()
+//                .condition(BigDecimal.valueOf(5000))
+//                .amount(BigDecimal.valueOf(200))
+//                .beginTime(new Date())
+//                .endTime(new Date())
+//                .build();
+//        String promotionVOJSONStr = JSONObject.toJSONString(promotionVO);
+//        MvcResult result = this.mockMvc.perform(
+//                post("/promotion/add")
+//                        .param("promotionType", "xxx")
+//                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+//                        .content(promotionVOJSONStr)
+//                        .accept(MediaType.APPLICATION_JSON)
+//        ).andReturn();
+//        String responseJSONStr = result.getResponse().getContentAsString();
+//        Response response = JSONObject.parseObject(responseJSONStr, Response.class);
+//        Assertions.assertEquals("unknown promotion type", response.getMsg());
+//    }
 
     @Test
     @Transactional
