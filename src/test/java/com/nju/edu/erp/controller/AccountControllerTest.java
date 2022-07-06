@@ -49,7 +49,7 @@ public class AccountControllerTest {
     @Rollback
     public void getAccountFzfTest() throws Exception {
         MvcResult result = this.mockMvc.perform(
-                get("/account/getFzf")
+                get("/account/get-fzf")
                         .param("key", "c")
                         .accept(MediaType.APPLICATION_JSON)
         ).andReturn();
