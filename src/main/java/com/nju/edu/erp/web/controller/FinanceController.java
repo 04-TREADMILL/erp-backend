@@ -47,8 +47,8 @@ public class FinanceController {
     @GetMapping("/profit")
     @Authorized(roles = {Role.GM, Role.ADMIN, Role.FINANCIAL_STAFF})
     public Response getProfit(
-            @RequestParam(value = "from") Date from,
-            @RequestParam(value = "to") Date to) {
-        return Response.buildSuccess(financeService.calculateProfit(from, to));
+            @RequestParam(value = "from") String from,
+            @RequestParam(value = "to") String to) {
+        return Response.buildSuccess(financeService.calculateProfit(IdDateUtil.parseDateFromStr(from), IdDateUtil.parseDateFromStr(to)));
     }
 }
