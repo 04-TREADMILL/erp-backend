@@ -21,7 +21,7 @@ public class CustomerController {
     }
 
     @GetMapping("/findByType")
-    @Authorized(roles = {Role.ADMIN, Role.GM, Role.SALE_MANAGER, Role.SALE_STAFF})
+    @Authorized(roles = {Role.ADMIN, Role.GM, Role.SALE_MANAGER, Role.SALE_STAFF, Role.FINANCIAL_STAFF})
     public Response findByType(@RequestParam CustomerType type) {
         return Response.buildSuccess(customerService.getCustomersByType(type));
     }
