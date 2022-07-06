@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/finance")
@@ -31,13 +32,12 @@ public class FinanceController {
             @RequestParam(value = "salesman", required = false) String salesman,
             @RequestParam(value = "customerId", required = false) Integer customerId) {
         return Response.buildSuccess(
-                financeService.filterSaleDetailByCustomer(
-                        financeService.filterSaleDetailBySalesman(
-                                financeService.filterSaleDetailByProduct(
-                                        financeService.filterSaleDetailByDate(
-                                                financeService.fetchAllSaleDetail(), from, to),
-                                        product),
-                                salesman),
-                        customerId));
+                financeService.fetchAllSaleDetail().stream().filter(
+                                saleDetailVO -> (((from == null && to == null) || (saleDetailVO.getTime().after(from) && saleDetailVO.getTime().before(to)))
+                                        && (salesman == null || saleDetailVO.getSalesman().equals(salesman))
+                                        && (customerId == null || saleDetailVO.getSeller().equals(customerId))
+                                        && (product == null || saleDetailVO.getName().equals(product))
+                                ))
+                        .collect(Collectors.toList()));
     }
 }

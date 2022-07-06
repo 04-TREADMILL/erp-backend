@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/receipt")
@@ -57,12 +58,12 @@ public class ReceiptController {
         return Response.buildSuccess(receiptService.getReceiptSheetByState(null).stream().filter(
                 receiptSheetVO -> {
                     Date date = IdUtil.parseDateFromSheetId(receiptSheetVO.getId(), "SKD");
-                    return ((from == null && to == null) || (date.after(from) && date.before(to))
-                            && (operator == null || receiptSheetVO.getOperator().equals(operator)
+                    return (((from == null && to == null) || (date.after(from) && date.before(to)))
+                            && (operator == null || receiptSheetVO.getOperator().equals(operator))
                             && (customerId == null || receiptSheetVO.getSeller().equals(customerId))
-                    ));
+                    );
                 }
-        ));
+        ).collect(Collectors.toList()));
     }
 
     @Authorized(roles = {Role.GM, Role.ADMIN, Role.FINANCIAL_STAFF})

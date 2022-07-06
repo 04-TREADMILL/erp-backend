@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/payment")
@@ -57,12 +58,12 @@ public class PaymentController {
         return Response.buildSuccess(paymentService.getPaymentSheetByState(null).stream().filter(
                 paymentSheetVO -> {
                     Date date = IdUtil.parseDateFromSheetId(paymentSheetVO.getId(), "FKD");
-                    return ((from == null && to == null) || (date.after(from) && date.before(to))
-                            && (operator == null || paymentSheetVO.getOperator().equals(operator)
+                    return (((from == null && to == null) || (date.after(from) && date.before(to)))
+                            && (operator == null || paymentSheetVO.getOperator().equals(operator))
                             && (customerId == null || paymentSheetVO.getSupplier().equals(customerId))
-                    ));
+                    );
                 }
-        ));
+        ).collect(Collectors.toList()));
     }
 
     @Authorized(roles = {Role.GM, Role.ADMIN, Role.FINANCIAL_STAFF})

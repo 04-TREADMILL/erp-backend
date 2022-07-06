@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/sale-returns")
@@ -86,10 +87,10 @@ public class SaleReturnsController {
         return Response.buildSuccess(saleReturnsService.getSaleReturnsSheetByState(null).stream().filter(
                 saleReturnsSheetVO -> {
                     Date date = IdUtil.parseDateFromSheetId(saleReturnsSheetVO.getId(), "XSTHD");
-                    return ((from == null && to == null) || (date.after(from) && date.before(to))
-                            && (salesman == null || saleReturnsSheetVO.getSalesman().equals(salesman)
-                    ));
+                    return (((from == null && to == null) || (date.after(from) && date.before(to)))
+                            && (salesman == null || saleReturnsSheetVO.getSalesman().equals(salesman))
+                    );
                 }
-        ));
+        ).collect(Collectors.toList()));
     }
 }

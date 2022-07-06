@@ -11,12 +11,8 @@ import com.nju.edu.erp.utils.IdUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class FinanceServiceImpl implements FinanceService {
@@ -53,45 +49,5 @@ public class FinanceServiceImpl implements FinanceService {
         }
 
         return list;
-    }
-
-    @Override
-    public List<SaleDetailVO> filterSaleDetailByDate(List<SaleDetailVO> list, Date from, Date to) {
-        if (from == null && to == null) {
-            return list;
-        }
-        return list.stream()
-                .filter(saleDetailVO -> saleDetailVO.getTime().after(from) && saleDetailVO.getTime().before(to))
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<SaleDetailVO> filterSaleDetailByProduct(List<SaleDetailVO> list, String name) {
-        if (name == null) {
-            return list;
-        }
-        return list.stream()
-                .filter(saleDetailVO -> saleDetailVO.getName().equals(name))
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<SaleDetailVO> filterSaleDetailByCustomer(List<SaleDetailVO> list, Integer id) {
-        if (id == null) {
-            return list;
-        }
-        return list.stream()
-                .filter(saleDetailVO -> saleDetailVO.getSeller().equals(id))
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<SaleDetailVO> filterSaleDetailBySalesman(List<SaleDetailVO> list, String name) {
-        if (name == null) {
-            return list;
-        }
-        return list.stream()
-                .filter(saleDetailVO -> saleDetailVO.getSalesman().equals(name))
-                .collect(Collectors.toList());
     }
 }

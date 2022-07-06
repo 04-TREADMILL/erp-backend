@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/purchase")
@@ -87,12 +88,12 @@ public class PurchaseController {
         return Response.buildSuccess(purchaseService.getPurchaseSheetByState(null).stream().filter(
                 purchaseSheetVO -> {
                     Date date = IdUtil.parseDateFromSheetId(purchaseSheetVO.getId(), "JHD");
-                    return ((from == null && to == null) || (date.after(from) && date.before(to))
-                            && (operator == null || purchaseSheetVO.getOperator().equals(operator)
+                    return (((from == null && to == null) || (date.after(from) && date.before(to)))
+                            && (operator == null || purchaseSheetVO.getOperator().equals(operator))
                             && (customerId == null || purchaseSheetVO.getSupplier().equals(customerId))
-                    ));
+                    );
                 }
-        ));
+        ).collect(Collectors.toList()));
     }
 
 

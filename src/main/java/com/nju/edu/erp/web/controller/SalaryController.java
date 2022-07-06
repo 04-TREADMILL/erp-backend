@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/salary")
@@ -61,9 +62,9 @@ public class SalaryController {
         return Response.buildSuccess(salaryService.getSalarySheetByState(null).stream().filter(
                 salarySheetVO -> {
                     Date date = IdUtil.parseDateFromSheetId(salarySheetVO.getId(), "GZD");
-                    return (from == null && to == null) || (date.after(from) && date.before(to));
+                    return ((from == null && to == null) || (date.after(from) && date.before(to)));
                 }
-        ));
+        ).collect(Collectors.toList()));
     }
 
     @Authorized(roles = {Role.GM, Role.ADMIN, Role.FINANCIAL_STAFF})
