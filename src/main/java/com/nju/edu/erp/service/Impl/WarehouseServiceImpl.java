@@ -12,7 +12,7 @@ import com.nju.edu.erp.model.vo.product.ProductInfoVO;
 import com.nju.edu.erp.model.vo.warehouse.*;
 import com.nju.edu.erp.service.ProductService;
 import com.nju.edu.erp.service.WarehouseService;
-import com.nju.edu.erp.utils.IdGenerator;
+import com.nju.edu.erp.utils.IdUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -160,7 +160,7 @@ public class WarehouseServiceImpl implements WarehouseService {
      * @return 新的出库单单号
      */
     private String generateWarehouseOutputId(String id) { // "CKD-20220216-00000"
-        return IdGenerator.generateSheetId(id, "CKD");
+        return IdUtil.generateSheetId(id, "CKD");
     }
 
     @Override

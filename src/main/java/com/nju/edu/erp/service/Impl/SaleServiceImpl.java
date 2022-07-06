@@ -15,7 +15,7 @@ import com.nju.edu.erp.service.CustomerService;
 import com.nju.edu.erp.service.ProductService;
 import com.nju.edu.erp.service.SaleService;
 import com.nju.edu.erp.service.WarehouseService;
-import com.nju.edu.erp.utils.IdGenerator;
+import com.nju.edu.erp.utils.IdUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -64,7 +64,7 @@ public class SaleServiceImpl implements SaleService {
         saleSheetPO.setOperator(userVO.getName());
         saleSheetPO.setCreateTime(new Date());
         SaleSheetPO latest = saleSheetDao.getLatestSheet();
-        String id = IdGenerator.generateSheetId(latest == null ? null : latest.getId(), "XSD");
+        String id = IdUtil.generateSheetId(latest == null ? null : latest.getId(), "XSD");
         saleSheetPO.setId(id);
         saleSheetPO.setState(SaleSheetState.PENDING_LEVEL_1);
         BigDecimal totalAmount = BigDecimal.ZERO;

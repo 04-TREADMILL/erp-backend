@@ -13,7 +13,7 @@ import com.nju.edu.erp.model.po.WarehouseOutputSheetPO;
 import com.nju.edu.erp.model.vo.UserVO;
 import com.nju.edu.erp.model.vo.sale.SaleSheetContentVO;
 import com.nju.edu.erp.model.vo.sale.SaleSheetVO;
-import com.nju.edu.erp.utils.IdGenerator;
+import com.nju.edu.erp.utils.IdUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,7 +86,7 @@ public class SaleServiceTest { // 该测试为集成测试，需要用到数据�
                 .remark("Test1")
                 .build();
         SaleSheetPO prevSheet = saleSheetDao.getLatestSheet();
-        String realSheetId = IdGenerator.generateSheetId(prevSheet == null ? null : prevSheet.getId(), "XSD");
+        String realSheetId = IdUtil.generateSheetId(prevSheet == null ? null : prevSheet.getId(), "XSD");
 
         saleService.makeSaleSheet(userVO, saleSheetVO);
         SaleSheetPO latestSheet = saleSheetDao.getLatestSheet();

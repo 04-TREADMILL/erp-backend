@@ -6,9 +6,12 @@ import com.nju.edu.erp.enums.sheetState.SalarySheetState;
 import com.nju.edu.erp.exception.MyServiceException;
 import com.nju.edu.erp.model.vo.finance.SalarySheetVO;
 import com.nju.edu.erp.service.SalaryService;
+import com.nju.edu.erp.utils.IdUtil;
 import com.nju.edu.erp.web.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
 
 @RestController
 @RequestMapping(path = "/salary")
@@ -49,6 +52,18 @@ public class SalaryController {
     @GetMapping(value = "/sheet-show")
     public Response showSheetByState(@RequestParam(value = "state", required = false) SalarySheetState state) {
         return Response.buildSuccess(salaryService.getSalarySheetByState(state));
+    }
+
+    @GetMapping(value = "/sheet-show-filter")
+    public Response showSheetFilter(
+            @RequestParam(value = "from", required = false) Date from,
+            @RequestParam(value = "to", required = false) Date to) {
+        return Response.buildSuccess(salaryService.getSalarySheetByState(null).stream().filter(
+                salarySheetVO -> {
+                    Date date = IdUtil.parseDateFromSheetId(salarySheetVO.getId(), "GZD");
+                    return (from == null && to == null) || (date.after(from) && date.before(to));
+                }
+        ));
     }
 
     @Authorized(roles = {Role.GM, Role.ADMIN, Role.FINANCIAL_STAFF})

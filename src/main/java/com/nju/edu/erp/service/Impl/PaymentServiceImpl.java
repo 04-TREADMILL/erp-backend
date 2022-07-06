@@ -10,7 +10,7 @@ import com.nju.edu.erp.model.vo.finance.PaymentSheetVO;
 import com.nju.edu.erp.service.AccountService;
 import com.nju.edu.erp.service.CustomerService;
 import com.nju.edu.erp.service.PaymentService;
-import com.nju.edu.erp.utils.IdGenerator;
+import com.nju.edu.erp.utils.IdUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,7 +42,7 @@ public class PaymentServiceImpl implements PaymentService {
         paymentSheetPO.setOperator(userVO.getName());
         paymentSheetPO.setCreateTime(new Date());
         PaymentSheetPO latest = paymentSheetDao.getLatest();
-        String id = IdGenerator.generateSheetId(latest == null ? null : latest.getId(), "FKD");
+        String id = IdUtil.generateSheetId(latest == null ? null : latest.getId(), "FKD");
         paymentSheetPO.setId(id);
         paymentSheetPO.setState(PaymentSheetState.PENDING);
         paymentSheetDao.save(paymentSheetPO);

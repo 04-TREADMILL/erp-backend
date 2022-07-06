@@ -7,6 +7,7 @@ import com.nju.edu.erp.model.vo.sale.SaleSheetVO;
 import com.nju.edu.erp.service.FinanceService;
 import com.nju.edu.erp.service.ProductService;
 import com.nju.edu.erp.service.SaleService;
+import com.nju.edu.erp.utils.IdUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +24,6 @@ public class FinanceServiceImpl implements FinanceService {
 
     private final ProductService productService;
 
-    private static final SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-
     @Autowired
     public FinanceServiceImpl(SaleService saleService, ProductService productService) {
         this.saleService = saleService;
@@ -39,20 +38,16 @@ public class FinanceServiceImpl implements FinanceService {
             for (SaleSheetContentVO saleSheetContentVO : saleSheetVO.getSaleSheetContent()) {
                 ProductInfoVO productInfoVO = productService.getOneProductByPid(saleSheetContentVO.getPid());
                 SaleDetailVO saleDetailVO;
-                try {
-                    saleDetailVO = SaleDetailVO.builder()
-                            .name(productInfoVO.getName())
-                            .type(productInfoVO.getType())
-                            .time(format.parse(saleSheetVO.getId().substring(4, 12)))  // XSD-yyyyMMdd-00000
-                            .quantity(saleSheetContentVO.getQuantity())
-                            .unitPrice(saleSheetContentVO.getUnitPrice())
-                            .totalPrice(saleSheetContentVO.getTotalPrice())
-                            .salesman(saleSheetVO.getSalesman())
-                            .seller(saleSheetVO.getSupplier())
-                            .build();
-                } catch (ParseException ignored) {
-                    continue;
-                }
+                saleDetailVO = SaleDetailVO.builder()
+                        .name(productInfoVO.getName())
+                        .type(productInfoVO.getType())
+                        .time(IdUtil.parseDateFromSheetId(saleSheetVO.getId(), "XSD"))
+                        .quantity(saleSheetContentVO.getQuantity())
+                        .unitPrice(saleSheetContentVO.getUnitPrice())
+                        .totalPrice(saleSheetContentVO.getTotalPrice())
+                        .salesman(saleSheetVO.getSalesman())
+                        .seller(saleSheetVO.getSupplier())
+                        .build();
                 list.add(saleDetailVO);
             }
         }

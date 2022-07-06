@@ -14,7 +14,7 @@ import com.nju.edu.erp.service.CustomerService;
 import com.nju.edu.erp.service.ProductService;
 import com.nju.edu.erp.service.PurchaseReturnsService;
 import com.nju.edu.erp.service.WarehouseService;
-import com.nju.edu.erp.utils.IdGenerator;
+import com.nju.edu.erp.utils.IdUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -65,7 +65,7 @@ public class PurchaseReturnsServiceImpl implements PurchaseReturnsService {
         purchaseReturnsSheetPO.setOperator(userVO.getName());
         purchaseReturnsSheetPO.setCreateTime(new Date());
         PurchaseReturnsSheetPO latest = purchaseReturnsSheetDao.getLatest();
-        String id = IdGenerator.generateSheetId(latest == null ? null : latest.getId(), "JHTHD");
+        String id = IdUtil.generateSheetId(latest == null ? null : latest.getId(), "JHTHD");
         purchaseReturnsSheetPO.setId(id);
         purchaseReturnsSheetPO.setState(PurchaseReturnsSheetState.PENDING_LEVEL_1);
         BigDecimal totalAmount = BigDecimal.ZERO;

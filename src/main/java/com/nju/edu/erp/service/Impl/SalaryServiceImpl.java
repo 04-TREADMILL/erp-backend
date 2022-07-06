@@ -14,7 +14,7 @@ import com.nju.edu.erp.service.AccountService;
 import com.nju.edu.erp.service.AnnualBonusService;
 import com.nju.edu.erp.service.EmployeeService;
 import com.nju.edu.erp.service.SalaryService;
-import com.nju.edu.erp.utils.IdGenerator;
+import com.nju.edu.erp.utils.IdUtil;
 import com.nju.edu.erp.utils.Triplet;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -132,7 +132,7 @@ public class SalaryServiceImpl implements SalaryService {
         BeanUtils.copyProperties(salarySheetVO, salarySheetPO);
         salarySheetPO.setCreateTime(new Date());
         SalarySheetPO latest = salarySheetDao.getLatest();
-        String id = IdGenerator.generateSheetId(latest == null ? null : latest.getId(), "GZD");
+        String id = IdUtil.generateSheetId(latest == null ? null : latest.getId(), "GZD");
         salarySheetPO.setId(id);
         salarySheetPO.setState(SalarySheetState.PENDING);
         salarySheetPO = calculateRealSalary(calculateOriginalSalary(salarySheetPO));

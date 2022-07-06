@@ -6,9 +6,12 @@ import com.nju.edu.erp.enums.sheetState.ReceiptSheetState;
 import com.nju.edu.erp.model.vo.UserVO;
 import com.nju.edu.erp.model.vo.finance.ReceiptSheetVO;
 import com.nju.edu.erp.service.ReceiptService;
+import com.nju.edu.erp.utils.IdUtil;
 import com.nju.edu.erp.web.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
 
 @RestController
 @RequestMapping(path = "/receipt")
@@ -43,6 +46,23 @@ public class ReceiptController {
     @GetMapping(value = "/sheet-show")
     public Response showSheetByState(@RequestParam(value = "state", required = false) ReceiptSheetState state) {
         return Response.buildSuccess(receiptService.getReceiptSheetByState(state));
+    }
+
+    @GetMapping(value = "/sheet-show-filter")
+    public Response showSheetFilter(
+            @RequestParam(value = "from", required = false) Date from,
+            @RequestParam(value = "to", required = false) Date to,
+            @RequestParam(value = "operator", required = false) String operator,
+            @RequestParam(value = "customerId", required = false) Integer customerId) {
+        return Response.buildSuccess(receiptService.getReceiptSheetByState(null).stream().filter(
+                receiptSheetVO -> {
+                    Date date = IdUtil.parseDateFromSheetId(receiptSheetVO.getId(), "SKD");
+                    return ((from == null && to == null) || (date.after(from) && date.before(to))
+                            && (operator == null || receiptSheetVO.getOperator().equals(operator)
+                            && (customerId == null || receiptSheetVO.getSeller().equals(customerId))
+                    ));
+                }
+        ));
     }
 
     @Authorized(roles = {Role.GM, Role.ADMIN, Role.FINANCIAL_STAFF})
