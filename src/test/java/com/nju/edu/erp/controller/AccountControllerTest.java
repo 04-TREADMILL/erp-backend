@@ -47,6 +47,18 @@ public class AccountControllerTest {
     @Test
     @Transactional
     @Rollback
+    public void getAccountFzfTest() throws Exception {
+        MvcResult result = this.mockMvc.perform(
+                get("/account/getFzf")
+                        .param("key", "c")
+                        .accept(MediaType.APPLICATION_JSON)
+        ).andReturn();
+        Assertions.assertEquals(200, result.getResponse().getStatus());
+    }
+
+    @Test
+    @Transactional
+    @Rollback
     public void addAccountTest() throws Exception {
         AccountVO accountVO = AccountVO.builder()
                 .name("test")

@@ -13,6 +13,8 @@ public interface AccountDao {
 
     AccountPO findByAccountName(String name);
 
+    List<AccountPO> findByAccountNameFzf(String key);
+
     List<AccountPO> findAll();
 
     void updateByName(AccountPO accountPO);

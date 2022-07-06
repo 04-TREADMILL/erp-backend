@@ -13,6 +13,12 @@
         where name = #{name}
     </select>
 
+    <select id="findByAccountNameFzf" resultMap="AccountPO">
+        select *
+        from account
+        where name like '%${key}%'
+    </select>
+
     <select id="findAll" resultMap="AccountPO">
         select *
         from account

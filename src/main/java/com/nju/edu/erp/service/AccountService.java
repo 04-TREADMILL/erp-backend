@@ -13,6 +13,8 @@ public interface AccountService {
 
     AccountVO queryAccount(String name);
 
+    List<AccountVO> queryAccountFzf(String key);
+
     void increaseAccountAmount(String name, BigDecimal amount);
 
     void decreaseAccountAmount(String name, BigDecimal amount);

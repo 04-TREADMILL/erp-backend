@@ -44,6 +44,16 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public List<AccountVO> queryAccountFzf(String key) {
+        List<AccountPO> queryAns = accountDao.findByAccountNameFzf(key);
+        return queryAns.stream().map(AccountPO -> {
+            AccountVO AccountVO = new AccountVO();
+            BeanUtils.copyProperties(AccountPO, AccountVO);
+            return AccountVO;
+        }).collect(Collectors.toList());
+    }
+
+    @Override
     public List<AccountVO> queryAllAccounts() {
         List<AccountPO> queryAns = accountDao.findAll();
         return queryAns.stream().map(AccountPO -> {

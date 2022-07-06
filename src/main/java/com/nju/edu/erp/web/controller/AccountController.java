@@ -43,6 +43,18 @@ public class AccountController {
         }
     }
 
+    @GetMapping("/getFzf")
+    @Authorized(roles = {Role.GM, Role.ADMIN, Role.FINANCIAL_STAFF})
+    public Response getAccountFzf(@RequestParam(value = "key") String key) {
+        try {
+            return Response.buildSuccess(accountService.queryAccountFzf(key));
+        } catch (MyServiceException e) {
+            return Response.buildFailed(e.getCode(), e.getMessage());
+        } catch (Exception e) {
+            return Response.buildFailed("114514", "未知错误");
+        }
+    }
+
     @PostMapping("/add")
     @Authorized(roles = {Role.GM, Role.ADMIN, Role.FINANCIAL_STAFF})
     public Response addAccount(@RequestBody AccountVO accountVO) {
