@@ -3,7 +3,7 @@
 <mapper namespace="com.nju.edu.erp.dao.PurchaseReturnsSheetDao">
     <insert id="save" parameterType="PurchaseReturnsSheetPO">
         insert into purchase_returns_sheet (id, purchase_sheet_id, operator, remark, total_amount, state, create_time)
-        values (#{id},#{purchaseSheetId},#{operator},#{remark},#{totalAmount},#{state}, #{createTime})
+        values (#{id}, #{purchaseSheetId}, #{operator}, #{remark}, #{totalAmount}, #{state}, #{createTime})
     </insert>
     <update id="updateState">
         update purchase_returns_sheet
@@ -13,28 +13,41 @@
     <update id="updateStateV2">
         update purchase_returns_sheet
         set state = #{state}
-        where id = #{purchaseReturnsSheetId} and state = #{prevState}
+        where id = #{purchaseReturnsSheetId}
+          and state = #{prevState}
     </update>
 
     <select id="getLatest" resultMap="PurchaseReturnsSheetPO">
-        select * from purchase_returns_sheet order by id desc limit 0,1 ;
+        select *
+        from purchase_returns_sheet
+        order by id desc limit 0,1;
     </select>
     <select id="findAll" resultType="com.nju.edu.erp.model.po.PurchaseReturnsSheetPO">
-        select * from purchase_returns_sheet;
+        select *
+        from purchase_returns_sheet;
     </select>
     <select id="findAllByState" resultType="com.nju.edu.erp.model.po.PurchaseReturnsSheetPO">
-        select * from purchase_returns_sheet where state = #{state}
+        select *
+        from purchase_returns_sheet
+        where state = #{state}
     </select>
     <select id="findOneById" resultType="com.nju.edu.erp.model.po.PurchaseReturnsSheetPO">
-        select * from purchase_returns_sheet where id=#{purchaseReturnsSheetId}
+        select *
+        from purchase_returns_sheet
+        where id = #{purchaseReturnsSheetId}
     </select>
     <select id="findContentByPurchaseReturnsSheetId"
             resultType="com.nju.edu.erp.model.po.PurchaseReturnsSheetContentPO">
-        select * from purchase_returns_sheet_content where purchase_returns_sheet_id = #{purchase_returns_sheet_id}
+        select *
+        from purchase_returns_sheet_content
+        where purchase_returns_sheet_id = #{purchase_returns_sheet_id}
     </select>
     <select id="findBatchId" resultType="java.lang.Integer">
-        select wis.batch_id from purchase_returns_sheet prs, warehouse_input_sheet wis
-        where prs.purchase_sheet_id = wis.purchase_sheet_id and prs.id = #{purchaseReturnsSheetId}
+        select wis.batch_id
+        from purchase_returns_sheet prs,
+             warehouse_input_sheet wis
+        where prs.purchase_sheet_id = wis.purchase_sheet_id
+          and prs.id = #{purchaseReturnsSheetId}
     </select>
 
     <insert id="saveBatch" useGeneratedKeys="true" keyProperty="id">

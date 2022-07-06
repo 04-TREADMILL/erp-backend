@@ -1,4 +1,5 @@
 package com.nju.edu.erp.utils;
+
 public class Triplet<A, B, C> {
 
     public final A left;

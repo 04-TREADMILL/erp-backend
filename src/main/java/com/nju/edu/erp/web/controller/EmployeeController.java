@@ -47,7 +47,7 @@ public class EmployeeController {
 
     /**
      * 增加员工
-     * */
+     */
     @PostMapping("/add")
     @Authorized(roles = {Role.HR, Role.GM, Role.ADMIN})
     public Response addEmployee(@RequestBody EmployeeVO employeeVO) {
@@ -70,7 +70,7 @@ public class EmployeeController {
 
     /**
      * 更新员工信息
-     * */
+     */
     @PostMapping("/update")
     @Authorized(roles = {Role.HR, Role.GM, Role.ADMIN})
     public Response updateEmployee(@RequestBody EmployeeVO employeeVO) {
@@ -86,7 +86,7 @@ public class EmployeeController {
 
     /**
      * 删除员工
-     * */
+     */
     @GetMapping("/delete")
     @Authorized(roles = {Role.ADMIN, Role.GM, Role.HR})
     public Response deleteEmployee(@RequestParam(value = "id") int id) {
@@ -102,7 +102,7 @@ public class EmployeeController {
 
     /**
      * 添加一条打卡记录
-     * */
+     */
     @PostMapping("/add-punch")
     @Authorized(roles = {Role.HR, Role.GM, Role.ADMIN})
     public Response addPunch(@RequestBody EmployeePunchVO employeePunchVO) {
@@ -118,7 +118,7 @@ public class EmployeeController {
 
     /**
      * 显示某个员工的打卡记录
-     * */
+     */
     @GetMapping("/show-punch")
     @Authorized(roles = {Role.ADMIN, Role.GM, Role.HR})
     public Response showPunch(@RequestParam(value = "id") int id) {
@@ -133,7 +133,7 @@ public class EmployeeController {
 
     /**
      * 分发年终奖
-     * */
+     */
     @GetMapping("/allocate-annual-bonus")
     @Authorized(roles = {Role.ADMIN, Role.GM})
     public Response allocateAnnualBonusByEmployeeId(@RequestParam(value = "id") int id,
@@ -153,7 +153,7 @@ public class EmployeeController {
 
     /**
      * 查看年终奖
-     * */
+     */
     @GetMapping("/show-annual-bonus")
     @Authorized(roles = {Role.ADMIN, Role.GM})
     public Response showAnnualBonusByEmployeeId(@RequestParam(value = "id") int id) {

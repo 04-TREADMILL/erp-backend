@@ -1,6 +1,6 @@
 package com.nju.edu.erp.model.vo.warehouse;
 
-import com.nju.edu.erp.model.vo.ProductInfoVO;
+import com.nju.edu.erp.model.vo.product.ProductInfoVO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

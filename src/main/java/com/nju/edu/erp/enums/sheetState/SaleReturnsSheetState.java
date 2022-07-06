@@ -16,5 +16,7 @@ public enum SaleReturnsSheetState implements BaseEnum<SaleReturnsSheetState, Str
     }
 
     @Override
-    public String getValue() { return value; }
+    public String getValue() {
+        return value;
+    }
 }

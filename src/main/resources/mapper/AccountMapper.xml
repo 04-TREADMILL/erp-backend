@@ -8,11 +8,14 @@
     </insert>
 
     <select id="findByAccountName" resultMap="AccountPO">
-        select * from account where name = #{name}
+        select *
+        from account
+        where name = #{name}
     </select>
 
     <select id="findAll" resultMap="AccountPO">
-        select * from account
+        select *
+        from account
     </select>
 
     <update id="updateByName" parameterType="AccountPO">
@@ -24,7 +27,9 @@
     </update>
 
     <delete id="deleteByName">
-        delete from account where `name` = #{name}
+        delete
+        from account
+        where `name` = #{name}
     </delete>
 
     <resultMap id="AccountPO" type="com.nju.edu.erp.model.po.AccountPO">

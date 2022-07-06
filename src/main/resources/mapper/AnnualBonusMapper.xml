@@ -3,12 +3,14 @@
 <mapper namespace="com.nju.edu.erp.dao.AnnualBonusDao">
 
     <select id="findAnnualBonusByEmployeeId" resultType="com.nju.edu.erp.model.po.AnnualBonusPO">
-        select * from `annual_bonus` where `eid` = #{eid}
+        select *
+        from `annual_bonus`
+        where `eid` = #{eid}
     </select>
 
     <insert id="createAnnualBonus" parameterType="com.nju.edu.erp.model.po.AnnualBonusPO"
             useGeneratedKeys="true" keyProperty="id">
-        insert into `annual_bonus` (`eid`,`base_bonus`, `extra_bonus`)
+        insert into `annual_bonus` (`eid`, `base_bonus`, `extra_bonus`)
         values (#{eid}, #{baseBonus}, #{extraBonus})
     </insert>
 

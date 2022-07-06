@@ -1,20 +1,18 @@
 package com.nju.edu.erp.utils;
 
-import com.nju.edu.erp.model.vo.ProductInfoVO;
+import com.nju.edu.erp.model.vo.product.ProductInfoVO;
 import com.nju.edu.erp.model.vo.warehouse.WarehouseCountingVO;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigDecimal;
-import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
 
@@ -64,7 +62,7 @@ public class ExcelUtil {
             Integer batchId = item.getBatchId();
             Date productionDate = item.getProductionDate();
 
-            Row row = sheet.createRow(i+1);
+            Row row = sheet.createRow(i + 1);
             Cell cell = row.createCell(0);
             cell.setCellValue(id == null ? "" : id.toString());
             cell = row.createCell(1);

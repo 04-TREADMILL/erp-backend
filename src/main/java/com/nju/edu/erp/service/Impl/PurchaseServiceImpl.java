@@ -7,8 +7,8 @@ import com.nju.edu.erp.model.po.CustomerPO;
 import com.nju.edu.erp.model.po.ProductPO;
 import com.nju.edu.erp.model.po.PurchaseSheetContentPO;
 import com.nju.edu.erp.model.po.PurchaseSheetPO;
-import com.nju.edu.erp.model.vo.ProductInfoVO;
 import com.nju.edu.erp.model.vo.UserVO;
+import com.nju.edu.erp.model.vo.product.ProductInfoVO;
 import com.nju.edu.erp.model.vo.purchase.PurchaseSheetContentVO;
 import com.nju.edu.erp.model.vo.purchase.PurchaseSheetVO;
 import com.nju.edu.erp.model.vo.warehouse.WarehouseInputFormContentVO;
@@ -20,7 +20,6 @@ import com.nju.edu.erp.service.WarehouseService;
 import com.nju.edu.erp.utils.IdGenerator;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +27,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 public class PurchaseServiceImpl implements PurchaseService {

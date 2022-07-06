@@ -21,15 +21,20 @@
     </insert>
 
     <select id="findById" resultMap="ProductPO">
-        select * from product where id = #{id}
+        select *
+        from product
+        where id = #{id}
     </select>
 
     <select id="findAll" resultMap="ProductPO">
-        select * from product
+        select *
+        from product
     </select>
 
     <delete id="deleteById">
-        delete from product where id = #{id}
+        delete
+        from product
+        where id = #{id}
     </delete>
 
     <resultMap id="ProductPO" type="com.nju.edu.erp.model.po.ProductPO">
