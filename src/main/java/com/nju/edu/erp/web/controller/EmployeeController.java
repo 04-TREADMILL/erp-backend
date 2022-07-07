@@ -207,7 +207,7 @@ public class EmployeeController {
      * 修改员工薪酬规则
      * */
     @GetMapping("/change-salary-calculating-mode")
-    @Authorized(roles = {Role.ADMIN, Role.GM})
+    @Authorized(roles = {Role.ADMIN, Role.GM, Role.HR})
     public Response changeSalaryCalculatingModeByEmployeeId(@RequestParam(value = "id") int id,
                                                             @RequestParam(value = "mode") String mode) {
         try {
