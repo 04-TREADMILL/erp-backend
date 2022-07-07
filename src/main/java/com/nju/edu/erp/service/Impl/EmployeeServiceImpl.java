@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -21,6 +22,8 @@ import java.util.List;
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeDao employeeDao;
+
+    private final List<String> modes = Arrays.asList("default", "commission");
 
     @Autowired
     public EmployeeServiceImpl(EmployeeDao employeeDao) {
@@ -95,6 +98,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void setEmployeeSalaryCalculatingModeById(Integer id, String mode) {
+        if (!modes.contains(mode)) {
+            throw new MyServiceException("W0007", "Unknown salary calculating mode");
+        }
         EmployeePO employeePO = EmployeePO.builder().id(id).salaryCalculatingMode(mode).build();
         employeeDao.updateEmployee(employeePO);
     }
