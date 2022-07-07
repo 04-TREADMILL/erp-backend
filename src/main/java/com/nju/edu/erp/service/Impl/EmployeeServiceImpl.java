@@ -94,6 +94,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public void setEmployeeSalaryCalculatingModeById(Integer id, String mode) {
+        EmployeePO employeePO = EmployeePO.builder().id(id).salaryCalculatingMode(mode).build();
+        employeeDao.updateEmployee(employeePO);
+    }
+
+    @Override
     public int getPunchedTimesInLast30DaysByEmployeeId(Integer eid) {
         List<EmployeePunchPO> employeePunchPOS = employeeDao.getPunchByEmployeeId(eid);
         int times = 0;

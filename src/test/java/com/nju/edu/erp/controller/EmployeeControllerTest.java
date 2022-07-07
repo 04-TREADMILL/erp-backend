@@ -198,4 +198,19 @@ public class EmployeeControllerTest {
         Response response = JSONObject.parseObject(responseJSONStr, Response.class);
         Assertions.assertEquals("Success", response.getMsg());
     }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void changeSalaryCalculatingModeTest() throws Exception {
+        MvcResult result = this.mockMvc.perform(
+                get("/employee/change-salary-calculating-mode")
+                        .param("id", String.valueOf(59))
+                        .param("mode", "default")
+                        .accept(MediaType.APPLICATION_JSON)
+        ).andReturn();
+        String responseJSONStr = result.getResponse().getContentAsString();
+        Response response = JSONObject.parseObject(responseJSONStr, Response.class);
+        Assertions.assertEquals("Success", response.getMsg());
+    }
 }

@@ -202,4 +202,21 @@ public class EmployeeController {
             return Response.buildFailed("111111", "Unknown Exception");
         }
     }
+
+    /**
+     * 修改员工薪酬规则
+     * */
+    @GetMapping("/change-salary-calculating-mode")
+    @Authorized(roles = {Role.ADMIN, Role.GM})
+    public Response changeSalaryCalculatingModeByEmployeeId(@RequestParam(value = "id") int id,
+                                                            @RequestParam(value = "mode") String mode) {
+        try {
+            employeeService.setEmployeeSalaryCalculatingModeById(id, mode);
+            return Response.buildSuccess();
+        } catch (MyServiceException e) {
+            return Response.buildFailed(e.getCode(), e.getMessage());
+        } catch (Exception e) {
+            return Response.buildFailed("111111", "Unknown Exception");
+        }
+    }
 }
