@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nju.edu.erp.dao.CombinePromotionDao">
+
+    <insert id="createPromotion" parameterType="com.nju.edu.erp.model.po.CombinePromotionPO"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into `combine_promotion_strategy` (`pid_combination`, `amount`, `begin_time`, `end_time`)
+        values (#{pidCombination}, #{amount}, #{beginTime}, #{endTime})
+    </insert>
+
+    <delete id="deletePromotionById">
+        delete
+        from `combine_promotion_strategy`
+        where id = #{id}
+    </delete>
+
+    <select id="showPromotions" resultType="com.nju.edu.erp.model.po.CombinePromotionPO">
+        select *
+        from `combine_promotion_strategy`
+    </select>
+
+    <select id="getPromotionById" resultType="com.nju.edu.erp.model.po.CombinePromotionPO">
+        select *
+        from `combine_promotion_strategy`
+        where id = #{id}
+    </select>
+
+    <resultMap id="CombinePromotionPO" type="com.nju.edu.erp.model.po.CombinePromotionPO">
+        <id column="id" property="id"/>
+        <result column="pid_combination" property="pidCombination"/>
+        <result column="amount" property="amount"/>
+        <result column="begin_time" property="beginTime"/>
+        <result column="end_time" property="endTime"/>
+    </resultMap>
+
+</mapper>

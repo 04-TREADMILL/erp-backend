@@ -1,6 +1,7 @@
 package com.nju.edu.erp.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.nju.edu.erp.model.vo.promotion.CombinePromotionVO;
 import com.nju.edu.erp.model.vo.promotion.CustomerPromotionVO;
 import com.nju.edu.erp.model.vo.promotion.TotalPromotionVO;
 import com.nju.edu.erp.service.strategy.PromotionStrategy;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -84,6 +86,28 @@ public class PromotionControllerTest {
         Assertions.assertEquals("Success", response.getMsg());
     }
 
+    @Test
+    @Transactional
+    @Rollback
+    public void addPromotionTest3() throws Exception {
+        CombinePromotionVO promotionVO = CombinePromotionVO.childBuilder()
+                .pidList(Arrays.asList("0000000000400000 0000000000400001".split(" ")))
+                .amount(BigDecimal.valueOf(2000))
+                .beginTime(new Date())
+                .endTime(new Date())
+                .build();
+        String promotionVOJSONStr = JSONObject.toJSONString(promotionVO);
+        MvcResult result = this.mockMvc.perform(
+                post("/promotion/add-combine")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(promotionVOJSONStr)
+                        .accept(MediaType.APPLICATION_JSON)
+        ).andReturn();
+        String responseJSONStr = result.getResponse().getContentAsString();
+        Response response = JSONObject.parseObject(responseJSONStr, Response.class);
+        Assertions.assertEquals("Success", response.getMsg());
+    }
+
 //    @Test
 //    @Transactional
 //    @Rollback
@@ -114,7 +138,7 @@ public class PromotionControllerTest {
         MvcResult result = this.mockMvc.perform(
                 get("/promotion/delete")
                         .param("promotionType", "customer")
-                        .param("promotionId", "22")
+                        .param("promotionId", "12")
                         .accept(MediaType.APPLICATION_JSON)
         ).andReturn();
         String responseJSONStr = result.getResponse().getContentAsString();
@@ -165,6 +189,21 @@ public class PromotionControllerTest {
         String responseJSONStr = result.getResponse().getContentAsString();
         Response response = JSONObject.parseObject(responseJSONStr, Response.class);
         Assertions.assertEquals("unknown promotion type", response.getMsg());
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void deletePromotionTest5() throws Exception {
+        MvcResult result = this.mockMvc.perform(
+                get("/promotion/delete")
+                        .param("promotionType", "combine")
+                        .param("promotionId", "3")
+                        .accept(MediaType.APPLICATION_JSON)
+        ).andReturn();
+        String responseJSONStr = result.getResponse().getContentAsString();
+        Response response = JSONObject.parseObject(responseJSONStr, Response.class);
+        Assertions.assertEquals("Success", response.getMsg());
     }
 
 

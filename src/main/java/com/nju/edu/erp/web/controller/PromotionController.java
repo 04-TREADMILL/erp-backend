@@ -3,6 +3,7 @@ package com.nju.edu.erp.web.controller;
 import com.nju.edu.erp.auth.Authorized;
 import com.nju.edu.erp.enums.Role;
 import com.nju.edu.erp.exception.MyServiceException;
+import com.nju.edu.erp.model.vo.promotion.CombinePromotionVO;
 import com.nju.edu.erp.model.vo.promotion.CustomerPromotionVO;
 import com.nju.edu.erp.model.vo.promotion.TotalPromotionVO;
 import com.nju.edu.erp.service.strategy.PromotionStrategy;
@@ -53,6 +54,19 @@ public class PromotionController {
     public Response addCustomerPromotion(@RequestBody CustomerPromotionVO promotionVO) {
         try {
             promotionStrategy.addPromotion("customer", promotionVO);
+            return Response.buildSuccess();
+        } catch (MyServiceException e) {
+            return Response.buildFailed(e.getCode(), e.getMessage());
+        } catch (Exception e) {
+            return Response.buildFailed("111111", "Unknown Exception");
+        }
+    }
+
+    @PostMapping("/add-combine")
+    @Authorized(roles = {Role.GM, Role.ADMIN})
+    public Response addCombinePromotion(@RequestBody CombinePromotionVO promotionVO) {
+        try {
+            promotionStrategy.addPromotion("combine", promotionVO);
             return Response.buildSuccess();
         } catch (MyServiceException e) {
             return Response.buildFailed(e.getCode(), e.getMessage());

@@ -14,7 +14,9 @@ import com.nju.edu.erp.web.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
@@ -47,6 +49,18 @@ public class SaleController {
     public Response getCustomerPromotion(@RequestParam("level") String level) {
         try {
             return Response.buildSuccess(promotionStrategy.getOnePromotionByType("customer", level));
+        } catch (MyServiceException e) {
+            return Response.buildFailed(e.getCode(), e.getMessage());
+        } catch (Exception e) {
+            return Response.buildFailed("111111", "Unknown Exception");
+        }
+    }
+
+    @GetMapping("/get-combine-promotion")
+    @Authorized(roles = {Role.SALE_STAFF, Role.SALE_MANAGER, Role.GM, Role.ADMIN})
+    public Response getCombinePromotion(@RequestParam("pids") String pids) {
+        try {
+            return Response.buildSuccess(promotionStrategy.getOnePromotionByType("combine", pids));
         } catch (MyServiceException e) {
             return Response.buildFailed(e.getCode(), e.getMessage());
         } catch (Exception e) {
