@@ -34,7 +34,7 @@ public class ProductController {
     }
 
     @GetMapping("/queryAll")
-    @Authorized(roles = {Role.ADMIN, Role.GM, Role.INVENTORY_MANAGER, Role.SALE_STAFF, Role.SALE_MANAGER})
+    @Authorized(roles = {Role.ADMIN, Role.GM, Role.INVENTORY_MANAGER, Role.SALE_STAFF, Role.SALE_MANAGER, Role.FINANCIAL_STAFF})
     public Response findAllProduct() {
         return Response.buildSuccess(productService.queryAllProduct());
     }
