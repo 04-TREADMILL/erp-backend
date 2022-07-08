@@ -2,6 +2,7 @@ package com.nju.edu.erp.service.Impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.nju.edu.erp.dao.CombinePromotionDao;
+import com.nju.edu.erp.dao.ProductDao;
 import com.nju.edu.erp.exception.MyServiceException;
 import com.nju.edu.erp.model.po.CombinePromotionPO;
 import com.nju.edu.erp.model.vo.promotion.CombinePromotionVO;
@@ -22,10 +23,12 @@ import java.util.List;
 public class CombinePromotionServiceImpl implements PromotionService {
 
     private final CombinePromotionDao promotionDao;
+    private final ProductDao productDao;
 
     @Autowired
-    public CombinePromotionServiceImpl(CombinePromotionDao promotionDao) {
+    public CombinePromotionServiceImpl(CombinePromotionDao promotionDao, ProductDao productDao) {
         this.promotionDao = promotionDao;
+        this.productDao = productDao;
     }
 
     @Override
@@ -58,7 +61,11 @@ public class CombinePromotionServiceImpl implements PromotionService {
         for (CombinePromotionPO promotionPO : promotionPOS) {
             CombinePromotionVO promotionVO = new CombinePromotionVO();
             BeanUtils.copyProperties(promotionPO, promotionVO);
-            promotionVO.setPidList(Arrays.asList(promotionPO.getPidCombination().split(" ")));
+            List<String> pNames = new ArrayList<>();
+            for (String pid : promotionPO.getPidCombination().split(" ")) {
+                pNames.add(productDao.findById(pid).getName());
+            }
+            promotionVO.setPidList(pNames);
             promotionVOS.add(promotionVO);
         }
         return promotionVOS;
