@@ -43,4 +43,8 @@ public class IdDateUtil {
             throw new RuntimeException(e);
         }
     }
+
+    public static String parseStrFromDate(Date date) {
+        return dateFormat.format(date);
+    }
 }

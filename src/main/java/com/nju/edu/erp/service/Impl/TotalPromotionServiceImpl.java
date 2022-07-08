@@ -6,6 +6,7 @@ import com.nju.edu.erp.exception.MyServiceException;
 import com.nju.edu.erp.model.po.TotalPromotionPO;
 import com.nju.edu.erp.model.vo.promotion.TotalPromotionVO;
 import com.nju.edu.erp.service.PromotionService;
+import com.nju.edu.erp.utils.IdDateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,11 +63,11 @@ public class TotalPromotionServiceImpl implements PromotionService {
     public Object getLatestPromotion(String message) {
         List<TotalPromotionPO> promotionPOS = promotionDao.showPromotions();
         TotalPromotionPO targetPO = null;
-        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-        String now = format.format(new Date());
+//        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        String now = IdDateUtil.parseStrFromDate(new Date());
         for (TotalPromotionPO po : promotionPOS) {
-            String begin = format.format(po.getBeginTime());
-            String end = format.format(po.getEndTime());
+            String begin = IdDateUtil.parseStrFromDate(po.getBeginTime());
+            String end = IdDateUtil.parseStrFromDate(po.getEndTime());
             if (po.getCondition().compareTo(BigDecimal.valueOf(Double.parseDouble(message))) <= 0
                     && Integer.parseInt(now) >= Integer.parseInt(begin)
                     && Integer.parseInt(now) <= Integer.parseInt(end)) {

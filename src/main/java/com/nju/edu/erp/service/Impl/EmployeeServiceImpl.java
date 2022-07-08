@@ -7,6 +7,7 @@ import com.nju.edu.erp.model.po.EmployeePunchPO;
 import com.nju.edu.erp.model.vo.employee.EmployeePunchVO;
 import com.nju.edu.erp.model.vo.employee.EmployeeVO;
 import com.nju.edu.erp.service.EmployeeService;
+import com.nju.edu.erp.utils.IdDateUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -109,10 +110,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     public int getPunchedTimesInLast30DaysByEmployeeId(Integer eid) {
         List<EmployeePunchPO> employeePunchPOS = employeeDao.getPunchByEmployeeId(eid);
         int times = 0;
-        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+//        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
         for (EmployeePunchPO po : employeePunchPOS) {
-            String punchDateStr = format.format(po.getPunchTime());
-            if (inLast30Days(punchDateStr, format.format(new Date()))) {
+            String punchDateStr = IdDateUtil.parseStrFromDate(po.getPunchTime());
+            if (inLast30Days(punchDateStr, IdDateUtil.parseStrFromDate(new Date()))) {
                 ++times;
             }
         }
@@ -153,12 +154,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<EmployeePunchVO> showPunchByEmployeeId(Integer eid) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+//        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
         List<EmployeePunchPO> employeePunchPOS = employeeDao.getPunchByEmployeeId(eid);
         List<EmployeePunchVO> employeePunchVOS = new ArrayList<>();
         for (EmployeePunchPO employeePunchPO : employeePunchPOS) {
-            String punchDateStr = format.format(employeePunchPO.getPunchTime());
-            if (inLast30Days(punchDateStr, format.format(new Date()))) {
+            String punchDateStr = IdDateUtil.parseStrFromDate(employeePunchPO.getPunchTime());
+            if (inLast30Days(punchDateStr, IdDateUtil.parseStrFromDate(new Date()))) {
                 EmployeePunchVO employeePunchVO = new EmployeePunchVO();
                 BeanUtils.copyProperties(employeePunchPO, employeePunchVO);
                 employeePunchVOS.add(employeePunchVO);
@@ -177,8 +178,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public int getPunchTimesOfLastMonthByEmployeeId(Integer eid) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-        String today = format.format(new Date());
+//        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        String today = IdDateUtil.parseStrFromDate(new Date());
         int toMonth = Integer.parseInt(today.substring(4, 6));
         String lastMonth, year;
         if (toMonth > 10) {
@@ -195,7 +196,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         List<EmployeePunchPO> employeePunchPOS = employeeDao.getPunchByEmployeeId(eid);
         int times = 0;
         for (EmployeePunchPO po : employeePunchPOS) {
-            String punchDate = format.format(po.getPunchTime());
+            String punchDate = IdDateUtil.parseStrFromDate(po.getPunchTime());
             if (punchDate.startsWith(prefix)) {
                 ++times;
             }
@@ -205,12 +206,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public int getPunchTimesOfThisMonthByEmployeeId(Integer eid) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-        String today = format.format(new Date());
+//        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        String today = IdDateUtil.parseStrFromDate(new Date());
         List<EmployeePunchPO> employeePunchPOS = employeeDao.getPunchByEmployeeId(eid);
         int times = 0;
         for (EmployeePunchPO po : employeePunchPOS) {
-            String punchDate = format.format(po.getPunchTime());
+            String punchDate = IdDateUtil.parseStrFromDate(po.getPunchTime());
             if (punchDate.startsWith(today.substring(0, 6))) {
                 ++times;
             }
@@ -220,12 +221,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public String getLatestPunchByEmployeeId(Integer eid) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-        String today = format.format(new Date());
+//        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        String today = IdDateUtil.parseStrFromDate(new Date());
         String latest = "";
         List<EmployeePunchPO> employeePunchPOS = employeeDao.getPunchByEmployeeId(eid);
         for (EmployeePunchPO po : employeePunchPOS) {
-            String punchDate = format.format(po.getPunchTime());
+            String punchDate = IdDateUtil.parseStrFromDate(po.getPunchTime());
             if (latest.equals("")) {
                 latest = punchDate;
             } else if (Integer.parseInt(today) == Integer.parseInt(punchDate)) {
