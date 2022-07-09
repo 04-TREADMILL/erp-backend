@@ -20,7 +20,7 @@ public class AccountController {
     }
 
     @GetMapping("/show")
-    @Authorized(roles = {Role.GM, Role.ADMIN, Role.FINANCIAL_STAFF})
+    @Authorized(roles = {Role.GM, Role.ADMIN, Role.FINANCIAL_STAFF, Role.HR})
     public Response getAllAccounts() {
         try {
             return Response.buildSuccess(accountService.queryAllAccounts());
@@ -32,7 +32,7 @@ public class AccountController {
     }
 
     @GetMapping("/get")
-    @Authorized(roles = {Role.GM, Role.ADMIN, Role.FINANCIAL_STAFF})
+    @Authorized(roles = {Role.GM, Role.ADMIN, Role.FINANCIAL_STAFF, Role.HR})
     public Response getAccount(@RequestParam(value = "name") String name) {
         try {
             return Response.buildSuccess(accountService.queryAccount(name));
@@ -44,7 +44,7 @@ public class AccountController {
     }
 
     @GetMapping("/get-fzf")
-    @Authorized(roles = {Role.GM, Role.ADMIN, Role.FINANCIAL_STAFF})
+    @Authorized(roles = {Role.GM, Role.ADMIN, Role.FINANCIAL_STAFF, Role.HR})
     public Response getAccountFzf(@RequestParam(value = "key") String key) {
         try {
             return Response.buildSuccess(accountService.queryAccountFzf(key));
@@ -56,7 +56,7 @@ public class AccountController {
     }
 
     @PostMapping("/add")
-    @Authorized(roles = {Role.GM, Role.ADMIN, Role.FINANCIAL_STAFF})
+    @Authorized(roles = {Role.GM, Role.ADMIN, Role.FINANCIAL_STAFF, Role.HR})
     public Response addAccount(@RequestBody AccountVO accountVO) {
         try {
             accountService.createAccount(accountVO.getName(), accountVO.getAmount());
@@ -69,7 +69,7 @@ public class AccountController {
     }
 
     @GetMapping("/delete")
-    @Authorized(roles = {Role.GM, Role.ADMIN, Role.FINANCIAL_STAFF})
+    @Authorized(roles = {Role.GM, Role.ADMIN, Role.FINANCIAL_STAFF, Role.HR})
     public Response deleteAccount(@RequestParam(value = "name") String name) {
         try {
             accountService.deleteAccount(name);
