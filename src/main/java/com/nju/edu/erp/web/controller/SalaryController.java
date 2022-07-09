@@ -24,7 +24,7 @@ public class SalaryController {
         this.salaryService = salaryService;
     }
 
-    @Authorized(roles = {Role.GM, Role.ADMIN, Role.FINANCIAL_STAFF})
+    @Authorized(roles = {Role.GM, Role.ADMIN, Role.FINANCIAL_STAFF, Role.HR})
     @PostMapping(value = "/sheet-make")
     public Response makeSalarySheet(@RequestBody SalarySheetVO salarySheetVO) {
         try {
@@ -38,7 +38,7 @@ public class SalaryController {
     }
 
     @GetMapping(value = "/approval")
-    @Authorized(roles = {Role.GM, Role.ADMIN, Role.FINANCIAL_STAFF})
+    @Authorized(roles = {Role.GM, Role.ADMIN, Role.FINANCIAL_STAFF, Role.HR})
     public Response firstApproval(@RequestParam("salarySheetId") String salarySheetId,
                                   @RequestParam("state") SalarySheetState state) {
         if (state.equals(SalarySheetState.FAILURE) || state.equals(SalarySheetState.SUCCESS)) {
@@ -49,7 +49,7 @@ public class SalaryController {
         }
     }
 
-    @Authorized(roles = {Role.GM, Role.ADMIN, Role.FINANCIAL_STAFF})
+    @Authorized(roles = {Role.GM, Role.ADMIN, Role.FINANCIAL_STAFF, Role.HR})
     @GetMapping(value = "/sheet-show")
     public Response showSheetByState(@RequestParam(value = "state", required = false) SalarySheetState state) {
         return Response.buildSuccess(salaryService.getSalarySheetByState(state));
@@ -67,7 +67,7 @@ public class SalaryController {
         ).collect(Collectors.toList()));
     }
 
-    @Authorized(roles = {Role.GM, Role.ADMIN, Role.FINANCIAL_STAFF})
+    @Authorized(roles = {Role.GM, Role.ADMIN, Role.FINANCIAL_STAFF, Role.HR})
     @GetMapping(value = "/find-sheet")
     public Response findBySheetId(@RequestParam(value = "id") String id) {
         return Response.buildSuccess(salaryService.getSalarySheetById(id));
