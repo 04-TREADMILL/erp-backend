@@ -175,7 +175,7 @@ public class EmployeeControllerTest {
     public void addAnnualBonusTest1() throws Exception {
         MvcResult result = this.mockMvc.perform(
                 get("/employee/allocate-annual-bonus")
-                        .param("id", String.valueOf(59))
+                        .param("id", String.valueOf(17))
                         .param("extraBonus", String.valueOf(10000))
                         .accept(MediaType.APPLICATION_JSON)
         ).andReturn();
@@ -190,7 +190,7 @@ public class EmployeeControllerTest {
     public void addAnnualBonusTest2() throws Exception {
         MvcResult result = this.mockMvc.perform(
                 get("/employee/allocate-annual-bonus")
-                        .param("id", String.valueOf(59))
+                        .param("id", String.valueOf(17))
                         .param("extraBonus", String.valueOf(-10000))
                         .accept(MediaType.APPLICATION_JSON)
         ).andReturn();
