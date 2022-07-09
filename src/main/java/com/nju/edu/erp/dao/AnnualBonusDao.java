@@ -13,4 +13,6 @@ public interface AnnualBonusDao {
     int createAnnualBonus(AnnualBonusPO annualBonusPO);
 
     List<AnnualBonusPO> findAnnualBonusByEmployeeId(Integer eid);
+
+    List<AnnualBonusPO> findAllAnnualBonus();
 }

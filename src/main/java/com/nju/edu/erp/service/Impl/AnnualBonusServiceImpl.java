@@ -49,7 +49,12 @@ public class AnnualBonusServiceImpl implements AnnualBonusService {
 
     @Override
     public List<AnnualBonusVO> getAnnualBonusByEmployeeId(Integer eid) {
-        List<AnnualBonusPO> annualBonusPOS = annualBonusDao.findAnnualBonusByEmployeeId(eid);
+        List<AnnualBonusPO> annualBonusPOS;
+        if (eid == null) {
+            annualBonusPOS = annualBonusDao.findAllAnnualBonus();
+        } else {
+            annualBonusPOS = annualBonusDao.findAnnualBonusByEmployeeId(eid);
+        }
         List<AnnualBonusVO> annualBonusVOS = new ArrayList<>();
         for (AnnualBonusPO po : annualBonusPOS) {
             AnnualBonusVO vo = new AnnualBonusVO();

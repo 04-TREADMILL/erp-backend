@@ -193,7 +193,7 @@ public class EmployeeController {
      */
     @GetMapping("/show-annual-bonus")
     @Authorized(roles = {Role.ADMIN, Role.GM})
-    public Response showAnnualBonusByEmployeeId(@RequestParam(value = "id") int id) {
+    public Response showAnnualBonusByEmployeeId(@RequestParam(value = "id", required = false) Integer id) {
         try {
             return Response.buildSuccess(annualBonusService.getAnnualBonusByEmployeeId(id));
         } catch (MyServiceException e) {

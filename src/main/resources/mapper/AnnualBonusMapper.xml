@@ -14,6 +14,12 @@
         values (#{eid}, #{baseBonus}, #{extraBonus})
     </insert>
 
+    <select id="findAllAnnualBonus" resultType="com.nju.edu.erp.model.po.AnnualBonusPO">
+        select *
+        from `annual_bonus`
+    </select>
+
+
     <resultMap id="AnnualBonusPO" type="com.nju.edu.erp.model.po.AnnualBonusPO">
         <id column="id" property="id"/>
         <result column="eid" property="eid"/>
