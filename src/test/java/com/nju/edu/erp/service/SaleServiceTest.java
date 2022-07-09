@@ -116,16 +116,16 @@ public class SaleServiceTest { // 该测试为集成测试，需要用到数据�
         Assertions.assertEquals(1, saleSheetByState.size());
         SaleSheetVO sheet1 = saleSheetByState.get(0);
         Assertions.assertNotNull(sheet1);
-        Assertions.assertEquals("XSD-20220524-00003", sheet1.getId());
+        Assertions.assertEquals("XSD-20220524-00004", sheet1.getId());
 
         List<SaleSheetContentVO> sheet1Content = sheet1.getSaleSheetContent();
         Assertions.assertNotNull(sheet1Content);
         Assertions.assertEquals(2, sheet1Content.size());
         sheet1Content.sort(Comparator.comparing(SaleSheetContentVO::getPid));
         Assertions.assertEquals("0000000000400000", sheet1Content.get(0).getPid());
-        Assertions.assertEquals(0, sheet1Content.get(0).getTotalPrice().compareTo(BigDecimal.valueOf(280000.00)));
+        Assertions.assertEquals(0, sheet1Content.get(0).getTotalPrice().compareTo(BigDecimal.valueOf(900000.00)));
         Assertions.assertEquals("0000000000400001", sheet1Content.get(1).getPid());
-        Assertions.assertEquals(0, sheet1Content.get(1).getTotalPrice().compareTo(BigDecimal.valueOf(380000.00)));
+        Assertions.assertEquals(0, sheet1Content.get(1).getTotalPrice().compareTo(BigDecimal.valueOf(2000000.00)));
     }
 
     @Test
@@ -133,10 +133,10 @@ public class SaleServiceTest { // 该测试为集成测试，需要用到数据�
     @Rollback(value = true)
     public void approval_exceptions_1() { // 一级审批不能直接到审批完成 (提示：可以以抛出异常的方式终止流程，这样就能触发事务回滚)
         try {
-            saleService.approval("XSD-20220524-00004", SaleSheetState.SUCCESS);
+            saleService.approval("XSD-20220710-00000", SaleSheetState.SUCCESS);
         } catch (Exception ignore) {
         } finally {
-            SaleSheetPO sheet = saleSheetDao.findSheetById("XSD-20220524-00004");
+            SaleSheetPO sheet = saleSheetDao.findSheetById("XSD-20220710-00000");
             Assertions.assertEquals(SaleSheetState.PENDING_LEVEL_1, sheet.getState());
         }
     }
@@ -146,10 +146,10 @@ public class SaleServiceTest { // 该测试为集成测试，需要用到数据�
     @Rollback(value = true)
     public void approval_exceptions_2() { // 二级审批不能回到一级审批
         try {
-            saleService.approval("XSD-20220524-00003", SaleSheetState.PENDING_LEVEL_1);
+            saleService.approval("XSD-20220524-00004", SaleSheetState.PENDING_LEVEL_1);
         } catch (Exception ignore) {
         } finally {
-            SaleSheetPO sheet = saleSheetDao.findSheetById("XSD-20220524-00003");
+            SaleSheetPO sheet = saleSheetDao.findSheetById("XSD-20220524-00004");
             Assertions.assertEquals(SaleSheetState.PENDING_LEVEL_2, sheet.getState());
         }
     }
@@ -158,8 +158,8 @@ public class SaleServiceTest { // 该测试为集成测试，需要用到数据�
     @Transactional
     @Rollback(value = true)
     public void approval_failed() { // 测试审批失败
-        saleService.approval("XSD-20220524-00003", SaleSheetState.FAILURE);
-        SaleSheetPO sheet = saleSheetDao.findSheetById("XSD-20220524-00003");
+        saleService.approval("XSD-20220524-00004", SaleSheetState.FAILURE);
+        SaleSheetPO sheet = saleSheetDao.findSheetById("XSD-20220524-00004");
         Assertions.assertEquals(SaleSheetState.FAILURE, sheet.getState());
     }
 
@@ -167,7 +167,7 @@ public class SaleServiceTest { // 该测试为集成测试，需要用到数据�
     @Transactional
     @Rollback(value = true)
     public void approval_1() { // 测试一级审批
-        saleService.approval("XSD-20220524-00004", SaleSheetState.PENDING_LEVEL_2);
+        saleService.approval("XSD-20220710-00000", SaleSheetState.PENDING_LEVEL_2);
         SaleSheetPO sheet = saleSheetDao.findSheetById("XSD-20220524-00004");
         Assertions.assertEquals(SaleSheetState.PENDING_LEVEL_2, sheet.getState());
     }
@@ -181,19 +181,19 @@ public class SaleServiceTest { // 该测试为集成测试，需要用到数据�
         // 2. 更新商品表
         // 3. 更新客户表
         // 4. 新建出库草稿
-        saleService.approval("XSD-20220524-00003", SaleSheetState.SUCCESS);
-        SaleSheetPO sheet = saleSheetDao.findSheetById("XSD-20220524-00003");
+        saleService.approval("XSD-20220524-00004", SaleSheetState.SUCCESS);
+        SaleSheetPO sheet = saleSheetDao.findSheetById("XSD-20220524-00004");
         Assertions.assertEquals(SaleSheetState.SUCCESS, sheet.getState());
 
-        Assertions.assertEquals(0, productDao.findById("0000000000400000").getRecentRp().compareTo(BigDecimal.valueOf(2800.00)));
-        Assertions.assertEquals(0, productDao.findById("0000000000400001").getRecentRp().compareTo(BigDecimal.valueOf(3800.00)));
+        Assertions.assertEquals(0, productDao.findById("0000000000400000").getRecentRp().compareTo(BigDecimal.valueOf(3000.00)));
+        Assertions.assertEquals(0, productDao.findById("0000000000400001").getRecentRp().compareTo(BigDecimal.valueOf(4000.00)));
 
-        Assertions.assertEquals(0, customerDao.findOneById(2).getReceivable().compareTo(BigDecimal.valueOf(4959100.00)));
+        Assertions.assertEquals(0, customerDao.findOneById(2).getReceivable().compareTo(BigDecimal.valueOf(7668901.00)));
         List<WarehouseOutputSheetPO> draftSheets = warehouseOutputSheetDao.getDraftSheets(WarehouseOutputSheetState.DRAFT);
         Assertions.assertNotNull(draftSheets);
-        Assertions.assertEquals(1, draftSheets.size());
-        WarehouseOutputSheetPO draftSheet = draftSheets.get(0);
+        Assertions.assertEquals(2, draftSheets.size());
+        WarehouseOutputSheetPO draftSheet = draftSheets.get(1);
         Assertions.assertNotNull(draftSheet);
-        Assertions.assertEquals("XSD-20220524-00003", draftSheet.getSaleSheetId());
+        Assertions.assertEquals("XSD-20220524-00004", draftSheet.getSaleSheetId());
     }
 }
