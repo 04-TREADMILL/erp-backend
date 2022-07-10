@@ -1,3 +1,5 @@
-# SEECII-ERP
+# erp-backend
 
-2022 软工二大作业demo
+## tech stack
+
+SpringBoot + MySQL + MyBatis
